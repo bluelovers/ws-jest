@@ -43,7 +43,7 @@ function addToAssertion(chai, key, fn) {
     return chai.Assertion.addChainableMethod(key, fn, fn);
 }
 function _assertType(target, typeName, bool, obj) {
-    return target.assert(isFloat(obj), `expected #{this} to be an ${typeName}`, `expected #{this} to not be an ${typeName}`, obj);
+    return target.assert(bool, `expected #{this} to be an ${typeName}`, `expected #{this} to not be an ${typeName}`, obj);
 }
 /**
  * auto install this plugin to chai

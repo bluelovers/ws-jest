@@ -1,6 +1,6 @@
 {
   "name": "chai-asserttype-extra",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "a chai plugin for type assertions",
   "keywords": [
     "assert",

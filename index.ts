@@ -69,7 +69,7 @@ function addToAssertion<T extends ChaiObject>(chai: T, key: string, fn)
 function _assertType(target, typeName: string, bool: boolean, obj)
 {
 	return target.assert(
-		isFloat(obj)
+		bool
 		, `expected #{this} to be an ${typeName}`
 		, `expected #{this} to not be an ${typeName}`
 		, obj,

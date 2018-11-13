@@ -21,7 +21,7 @@ enum EnumTypeDetect
 	undefined = 'undefined',
 }
 
-function ChaiPluginAssertType<T extends ChaiObject>(chai: T, utils): chai is T
+function ChaiPluginAssertType<T extends ChaiObject>(chai: T, utils)
 {
 	// @ts-ignore
 	const Assertion = chai.Assertion;
@@ -34,42 +34,36 @@ function ChaiPluginAssertType<T extends ChaiObject>(chai: T, utils): chai is T
 				utils.expectTypes(this, [value]);
 			};
 
-			Assertion.addProperty(key, fn);
-			Assertion.addMethod(key, fn);
+			addToAssertion(chai, key, fn);
 		})
 	;
 
-	Assertion.addProperty('integer', function ()
+	addToAssertion(chai, 'integer', function (this)
 	{
-		let fn = function (this)
-		{
-			//utils.expectTypes(this, [EnumTypeDetect.number]);
+		//utils.expectTypes(this, [EnumTypeDetect.number]);
 
-			let obj = utils.flag(this, 'object');
+		let obj = utils.flag(this, 'object');
 
-			_assertType(this, 'integer', isInt(obj), obj)
-		};
-
-		Assertion.addProperty('integer', fn);
-		Assertion.addMethod('integer', fn);
+		_assertType(this, 'integer', isInt(obj), obj)
 	});
 
-	Assertion.addProperty('float', function ()
+	addToAssertion(chai, 'float', function ()
 	{
-		let fn = function (this)
-		{
-			//utils.expectTypes(this, [EnumTypeDetect.number]);
+		//utils.expectTypes(this, [EnumTypeDetect.number]);
 
-			let obj = utils.flag(this, 'object');
+		let obj = utils.flag(this, 'object');
 
-			_assertType(this, 'float', isFloat(obj), obj)
-		};
-
-		Assertion.addProperty('float', fn);
-		Assertion.addMethod('float', fn);
+		_assertType(this, 'float', isFloat(obj), obj)
 	});
+}
 
-	return true
+function addToAssertion<T extends ChaiObject>(chai: T, key: string, fn)
+{
+	//chai.Assertion.addProperty(key, fn);
+	//chai.Assertion.addMethod(key, fn);
+
+	// @ts-ignore
+	return chai.Assertion.addChainableMethod(key, fn, fn)
 }
 
 function _assertType(target, typeName: string, bool: boolean, obj)
@@ -112,6 +106,7 @@ function list(): ReadonlyArray<string>
 		.sort()
 }
 
+ChaiPluginAssertType.addToAssertion = addToAssertion;
 ChaiPluginAssertType.ChaiPlugin = ChaiPluginAssertType;
 ChaiPluginAssertType.typeOf = typeDetect;
 ChaiPluginAssertType.install = install;

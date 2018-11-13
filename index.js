@@ -23,28 +23,24 @@ function ChaiPluginAssertType(chai, utils) {
         let fn = function () {
             utils.expectTypes(this, [value]);
         };
-        Assertion.addProperty(key, fn);
-        Assertion.addMethod(key, fn);
+        addToAssertion(chai, key, fn);
     });
-    Assertion.addProperty('integer', function () {
-        let fn = function () {
-            //utils.expectTypes(this, [EnumTypeDetect.number]);
-            let obj = utils.flag(this, 'object');
-            _assertType(this, 'integer', isInt(obj), obj);
-        };
-        Assertion.addProperty('integer', fn);
-        Assertion.addMethod('integer', fn);
+    addToAssertion(chai, 'integer', function () {
+        //utils.expectTypes(this, [EnumTypeDetect.number]);
+        let obj = utils.flag(this, 'object');
+        _assertType(this, 'integer', isInt(obj), obj);
     });
-    Assertion.addProperty('float', function () {
-        let fn = function () {
-            //utils.expectTypes(this, [EnumTypeDetect.number]);
-            let obj = utils.flag(this, 'object');
-            _assertType(this, 'float', isFloat(obj), obj);
-        };
-        Assertion.addProperty('float', fn);
-        Assertion.addMethod('float', fn);
+    addToAssertion(chai, 'float', function () {
+        //utils.expectTypes(this, [EnumTypeDetect.number]);
+        let obj = utils.flag(this, 'object');
+        _assertType(this, 'float', isFloat(obj), obj);
     });
-    return true;
+}
+function addToAssertion(chai, key, fn) {
+    //chai.Assertion.addProperty(key, fn);
+    //chai.Assertion.addMethod(key, fn);
+    // @ts-ignore
+    return chai.Assertion.addChainableMethod(key, fn, fn);
 }
 function _assertType(target, typeName, bool, obj) {
     return target.assert(isFloat(obj), `expected #{this} to be an ${typeName}`, `expected #{this} to not be an ${typeName}`, obj);
@@ -69,6 +65,7 @@ function list() {
         .concat(['float', 'integer'])
         .sort();
 }
+ChaiPluginAssertType.addToAssertion = addToAssertion;
 ChaiPluginAssertType.ChaiPlugin = ChaiPluginAssertType;
 ChaiPluginAssertType.typeOf = typeDetect;
 ChaiPluginAssertType.install = install;

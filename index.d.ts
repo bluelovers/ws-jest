@@ -4,8 +4,9 @@
 import CHAI = require('chai');
 import typeDetect = require('type-detect');
 declare type ChaiObject = Chai.ChaiStatic | typeof CHAI;
-declare function ChaiPluginAssertType<T extends ChaiObject>(chai: T, utils: any): chai is T;
+declare function ChaiPluginAssertType<T extends ChaiObject>(chai: T, utils: any): void;
 declare namespace ChaiPluginAssertType {
+    var addToAssertion: typeof addToAssertion;
     var ChaiPlugin: typeof ChaiPluginAssertType;
     var typeOf: typeof typeDetect;
     var install: typeof install;
@@ -15,6 +16,7 @@ declare namespace ChaiPluginAssertType {
     var isFloat: typeof isFloat;
     var list: typeof list;
 }
+declare function addToAssertion<T extends ChaiObject>(chai: T, key: string, fn: any): any;
 /**
  * auto install this plugin to chai
  */

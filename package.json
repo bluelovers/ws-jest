@@ -1,0 +1,41 @@
+{
+  "name": "chai-asserttype-extra",
+  "version": "1.0.0",
+  "description": "a chai plugin for type assertions",
+  "keywords": [
+    "assert",
+    "assertion",
+    "assertions",
+    "asserttype",
+    "chai",
+    "chai-plugin",
+    "chaiplugin",
+    "expect",
+    "testing",
+    "type"
+  ],
+  "homepage": "https://github.com/bluelovers/chai-asserttype-extra#readme",
+  "bugs": {
+    "url": "https://github.com/bluelovers/chai-asserttype-extra/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bluelovers/chai-asserttype-extra.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@types/type-detect": "^4"
+  },
+  "devDependencies": {
+    "@types/chai": "^4"
+  },
+  "peerDependencies": {
+    "chai": "^4",
+    "type-detect": "^4"
+  }
+}

@@ -3,20 +3,17 @@
  */
 
 import chai = require('chai');
+import { ITSDiff, ITSOverwrite, ITSPickMember } from 'ts-type';
+
+export { ITSDiff, ITSOverwrite, ITSPickMember }
 
 export type IChaiStatic = typeof chai
 
-export type IPickMember<T, K extends keyof T> = T[K]
-
-export type IDiff<T extends keyof any, U extends keyof any> =
-	({ [P in T]: P } & { [P in U]: never } & { [x: string]: never })[T];
-export type IOverwrite<T, U> = Pick<T, IDiff<keyof T, keyof U>> & U;
-
-export type IExpectStatic = IPickMember<IChaiStatic, "expect">
+export type IExpectStatic = ITSPickMember<IChaiStatic, "expect">
 
 export type IAssertion = ReturnType<IExpectStatic>
 
-export type IExpectStaticFail = IPickMember<IExpectStatic, "fail">
+export type IExpectStaticFail = ITSPickMember<IExpectStatic, "fail">
 
 export type IAssertionStatic<T = IAssertion> = {
 	(target: any, message?: string): T;

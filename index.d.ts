@@ -3,7 +3,7 @@
  */
 /// <reference types="chai" />
 import typeDetect = require('type-detect');
-import { IChaiStatic, IAssertion, IAssertionStatic, IOverwrite } from './lib/type';
+import { IChaiStatic, IAssertion, IAssertionStatic, ITSOverwrite } from './lib/type';
 export declare type ChaiObject = IChaiStatic;
 export declare type IAssertionInstalled = {
     [K in keyof IAssertion]: IAssertion[K] & IAssertionInstalled;
@@ -14,10 +14,10 @@ export declare type IAssertionInstalled = {
     integer: (() => IAssertionInstalled) & IAssertionInstalled;
 };
 export declare type IExpectStaticInstalled = IAssertionStatic<IAssertionInstalled>;
-export declare type IChaiInstalled<T extends IChaiStatic> = IOverwrite<T, {
+export declare type IChaiInstalled<T extends IChaiStatic> = ITSOverwrite<T, {
     expect: IExpectStaticInstalled;
 }>;
-declare enum EnumTypeDetect {
+enum EnumTypeDetect {
     array = "Array",
     boolean = "boolean",
     date = "Date",
@@ -60,14 +60,14 @@ declare namespace ChaiPluginAssertType {
     var isFloat: typeof isFloat;
     var list: typeof list;
 }
-declare function addToAssertion<T extends ChaiObject>(chai: T, key: string, fn: any): any;
+function addToAssertion<T extends ChaiObject>(chai: T, key: string, fn: any, utils: any): any;
 /**
  * auto install this plugin to chai
  */
-declare function install<T extends ChaiObject>(chai?: T): IChaiInstalled<T>;
-declare function isNum(n: number): boolean;
-declare function isInt(n: number): boolean;
-declare function isFloat(n: number): boolean;
-declare function list(): ReadonlyArray<string>;
+function install<T extends ChaiObject>(chai?: T): IChaiInstalled<T>;
+function isNum(n: number): boolean;
+function isInt(n: number): boolean;
+function isFloat(n: number): boolean;
+function list(): ReadonlyArray<string>;
 //declare namespace ChaiPluginAssertType { }
 export = ChaiPluginAssertType;

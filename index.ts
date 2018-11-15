@@ -4,7 +4,7 @@
 
 import CHAI = require('chai');
 import typeDetect = require('type-detect');
-import { IChaiStatic, IAssertion, IExpectStatic, IPickMember, IAssertionStatic, IDiff, IOverwrite } from './lib/type';
+import { IChaiStatic, IAssertion, IExpectStatic, IAssertionStatic, ITSOverwrite } from './lib/type';
 
 export type ChaiObject = IChaiStatic
 
@@ -19,7 +19,7 @@ export type IAssertionInstalled = {
 
 export type IExpectStaticInstalled = IAssertionStatic<IAssertionInstalled>
 
-export type IChaiInstalled<T extends IChaiStatic> = IOverwrite<T, {
+export type IChaiInstalled<T extends IChaiStatic> = ITSOverwrite<T, {
 	expect: IExpectStaticInstalled,
 	//expect(target: any, message?: string): IAssertionInstalled
 }>

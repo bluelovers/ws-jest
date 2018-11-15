@@ -11,10 +11,10 @@ export type ChaiObject = IChaiStatic
 export type IAssertionInstalled = {
 	[K in keyof IAssertion]: IAssertion[K] & IAssertionInstalled;
 } & {
-	[k in keyof typeof EnumTypeDetect]: (() => IAssertionInstalled) & IAssertionInstalled;
+	[k in keyof typeof EnumTypeDetect]: ((expected?) => IAssertionInstalled) & IAssertionInstalled;
 } & {
-	float: (() => IAssertionInstalled) & IAssertionInstalled;
-	integer: (() => IAssertionInstalled) & IAssertionInstalled;
+	float: ((expected?) => IAssertionInstalled) & IAssertionInstalled;
+	integer: ((expected?) => IAssertionInstalled) & IAssertionInstalled;
 }
 
 export type IExpectStaticInstalled = IAssertionStatic<IAssertionInstalled>

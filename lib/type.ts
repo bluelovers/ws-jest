@@ -3,11 +3,13 @@
  */
 
 import chai = require('chai');
+import * as chai2 from 'chai';
+
 import { ITSDiff, ITSOverwrite, ITSPickMember } from 'ts-type';
 
 export { ITSDiff, ITSOverwrite, ITSPickMember }
 
-export type IChaiStatic = typeof chai
+export type IChaiStatic = typeof chai | typeof chai2 | Chai.ChaiStatic
 
 export type IExpectStatic = ITSPickMember<IChaiStatic, "expect">
 

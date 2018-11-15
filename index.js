@@ -23,24 +23,29 @@ function ChaiPluginAssertType(chai, utils) {
         let fn = function () {
             utils.expectTypes(this, [value]);
         };
-        addToAssertion(chai, key, fn);
+        addToAssertion(chai, key, fn, utils);
     });
     addToAssertion(chai, 'integer', function () {
         //utils.expectTypes(this, [EnumTypeDetect.number]);
         let obj = utils.flag(this, 'object');
         _assertType(this, 'integer', isInt(obj), obj);
-    });
+    }, utils);
     addToAssertion(chai, 'float', function () {
         //utils.expectTypes(this, [EnumTypeDetect.number]);
         let obj = utils.flag(this, 'object');
         _assertType(this, 'float', isFloat(obj), obj);
-    });
+    }, utils);
 }
-function addToAssertion(chai, key, fn) {
+function addToAssertion(chai, key, fn, utils) {
     //chai.Assertion.addProperty(key, fn);
     //chai.Assertion.addMethod(key, fn);
     // @ts-ignore
-    return chai.Assertion.addChainableMethod(key, () => { }, fn);
+    return chai.Assertion.addChainableMethod(key, function (v) {
+        if (typeof v !== 'undefined') {
+            let obj = utils.flag(this, 'object');
+            new chai.Assertion(obj).to.be.deep.equal(v);
+        }
+    }, fn);
 }
 function _assertType(target, typeName, bool, obj) {
     return target.assert(bool, `expected #{this} to be an ${typeName}`, `expected #{this} to not be an ${typeName}`, obj);

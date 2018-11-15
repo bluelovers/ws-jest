@@ -51,7 +51,7 @@ function ChaiPluginAssertType<T extends ChaiObject>(chai: T, utils)
 				utils.expectTypes(this, [value]);
 			};
 
-			addToAssertion(chai, key, fn);
+			addToAssertion(chai, key, fn, utils);
 		})
 	;
 
@@ -62,7 +62,7 @@ function ChaiPluginAssertType<T extends ChaiObject>(chai: T, utils)
 		let obj = utils.flag(this, 'object');
 
 		_assertType(this, 'integer', isInt(obj), obj)
-	});
+	}, utils);
 
 	addToAssertion(chai, 'float', function ()
 	{
@@ -71,16 +71,24 @@ function ChaiPluginAssertType<T extends ChaiObject>(chai: T, utils)
 		let obj = utils.flag(this, 'object');
 
 		_assertType(this, 'float', isFloat(obj), obj)
-	});
+	}, utils);
 }
 
-function addToAssertion<T extends ChaiObject>(chai: T, key: string, fn)
+function addToAssertion<T extends ChaiObject>(chai: T, key: string, fn, utils)
 {
 	//chai.Assertion.addProperty(key, fn);
 	//chai.Assertion.addMethod(key, fn);
 
 	// @ts-ignore
-	return chai.Assertion.addChainableMethod(key, () => {}, fn)
+	return chai.Assertion.addChainableMethod(key, function(v)
+	{
+		if (typeof v !== 'undefined')
+		{
+			let obj = utils.flag(this, 'object');
+
+			new chai.Assertion(obj).to.be.deep.equal(v);
+		}
+	}, fn)
 }
 
 function _assertType(target, typeName: string, bool: boolean, obj)

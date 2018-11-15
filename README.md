@@ -24,17 +24,18 @@ import { ChaiPlugin as ChaiPluginAssertType } from 'chai-asserttype-extra';
 
 > choose one of ur fav way
 
+when use `.install` will try make current chai support to new method in typescript, make without use `@ts-ignore`
+
 ```ts
-ChaiPluginAssertType.install();
+const chai = ChaiPluginAssertType.install();
 ```
 
 ```ts
-const chai = require('chai');
-ChaiPluginAssertType.install(chai);
+const chai = ChaiPluginAssertType.install(require('chai'));
 ```
 
 ```ts
-require('chai-asserttype-extra').install()
+const chai = require('chai-asserttype-extra').install()
 ```
 
 ```ts

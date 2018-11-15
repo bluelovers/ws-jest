@@ -1,6 +1,6 @@
 {
   "name": "chai-asserttype-extra",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "a chai plugin for type assertions",
   "keywords": [
     "assert",
@@ -26,12 +26,13 @@
   "author": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npx ts-node ./test/test.ts"
   },
   "dependencies": {
     "@types/type-detect": "^4"
   },
   "devDependencies": {
+    "chai": "^4",
     "@types/chai": "^4"
   },
   "peerDependencies": {

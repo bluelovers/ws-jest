@@ -8,12 +8,12 @@ var EnumTypeDetect;
     EnumTypeDetect["boolean"] = "boolean";
     EnumTypeDetect["date"] = "Date";
     EnumTypeDetect["function"] = "function";
-    EnumTypeDetect["null"] = "null";
+    //null = 'null',
     EnumTypeDetect["number"] = "number";
     EnumTypeDetect["object"] = "Object";
     EnumTypeDetect["regexp"] = "RegExp";
-    EnumTypeDetect["string"] = "string";
-    EnumTypeDetect["undefined"] = "undefined";
+    //string = 'string',
+    //undefined = 'undefined',
 })(EnumTypeDetect || (EnumTypeDetect = {}));
 function ChaiPluginAssertType(chai, utils) {
     // @ts-ignore
@@ -40,7 +40,7 @@ function addToAssertion(chai, key, fn) {
     //chai.Assertion.addProperty(key, fn);
     //chai.Assertion.addMethod(key, fn);
     // @ts-ignore
-    return chai.Assertion.addChainableMethod(key, fn, fn);
+    return chai.Assertion.addChainableMethod(key, () => { }, fn);
 }
 function _assertType(target, typeName, bool, obj) {
     return target.assert(bool, `expected #{this} to be an ${typeName}`, `expected #{this} to not be an ${typeName}`, obj);
@@ -49,7 +49,8 @@ function _assertType(target, typeName, bool, obj) {
  * auto install this plugin to chai
  */
 function install(chai) {
-    return (chai || require('chai')).use(ChaiPluginAssertType);
+    let o = (chai || require('chai')).use(ChaiPluginAssertType);
+    return o;
 }
 function isNum(n) {
     return n === +n;
@@ -65,6 +66,7 @@ function list() {
         .concat(['float', 'integer'])
         .sort();
 }
+//namespace ChaiPluginAssertType{}
 ChaiPluginAssertType.addToAssertion = addToAssertion;
 ChaiPluginAssertType.ChaiPlugin = ChaiPluginAssertType;
 ChaiPluginAssertType.typeOf = typeDetect;
@@ -74,6 +76,6 @@ ChaiPluginAssertType.isNum = isNum;
 ChaiPluginAssertType.isInt = isInt;
 ChaiPluginAssertType.isFloat = isFloat;
 ChaiPluginAssertType.list = list;
-// @ts-ignore
-exports = ChaiPluginAssertType = Object.freeze(ChaiPluginAssertType);
 module.exports = ChaiPluginAssertType;
+// @ts-ignore
+//exports = ChaiPluginAssertType = Object.freeze(ChaiPluginAssertType);

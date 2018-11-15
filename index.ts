@@ -4,8 +4,25 @@
 
 import CHAI = require('chai');
 import typeDetect = require('type-detect');
+import { IChaiStatic, IAssertion, IExpectStatic, IPickMember, IAssertionStatic, IDiff, IOverwrite } from './lib/type';
 
-type ChaiObject = Chai.ChaiStatic | typeof CHAI
+export type ChaiObject = IChaiStatic
+
+export type IAssertionInstalled = {
+	[K in keyof IAssertion]: IAssertion[K] & IAssertionInstalled;
+} & {
+	[k in keyof typeof EnumTypeDetect]: (() => IAssertionInstalled) & IAssertionInstalled;
+} & {
+	float: (() => IAssertionInstalled) & IAssertionInstalled;
+	integer: (() => IAssertionInstalled) & IAssertionInstalled;
+}
+
+export type IExpectStaticInstalled = IAssertionStatic<IAssertionInstalled>
+
+export type IChaiInstalled<T extends IChaiStatic> = IOverwrite<T, {
+	expect: IExpectStaticInstalled,
+	//expect(target: any, message?: string): IAssertionInstalled
+}>
 
 enum EnumTypeDetect
 {
@@ -13,12 +30,12 @@ enum EnumTypeDetect
 	boolean = 'boolean',
 	date = 'Date',
 	function = 'function',
-	null = 'null',
+	//null = 'null',
 	number = 'number',
 	object = 'Object',
 	regexp = 'RegExp',
-	string = 'string',
-	undefined = 'undefined',
+	//string = 'string',
+	//undefined = 'undefined',
 }
 
 function ChaiPluginAssertType<T extends ChaiObject>(chai: T, utils)
@@ -63,7 +80,7 @@ function addToAssertion<T extends ChaiObject>(chai: T, key: string, fn)
 	//chai.Assertion.addMethod(key, fn);
 
 	// @ts-ignore
-	return chai.Assertion.addChainableMethod(key, fn, fn)
+	return chai.Assertion.addChainableMethod(key, () => {}, fn)
 }
 
 function _assertType(target, typeName: string, bool: boolean, obj)
@@ -79,9 +96,11 @@ function _assertType(target, typeName: string, bool: boolean, obj)
 /**
  * auto install this plugin to chai
  */
-function install<T extends ChaiObject>(chai?: T): T
+function install<T extends ChaiObject>(chai?: T): IChaiInstalled<T>
 {
-	return (chai || require('chai')).use(ChaiPluginAssertType)
+	let o = (chai || require('chai')).use(ChaiPluginAssertType);
+
+	return o;
 }
 
 function isNum(n: number)
@@ -106,6 +125,8 @@ function list(): ReadonlyArray<string>
 		.sort()
 }
 
+//namespace ChaiPluginAssertType{}
+
 ChaiPluginAssertType.addToAssertion = addToAssertion;
 ChaiPluginAssertType.ChaiPlugin = ChaiPluginAssertType;
 ChaiPluginAssertType.typeOf = typeDetect;
@@ -119,4 +140,4 @@ ChaiPluginAssertType.list = list;
 export = ChaiPluginAssertType
 
 // @ts-ignore
-exports = ChaiPluginAssertType = Object.freeze(ChaiPluginAssertType);
+//exports = ChaiPluginAssertType = Object.freeze(ChaiPluginAssertType);

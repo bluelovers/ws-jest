@@ -46,9 +46,11 @@ function ChaiPluginAssertType<T extends ChaiObject>(chai: T, utils)
 	Object.entries(EnumTypeDetect)
 		.forEach(function ([key, value])
 		{
-			let fn = function (this)
+			let fn = function (this: IAssertionInstalled)
 			{
-				utils.expectTypes(this, [value]);
+				this.an(value)
+
+				//utils.expectTypes(this, [value]);
 			};
 
 			addToAssertion(chai, key, fn, utils);
@@ -74,7 +76,7 @@ function ChaiPluginAssertType<T extends ChaiObject>(chai: T, utils)
 	}, utils);
 }
 
-function addToAssertion<T extends ChaiObject>(chai: T, key: string, fn, utils)
+function addToAssertion<T extends ChaiObject>(chai: T, key: string, fn: (this: IAssertionInstalled) => void , utils)
 {
 	//chai.Assertion.addProperty(key, fn);
 	//chai.Assertion.addMethod(key, fn);
@@ -84,14 +86,14 @@ function addToAssertion<T extends ChaiObject>(chai: T, key: string, fn, utils)
 	{
 		if (typeof v !== 'undefined')
 		{
-			let obj = utils.flag(this, 'object');
-
-			new chai.Assertion(obj).to.be.deep.equal(v);
+			//let obj = utils.flag(this, 'object');
+			//new chai.Assertion(obj).to.be.deep.equal(v);
+			this.deep.equal(v);
 		}
 	}, fn)
 }
 
-function _assertType(target, typeName: string, bool: boolean, obj)
+function _assertType(target: IAssertionInstalled, typeName: string, bool: boolean, obj)
 {
 	return target.assert(
 		bool

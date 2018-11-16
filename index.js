@@ -21,7 +21,8 @@ function ChaiPluginAssertType(chai, utils) {
     Object.entries(EnumTypeDetect)
         .forEach(function ([key, value]) {
         let fn = function () {
-            utils.expectTypes(this, [value]);
+            this.an(value);
+            //utils.expectTypes(this, [value]);
         };
         addToAssertion(chai, key, fn, utils);
     });
@@ -42,8 +43,9 @@ function addToAssertion(chai, key, fn, utils) {
     // @ts-ignore
     return chai.Assertion.addChainableMethod(key, function (v) {
         if (typeof v !== 'undefined') {
-            let obj = utils.flag(this, 'object');
-            new chai.Assertion(obj).to.be.deep.equal(v);
+            //let obj = utils.flag(this, 'object');
+            //new chai.Assertion(obj).to.be.deep.equal(v);
+            this.deep.equal(v);
         }
     }, fn);
 }

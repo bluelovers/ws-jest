@@ -11,10 +11,10 @@ export type ChaiObject = IChaiStatic
 export type IAssertionInstalled = {
 	[K in keyof IAssertion]: IAssertion[K] & IAssertionInstalled;
 } & {
-	[k in keyof typeof EnumTypeDetect]: ((expected?) => IAssertionInstalled) & IAssertionInstalled;
+	[k in keyof typeof EnumTypeDetect]: ((expected?, msg?) => IAssertionInstalled) & IAssertionInstalled;
 } & {
-	float: ((expected?) => IAssertionInstalled) & IAssertionInstalled;
-	integer: ((expected?) => IAssertionInstalled) & IAssertionInstalled;
+	float: ((expected?, msg?) => IAssertionInstalled) & IAssertionInstalled;
+	integer: ((expected?, msg?) => IAssertionInstalled) & IAssertionInstalled;
 }
 
 export type IExpectStaticInstalled = IAssertionStatic<IAssertionInstalled>
@@ -34,7 +34,7 @@ enum EnumTypeDetect
 	number = 'number',
 	object = 'Object',
 	regexp = 'RegExp',
-	//string = 'string',
+	string = 'string',
 	//undefined = 'undefined',
 }
 
@@ -57,7 +57,25 @@ function ChaiPluginAssertType<T extends ChaiObject>(chai: T, utils)
 		})
 	;
 
-	addToAssertion(chai, 'integer', function (this)
+	/*
+	const oldString = Assertion.prototype.string;
+
+	addToAssertion(chai, 'string', function ()
+	{
+		//utils.expectTypes(this, [EnumTypeDetect.number]);
+
+		this.an('string')
+
+	}, utils, function (...argv)
+	{
+		if (argv.length)
+		{
+			this.equal(...argv)
+		}
+	});
+	*/
+
+	addToAssertion(chai, 'integer', function ()
 	{
 		//utils.expectTypes(this, [EnumTypeDetect.number]);
 
@@ -76,20 +94,27 @@ function ChaiPluginAssertType<T extends ChaiObject>(chai: T, utils)
 	}, utils);
 }
 
-function addToAssertion<T extends ChaiObject>(chai: T, key: string, fn: (this: IAssertionInstalled) => void , utils)
+function addToAssertion<T extends ChaiObject>(chai: T, key: string, fn: (this: IAssertionInstalled) => void , utils, fnMethod?: (this: IAssertionInstalled, ...argv) => void)
 {
 	//chai.Assertion.addProperty(key, fn);
 	//chai.Assertion.addMethod(key, fn);
 
 	// @ts-ignore
-	return chai.Assertion.addChainableMethod(key, function(v)
+	return chai.Assertion.addChainableMethod(key, fnMethod || function(...argv)
 	{
+		if (argv.length)
+		{
+			this.deep.equal(...argv)
+		}
+
+		/*
 		if (typeof v !== 'undefined')
 		{
 			//let obj = utils.flag(this, 'object');
 			//new chai.Assertion(obj).to.be.deep.equal(v);
 			this.deep.equal(v);
 		}
+		*/
 	}, fn)
 }
 
@@ -135,7 +160,7 @@ function list(): ReadonlyArray<string>
 		.sort()
 }
 
-//namespace ChaiPluginAssertType{}
+//namespace ChaiPluginAssertType {}
 
 ChaiPluginAssertType.addToAssertion = addToAssertion;
 ChaiPluginAssertType.ChaiPlugin = ChaiPluginAssertType;

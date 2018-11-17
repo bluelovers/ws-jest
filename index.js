@@ -12,7 +12,7 @@ var EnumTypeDetect;
     EnumTypeDetect["number"] = "number";
     EnumTypeDetect["object"] = "Object";
     EnumTypeDetect["regexp"] = "RegExp";
-    //string = 'string',
+    EnumTypeDetect["string"] = "string";
     //undefined = 'undefined',
 })(EnumTypeDetect || (EnumTypeDetect = {}));
 function ChaiPluginAssertType(chai, utils) {
@@ -26,6 +26,23 @@ function ChaiPluginAssertType(chai, utils) {
         };
         addToAssertion(chai, key, fn, utils);
     });
+    /*
+    const oldString = Assertion.prototype.string;
+
+    addToAssertion(chai, 'string', function ()
+    {
+        //utils.expectTypes(this, [EnumTypeDetect.number]);
+
+        this.an('string')
+
+    }, utils, function (...argv)
+    {
+        if (argv.length)
+        {
+            this.equal(...argv)
+        }
+    });
+    */
     addToAssertion(chai, 'integer', function () {
         //utils.expectTypes(this, [EnumTypeDetect.number]);
         let obj = utils.flag(this, 'object');
@@ -37,16 +54,22 @@ function ChaiPluginAssertType(chai, utils) {
         _assertType(this, 'float', isFloat(obj), obj);
     }, utils);
 }
-function addToAssertion(chai, key, fn, utils) {
+function addToAssertion(chai, key, fn, utils, fnMethod) {
     //chai.Assertion.addProperty(key, fn);
     //chai.Assertion.addMethod(key, fn);
     // @ts-ignore
-    return chai.Assertion.addChainableMethod(key, function (v) {
-        if (typeof v !== 'undefined') {
+    return chai.Assertion.addChainableMethod(key, fnMethod || function (...argv) {
+        if (argv.length) {
+            this.deep.equal(...argv);
+        }
+        /*
+        if (typeof v !== 'undefined')
+        {
             //let obj = utils.flag(this, 'object');
             //new chai.Assertion(obj).to.be.deep.equal(v);
             this.deep.equal(v);
         }
+        */
     }, fn);
 }
 function _assertType(target, typeName, bool, obj) {
@@ -73,7 +96,7 @@ function list() {
         .concat(['float', 'integer'])
         .sort();
 }
-//namespace ChaiPluginAssertType{}
+//namespace ChaiPluginAssertType {}
 ChaiPluginAssertType.addToAssertion = addToAssertion;
 ChaiPluginAssertType.ChaiPlugin = ChaiPluginAssertType;
 ChaiPluginAssertType.typeOf = typeDetect;

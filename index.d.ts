@@ -8,10 +8,10 @@ export declare type ChaiObject = IChaiStatic;
 export declare type IAssertionInstalled = {
     [K in keyof IAssertion]: IAssertion[K] & IAssertionInstalled;
 } & {
-    [k in keyof typeof EnumTypeDetect]: (() => IAssertionInstalled) & IAssertionInstalled;
+    [k in keyof typeof EnumTypeDetect]: ((expected?: any, msg?: any) => IAssertionInstalled) & IAssertionInstalled;
 } & {
-    float: (() => IAssertionInstalled) & IAssertionInstalled;
-    integer: (() => IAssertionInstalled) & IAssertionInstalled;
+    float: ((expected?: any, msg?: any) => IAssertionInstalled) & IAssertionInstalled;
+    integer: ((expected?: any, msg?: any) => IAssertionInstalled) & IAssertionInstalled;
 };
 export declare type IExpectStaticInstalled = IAssertionStatic<IAssertionInstalled>;
 export declare type IChaiInstalled<T extends IChaiStatic> = ITSOverwrite<T, {
@@ -24,7 +24,8 @@ enum EnumTypeDetect {
     function = "function",
     number = "number",
     object = "Object",
-    regexp = "RegExp"
+    regexp = "RegExp",
+    string = "string"
 }
 declare function ChaiPluginAssertType<T extends ChaiObject>(chai: T, utils: any): void;
 declare namespace ChaiPluginAssertType {
@@ -60,7 +61,7 @@ declare namespace ChaiPluginAssertType {
     var isFloat: typeof isFloat;
     var list: typeof list;
 }
-function addToAssertion<T extends ChaiObject>(chai: T, key: string, fn: any, utils: any): any;
+function addToAssertion<T extends ChaiObject>(chai: T, key: string, fn: (this: IAssertionInstalled) => void, utils: any, fnMethod?: (this: IAssertionInstalled, ...argv: any[]) => void): any;
 /**
  * auto install this plugin to chai
  */

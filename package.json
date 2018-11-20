@@ -1,7 +1,7 @@
 {
   "name": "chai-asserttype-extra",
   "version": "1.2.0",
-  "description": "a chai plugin for type assertions",
+  "description": "a chai plugin for type assertions, support typescript",
   "keywords": [
     "assert",
     "assertion",

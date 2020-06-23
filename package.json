@@ -12,15 +12,27 @@
     "prepare:fix-ws-links": "ynpx --quiet @yarn-tool/fix-ws-links",
     "prepublishOnly:lockfile": "ynpx --quiet sync-lockfile",
     "ncu": "yarn run ncu:root && yarn run ncu:ws",
-    "ncu:root": "yarn-tool -- ncu -u",
-    "ncu:ws": "yarn-tool -- ws exec yarn-tool ncu -- -u",
+    "ncu:root": "yarn-tool ncu -u",
+    "ncu:ws": "yarn-tool ws exec yarn-tool ncu -- -u",
     "sort-package-json": "yarn run sort-package-json:root && yarn run sort-package-json:ws",
-    "sort-package-json:root": "yarn-tool -- sort",
-    "sort-package-json:ws": "yarn-tool -- ws exec yarn-tool sort"
+    "sort-package-json:root": "yarn-tool sort",
+    "sort-package-json:ws": "yarn-tool ws exec yarn-tool sort"
   },
   "resolutions": {},
+  "dependencies": {
+    "@bluelovers/fast-glob": "^3.0.4",
+    "bluebird": "^3.7.2",
+    "build-ts-file": "^1.0.9",
+    "fs-extra": "^9.0.1",
+    "jest": "^26.0.1",
+    "jest-matcher-utils": "^26.0.1",
+    "ts-jest": "^26.1.1"
+  },
   "devDependencies": {
     "@bluelovers/tsconfig": "^1.0.19",
+    "@types/bluebird": "^3.5.32",
+    "@types/check-types": "^7.3.1",
+    "@types/fs-extra": "^9.0.1",
     "@types/jest": "^26.0.0",
     "@types/node": "*"
   },
@@ -28,10 +40,5 @@
     "@bluelovers/conventional-changelog-bluelovers": "*",
     "lerna": "*",
     "yarn": "*"
-  },
-  "dependencies": {
-    "jest": "^26.0.1",
-    "jest-matcher-utils": "^26.0.1",
-    "ts-jest": "^26.1.1"
   }
 }

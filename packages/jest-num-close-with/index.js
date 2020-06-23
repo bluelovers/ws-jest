@@ -39,7 +39,7 @@ function toBeCloseWith(received, expected, delta, precision = 4) {
     }
     else {
         expectedDiff = Math.pow(10, -precision) / 2;
-        receivedDiff = parseFloat(util_1.subAbs(received, expected));
+        receivedDiff = Number(util_1.subAbs(received, expected));
         pass = num_in_delta_1.default(received, expected, delta);
     }
     const message = pass

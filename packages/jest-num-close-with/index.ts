@@ -87,7 +87,7 @@ export function toBeCloseWith(
 	else
 	{
 		expectedDiff = Math.pow(10, -precision) / 2;
-		receivedDiff = parseFloat(subAbs(received, expected));
+		receivedDiff = Number(subAbs(received, expected));
 
 		pass = expectInDelta(received, expected, delta)
 	}

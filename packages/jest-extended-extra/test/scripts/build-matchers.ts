@@ -2,6 +2,7 @@ import FastGlob from '@bluelovers/fast-glob/bluebird';
 import { join, parse } from 'path';
 import { outputFile } from 'fs-extra';
 import build from 'build-ts-file';
+import { array_unique_overwrite } from 'array-hyper-unique';
 
 const __root = join(__dirname, '../..')
 
@@ -11,6 +12,24 @@ FastGlob([
 ], {
 	cwd: join(__root, 'lib', 'matchers'),
 })
+	.then(async (ls) => {
+
+
+		await FastGlob([
+			'*/',
+		], {
+			cwd: join(__root, 'lib', 'matchers'),
+			onlyDirectories: true,
+		})
+			.then(a => ls.push(...a))
+		;
+
+		array_unique_overwrite(ls);
+
+		ls.sort();
+
+		return ls
+	})
 .reduce((memo, item) => {
 
 	const name = parse(item).name

@@ -21,6 +21,7 @@
   "resolutions": {},
   "dependencies": {
     "@bluelovers/fast-glob": "^3.0.4",
+    "array-hyper-unique": "^1.1.8",
     "bluebird": "^3.7.2",
     "build-ts-file": "^1.0.9",
     "fs-extra": "^9.0.1",

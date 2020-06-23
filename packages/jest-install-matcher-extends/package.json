@@ -1,6 +1,6 @@
 {
   "name": "jest-install-matcher-extends",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "homepage": "https://github.com/bluelovers/ws-jest/tree/master/packages/jest-install-matcher-extends#readme",
   "bugs": {
@@ -27,7 +27,6 @@
   "dependencies": {
     "@types/jest": "*"
   },
-  "devDependencies": {},
   "peerDependencies": {
     "jest": "*"
   }

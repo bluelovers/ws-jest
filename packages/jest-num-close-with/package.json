@@ -2,6 +2,15 @@
   "name": "jest-num-close-with",
   "version": "1.0.1",
   "description": "check actual number is expected number ± delta",
+  "keywords": [
+    "jest",
+    "matchers",
+    "extend",
+    "extended",
+    "test",
+    "testing",
+    "assertions"
+  ],
   "homepage": "https://github.com/bluelovers/ws-jest/tree/master/packages/jest-num-close-with#readme",
   "bugs": {
     "url": "https://github.com/bluelovers/ws-jest/issues"

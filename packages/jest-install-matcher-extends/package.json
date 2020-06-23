@@ -2,6 +2,15 @@
   "name": "jest-install-matcher-extends",
   "version": "1.0.1",
   "description": "",
+  "keywords": [
+    "jest",
+    "matchers",
+    "extend",
+    "extended",
+    "test",
+    "testing",
+    "assertions"
+  ],
   "homepage": "https://github.com/bluelovers/ws-jest/tree/master/packages/jest-install-matcher-extends#readme",
   "bugs": {
     "url": "https://github.com/bluelovers/ws-jest/issues"

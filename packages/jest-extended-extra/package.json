@@ -1,6 +1,6 @@
 {
   "name": "jest-extended-extra",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "homepage": "https://github.com/bluelovers/ws-jest/tree/master/packages/jest-extended-extra#readme",
   "bugs": {
@@ -32,7 +32,6 @@
     "check-types": "^11.1.2",
     "jest-install-matcher-extends": "^1.0.2"
   },
-  "devDependencies": {},
   "peerDependencies": {
     "expect": "*",
     "jest": "*",

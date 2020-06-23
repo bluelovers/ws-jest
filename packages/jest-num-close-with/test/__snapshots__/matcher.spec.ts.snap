@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`.toBeCloseWith fails when given non-number 1`] = `
+"[2mexpect([22m[31mreceived[39m[2m).[22mtoBeCloseWith[2m([22m[32mexpected[39m[2m)[22m
+
+[1mMatcher error[22m: [31mreceived[39m value must be a number
+
+Received has type:  string
+Received has value: [31m\\"\\"[39m"
+`;
+
+exports[`.toBeCloseWith fails when given number out range 1`] = `
+"[2mexpect([22m[31mreceived[39m[2m).[22mtoBeCloseWith[2m([22m[32mexpected[39m[2m, [22mprecision[2m)[22m
+
+Expected: [32m1[39m
+Received: [31m0.9499999[39m
+
+Expected precision:    4
+Expected difference: < [32m0.00005[39m
+Received difference:   [31m0.0500001[39m"
+`;
+
+exports[`not.toBeCloseWith fails when given non-number 1`] = `
+"[2mexpect([22m[31mreceived[39m[2m).[22mnot[2m.[22mtoBeCloseWith[2m([22m[32mexpected[39m[2m)[22m
+
+[1mMatcher error[22m: [31mreceived[39m value must be a number
+
+Received has type:  string
+Received has value: [31m\\"\\"[39m"
+`;
+
+exports[`not.toBeCloseWith fails when given number in range 1`] = `
+"[2mexpect([22m[31mreceived[39m[2m).[22mnot[2m.[22mtoBeCloseWith[2m([22m[32mexpected[39m[2m, [22mprecision[2m)[22m
+
+Expected: not [32m1[39m
+Received:     [31m0.95[39m
+
+Expected precision:        4
+Expected difference: not < [32m0.00005[39m
+Received difference:       [31m0.05[39m"
+`;

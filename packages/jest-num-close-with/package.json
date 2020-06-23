@@ -1,0 +1,37 @@
+{
+  "name": "jest-num-close-with",
+  "version": "1.0.0",
+  "description": "check actual number is expected number ± delta",
+  "homepage": "https://github.com/bluelovers/ws-jest/tree/master/packages/jest-num-close-with#readme",
+  "bugs": {
+    "url": "https://github.com/bluelovers/ws-jest/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bluelovers/ws-jest.git"
+  },
+  "license": "ISC",
+  "author": "bluelovers",
+  "main": "index.js",
+  "scripts": {
+    "lint": "ynpx --quiet eslint -- **/*.ts",
+    "test": "jest",
+    "test:jest": "ynpx --quiet jest -- --coverage",
+    "test:mocha": "ynpx --quiet -p ts-node -p mocha mocha -- --require ts-node/register \"!(node_modules)/**/*.{test,spec}.{ts,tsx}\"",
+    "prepublishOnly": "yarn run test",
+    "prepublishOnly:check-bin": "ynpx --quiet @yarn-tool/check-pkg-bin",
+    "prepublishOnly:update": "yarn run ncu && yarn run sort-package-json",
+    "ncu": "ynpx --quiet yarn-tool -- ncu -u",
+    "sort-package-json": "ynpx --quiet yarn-tool -- sort"
+  },
+  "dependencies": {
+    "jest-install-matcher-extends": "^1.0.0",
+    "num-in-delta": "^1.0.3"
+  },
+  "devDependencies": {},
+  "peerDependencies": {
+    "expect": "*",
+    "jest": "*",
+    "jest-matcher-utils": "*"
+  }
+}

@@ -21,11 +21,17 @@
   "resolutions": {},
   "devDependencies": {
     "@bluelovers/tsconfig": "^1.0.19",
+    "@types/jest": "^26.0.0",
     "@types/node": "*"
   },
   "peerDependencies": {
     "@bluelovers/conventional-changelog-bluelovers": "*",
     "lerna": "*",
     "yarn": "*"
+  },
+  "dependencies": {
+    "jest": "^26.0.1",
+    "jest-matcher-utils": "^26.0.1",
+    "ts-jest": "^26.1.1"
   }
 }

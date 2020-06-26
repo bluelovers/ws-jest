@@ -11,7 +11,7 @@ declare global
 
 		interface Matchers<R>
 		{
-			[matcherName](expected: number): R;
+			[matcherName](): R;
 		}
 
 	}

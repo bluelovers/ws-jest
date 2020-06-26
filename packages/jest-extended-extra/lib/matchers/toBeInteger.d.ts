@@ -3,17 +3,17 @@ declare const matcherName: "toBeInteger";
 declare global {
     namespace jest {
         interface Matchers<R> {
-            [matcherName](expected: number): R;
+            [matcherName](): R;
         }
     }
 }
 export declare const toBeInteger: (this: jest.MatcherContext, received: number) => {
-    pass: boolean;
+    pass: any;
     message: () => string;
 };
 declare const _default: {
     toBeInteger: (this: jest.MatcherContext, received: number) => {
-        pass: boolean;
+        pass: any;
         message: () => string;
     };
 };

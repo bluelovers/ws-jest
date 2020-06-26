@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`throw 1`] = `
+"[2mexpect([22m[31mreceived[39m[2m).not.toBeZero()[22m
+
+Expected value to not be a zero received:
+  [31m-0[39m"
+`;

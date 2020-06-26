@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.5](https://github.com/bluelovers/ws-jest/compare/jest-extended-extra@1.0.4...jest-extended-extra@1.0.5) (2020-06-26)
+
+
+### 🛠　Build System
+
+* **matchers:** update index of matchers ([2ed5b57](https://github.com/bluelovers/ws-jest/commit/2ed5b572db4b1b493c3ff46774fcffa43fb7156c))
+* **matchers:** update index of matchers ([32ebde3](https://github.com/bluelovers/ws-jest/commit/32ebde36acb7d30f49e0004cdc65ee04d4c403d7))
+
+
+### ♻️　Chores
+
+* fix type ([088f2eb](https://github.com/bluelovers/ws-jest/commit/088f2eb1a1435e04b051113e7f846a60ccda6674))
+
+
+
+
+
 ## [1.0.4](https://github.com/bluelovers/ws-jest/compare/jest-extended-extra@1.0.3...jest-extended-extra@1.0.4) (2020-06-26)
 
 

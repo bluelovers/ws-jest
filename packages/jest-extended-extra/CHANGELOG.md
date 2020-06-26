@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.4](https://github.com/bluelovers/ws-jest/compare/jest-extended-extra@1.0.3...jest-extended-extra@1.0.4) (2020-06-26)
+
+
+### 🐛　Bug Fixes
+
+* toBeZero ([5c75908](https://github.com/bluelovers/ws-jest/commit/5c75908bee55f59eb2d11a0c45f03f4dd24d0371))
+
+
+
+
+
 ## [1.0.3](https://github.com/bluelovers/ws-jest/compare/jest-extended-extra@1.0.1...jest-extended-extra@1.0.3) (2020-06-23)
 
 

@@ -5,7 +5,7 @@ export function createNewCheckTypes(matcherName: string, type: string)
 {
 	return function toBeCheckTypes(this: jest.MatcherContext, received: number)
 	{
-		const pass = check[type](received);
+		const pass: boolean = check[type](received);
 
 		return {
 			pass,

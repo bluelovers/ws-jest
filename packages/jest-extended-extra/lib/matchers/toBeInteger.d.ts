@@ -8,12 +8,12 @@ declare global {
     }
 }
 export declare const toBeInteger: (this: jest.MatcherContext, received: number) => {
-    pass: any;
+    pass: boolean;
     message: () => string;
 };
 declare const _default: {
     toBeInteger: (this: jest.MatcherContext, received: number) => {
-        pass: any;
+        pass: boolean;
         message: () => string;
     };
 };

@@ -8,12 +8,12 @@ declare global {
     }
 }
 export declare const toBeFloat: (this: jest.MatcherContext, received: number) => {
-    pass: any;
+    pass: boolean;
     message: () => string;
 };
 declare const _default: {
     toBeFloat: (this: jest.MatcherContext, received: number) => {
-        pass: any;
+        pass: boolean;
         message: () => string;
     };
 };

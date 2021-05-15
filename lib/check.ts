@@ -1,15 +1,15 @@
 
-export function isNum(n: number)
+export function isNum(n: number): n is number
 {
 	return n === +n
 }
 
-export function isInt(n: number)
+export function isInt(n: number): n is number
 {
 	return n === Math.floor(n)
 }
 
-export function isFloat(n: number)
+export function isFloat(n: number): n is number
 {
-	return n === +n && !isInt(n);
+	return isNum(n) && !isInt(n);
 }

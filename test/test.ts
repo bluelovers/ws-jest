@@ -2,6 +2,7 @@
  * Created by user on 2018/11/15/015.
  */
 
+// @ts-ignore
 import ChaiPluginAssertType = require('chai-asserttype-extra');
 
 import _chai = require('chai');

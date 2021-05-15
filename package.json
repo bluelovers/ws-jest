@@ -26,14 +26,14 @@
   "author": "",
   "main": "index.js",
   "scripts": {
-    "test": "npx ts-node ./test/test.ts"
+    "test": "npx ts-node ./test/test.ts & jest"
   },
   "dependencies": {
-    "@bluelovers/tsconfig": "^1.0.20",
     "@types/type-detect": "^4",
     "ts-type": "^1.2.34"
   },
   "devDependencies": {
+    "@bluelovers/tsconfig": "^1.0.20",
     "@types/chai": "^4",
     "@types/jest": "^26.0.23",
     "chai": "^4",

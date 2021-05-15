@@ -29,12 +29,16 @@
     "test": "npx ts-node ./test/test.ts"
   },
   "dependencies": {
+    "@bluelovers/tsconfig": "^1.0.20",
     "@types/type-detect": "^4",
-    "ts-type": "^1.0.6"
+    "ts-type": "^1.2.34"
   },
   "devDependencies": {
     "@types/chai": "^4",
-    "chai": "^4"
+    "@types/jest": "^26.0.23",
+    "chai": "^4",
+    "jest": "^26.6.3",
+    "ts-jest": "^26.5.6"
   },
   "peerDependencies": {
     "chai": "^4",

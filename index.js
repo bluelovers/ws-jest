@@ -1,7 +1,9 @@
+"use strict";
 /**
  * Created by user on 2018/11/13/013.
  */
 const typeDetect = require("type-detect");
+const check_1 = require("./lib/check");
 var EnumTypeDetect;
 (function (EnumTypeDetect) {
     EnumTypeDetect["array"] = "Array";
@@ -18,6 +20,7 @@ var EnumTypeDetect;
 function ChaiPluginAssertType(chai, utils) {
     // @ts-ignore
     const Assertion = chai.Assertion;
+    // @ts-ignore
     Object.entries(EnumTypeDetect)
         .forEach(function ([key, value]) {
         let fn = function () {
@@ -46,12 +49,12 @@ function ChaiPluginAssertType(chai, utils) {
     addToAssertion(chai, 'integer', function () {
         //utils.expectTypes(this, [EnumTypeDetect.number]);
         let obj = utils.flag(this, 'object');
-        _assertType(this, 'integer', isInt(obj), obj);
+        _assertType(this, 'integer', check_1.isInt(obj), obj);
     }, utils);
     addToAssertion(chai, 'float', function () {
         //utils.expectTypes(this, [EnumTypeDetect.number]);
         let obj = utils.flag(this, 'object');
-        _assertType(this, 'float', isFloat(obj), obj);
+        _assertType(this, 'float', check_1.isFloat(obj), obj);
     }, utils);
 }
 function addToAssertion(chai, key, fn, utils, fnMethod) {
@@ -60,6 +63,7 @@ function addToAssertion(chai, key, fn, utils, fnMethod) {
     // @ts-ignore
     return chai.Assertion.addChainableMethod(key, fnMethod || function (...argv) {
         if (argv.length) {
+            // @ts-ignore
             this.deep.equal(...argv);
         }
         /*
@@ -73,23 +77,16 @@ function addToAssertion(chai, key, fn, utils, fnMethod) {
     }, fn);
 }
 function _assertType(target, typeName, bool, obj) {
+    // @ts-ignore
     return target.assert(bool, `expected #{this} to be an ${typeName}`, `expected #{this} to not be an ${typeName}`, obj);
 }
 /**
  * auto install this plugin to chai
  */
 function install(chai) {
+    // @ts-ignore
     let o = (chai || require('chai')).use(ChaiPluginAssertType);
     return o;
-}
-function isNum(n) {
-    return n === +n;
-}
-function isInt(n) {
-    return n === (n | 0);
-}
-function isFloat(n) {
-    return n === +n && n !== (n | 0);
 }
 function list() {
     return Object.keys(EnumTypeDetect)
@@ -102,10 +99,11 @@ ChaiPluginAssertType.ChaiPlugin = ChaiPluginAssertType;
 ChaiPluginAssertType.typeOf = typeDetect;
 ChaiPluginAssertType.install = install;
 ChaiPluginAssertType.default = ChaiPluginAssertType;
-ChaiPluginAssertType.isNum = isNum;
-ChaiPluginAssertType.isInt = isInt;
-ChaiPluginAssertType.isFloat = isFloat;
+ChaiPluginAssertType.isNum = check_1.isNum;
+ChaiPluginAssertType.isInt = check_1.isInt;
+ChaiPluginAssertType.isFloat = check_1.isFloat;
 ChaiPluginAssertType.list = list;
 module.exports = ChaiPluginAssertType;
 // @ts-ignore
 //exports = ChaiPluginAssertType = Object.freeze(ChaiPluginAssertType);
+//# sourceMappingURL=index.js.map

@@ -4,7 +4,8 @@
 
 import CHAI = require('chai');
 import typeDetect = require('type-detect');
-import { IChaiStatic, IAssertion, IExpectStatic, IAssertionStatic, ITSOverwrite } from './lib/type';
+import { IAssertion, IAssertionStatic, IChaiStatic, ITSOverwrite } from './lib/type';
+import { isFloat, isInt, isNum } from './lib/check';
 
 export type ChaiObject = IChaiStatic
 
@@ -43,6 +44,7 @@ function ChaiPluginAssertType<T extends ChaiObject>(chai: T, utils)
 	// @ts-ignore
 	const Assertion = chai.Assertion;
 
+	// @ts-ignore
 	Object.entries(EnumTypeDetect)
 		.forEach(function ([key, value])
 		{
@@ -104,6 +106,7 @@ function addToAssertion<T extends ChaiObject>(chai: T, key: string, fn: (this: I
 	{
 		if (argv.length)
 		{
+			// @ts-ignore
 			this.deep.equal(...argv)
 		}
 
@@ -120,6 +123,7 @@ function addToAssertion<T extends ChaiObject>(chai: T, key: string, fn: (this: I
 
 function _assertType(target: IAssertionInstalled, typeName: string, bool: boolean, obj)
 {
+	// @ts-ignore
 	return target.assert(
 		bool
 		, `expected #{this} to be an ${typeName}`
@@ -133,24 +137,10 @@ function _assertType(target: IAssertionInstalled, typeName: string, bool: boolea
  */
 function install<T extends ChaiObject>(chai?: T): IChaiInstalled<T>
 {
+	// @ts-ignore
 	let o = (chai || require('chai')).use(ChaiPluginAssertType);
 
 	return o;
-}
-
-function isNum(n: number)
-{
-	return n === +n
-}
-
-function isInt(n: number)
-{
-	return n === (n | 0)
-}
-
-function isFloat(n: number)
-{
-	return n === +n && n !== (n | 0);
 }
 
 function list(): ReadonlyArray<string>
@@ -172,6 +162,7 @@ ChaiPluginAssertType.isInt = isInt;
 ChaiPluginAssertType.isFloat = isFloat;
 ChaiPluginAssertType.list = list;
 
+// @ts-ignore
 export = ChaiPluginAssertType
 
 // @ts-ignore

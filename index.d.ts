@@ -3,7 +3,7 @@
  */
 /// <reference types="chai" />
 import typeDetect = require('type-detect');
-import { IChaiStatic, IAssertion, IAssertionStatic, ITSOverwrite } from './lib/type';
+import { IAssertion, IAssertionStatic, IChaiStatic, ITSOverwrite } from './lib/type';
 export declare type ChaiObject = IChaiStatic;
 export declare type IAssertionInstalled = {
     [K in keyof IAssertion]: IAssertion[K] & IAssertionInstalled;
@@ -17,7 +17,7 @@ export declare type IExpectStaticInstalled = IAssertionStatic<IAssertionInstalle
 export declare type IChaiInstalled<T extends IChaiStatic> = ITSOverwrite<T, {
     expect: IExpectStaticInstalled;
 }>;
-enum EnumTypeDetect {
+declare enum EnumTypeDetect {
     array = "Array",
     boolean = "boolean",
     date = "Date",
@@ -29,46 +29,15 @@ enum EnumTypeDetect {
 }
 declare function ChaiPluginAssertType<T extends ChaiObject>(chai: T, utils: any): void;
 declare namespace ChaiPluginAssertType {
-    var addToAssertion: typeof addToAssertion;
-    var ChaiPlugin: {
-        <T extends Chai.ChaiStatic>(chai: T, utils: any): void;
-        addToAssertion: typeof addToAssertion;
-        ChaiPlugin: any;
-        typeOf: typeof typeDetect;
-        install: typeof install;
-        default: any;
-        isNum: typeof isNum;
-        isInt: typeof isInt;
-        isFloat: typeof isFloat;
-        list: typeof list;
-    };
-    var typeOf: typeof typeDetect;
-    var install: typeof install;
-    var default: {
-        <T extends Chai.ChaiStatic>(chai: T, utils: any): void;
-        addToAssertion: typeof addToAssertion;
-        ChaiPlugin: any;
-        typeOf: typeof typeDetect;
-        install: typeof install;
-        default: any;
-        isNum: typeof isNum;
-        isInt: typeof isInt;
-        isFloat: typeof isFloat;
-        list: typeof list;
-    };
-    var isNum: typeof isNum;
-    var isInt: typeof isInt;
-    var isFloat: typeof isFloat;
-    var list: typeof list;
+    export var addToAssertion: <T extends Chai.ChaiStatic>(chai: T, key: string, fn: (this: IAssertionInstalled) => void, utils: any, fnMethod?: (this: IAssertionInstalled, ...argv: any[]) => void) => void;
+    export var ChaiPlugin: typeof import(".");
+    export var typeOf: typeof typeDetect;
+    export var install: <T extends Chai.ChaiStatic>(chai?: T) => IChaiInstalled<T>;
+    var _a: typeof import(".");
+    export var isNum: typeof import("./lib/check").isNum;
+    export var isInt: typeof import("./lib/check").isInt;
+    export var isFloat: typeof import("./lib/check").isFloat;
+    export var list: () => readonly string[];
+    export { _a as default };
 }
-function addToAssertion<T extends ChaiObject>(chai: T, key: string, fn: (this: IAssertionInstalled) => void, utils: any, fnMethod?: (this: IAssertionInstalled, ...argv: any[]) => void): any;
-/**
- * auto install this plugin to chai
- */
-function install<T extends ChaiObject>(chai?: T): IChaiInstalled<T>;
-function isNum(n: number): boolean;
-function isInt(n: number): boolean;
-function isFloat(n: number): boolean;
-function list(): ReadonlyArray<string>;
-//declare namespace ChaiPluginAssertType { }
 export = ChaiPluginAssertType;

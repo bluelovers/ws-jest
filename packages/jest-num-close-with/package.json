@@ -23,19 +23,14 @@
   "author": "bluelovers",
   "main": "index.js",
   "scripts": {
-    "lint": "ynpx --quiet eslint -- **/*.ts",
     "test": "jest",
-    "test:jest": "ynpx --quiet jest -- --coverage",
-    "test:mocha": "ynpx --quiet -p ts-node -p mocha mocha -- --require ts-node/register \"!(node_modules)/**/*.{test,spec}.{ts,tsx}\"",
-    "prepublishOnly": "yarn run test",
-    "prepublishOnly:check-bin": "ynpx --quiet @yarn-tool/check-pkg-bin",
-    "prepublishOnly:update": "yarn run ncu && yarn run sort-package-json",
+    "preversion": "yarn run test",
     "ncu": "ynpx --quiet yarn-tool -- ncu -u",
     "sort-package-json": "ynpx --quiet yarn-tool -- sort"
   },
   "dependencies": {
     "jest-install-matcher-extends": "^1.0.2",
-    "num-in-delta": "^1.0.3"
+    "num-in-delta": "^1.0.7"
   },
   "peerDependencies": {
     "expect": "*",

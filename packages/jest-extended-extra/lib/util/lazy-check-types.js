@@ -11,7 +11,7 @@ function createNewCheckTypes(matcherName, type) {
         const pass = check_types_1.default[type](received);
         return {
             pass,
-            message: msg_1.autoMessage(pass, received, matcherName, type),
+            message: (0, msg_1.autoMessage)(pass, received, matcherName, type),
         };
     };
 }

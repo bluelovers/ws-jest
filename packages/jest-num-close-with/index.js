@@ -23,10 +23,10 @@ function toBeCloseWith(received, expected, delta, precision = 4) {
         secondArgumentColor: (arg) => arg,
     };
     if (typeof expected !== 'number') {
-        throw new Error(jest_matcher_utils_1.matcherErrorMessage(jest_matcher_utils_1.matcherHint(matcherName, undefined, undefined, options), `${jest_matcher_utils_1.EXPECTED_COLOR('expected')} value must be a number`, jest_matcher_utils_1.printWithType('Expected', expected, jest_matcher_utils_1.printExpected)));
+        throw new Error((0, jest_matcher_utils_1.matcherErrorMessage)((0, jest_matcher_utils_1.matcherHint)(matcherName, undefined, undefined, options), `${(0, jest_matcher_utils_1.EXPECTED_COLOR)('expected')} value must be a number`, (0, jest_matcher_utils_1.printWithType)('Expected', expected, jest_matcher_utils_1.printExpected)));
     }
     if (typeof received !== 'number') {
-        throw new Error(jest_matcher_utils_1.matcherErrorMessage(jest_matcher_utils_1.matcherHint(matcherName, undefined, undefined, options), `${jest_matcher_utils_1.RECEIVED_COLOR('received')} value must be a number`, jest_matcher_utils_1.printWithType('Received', received, jest_matcher_utils_1.printReceived)));
+        throw new Error((0, jest_matcher_utils_1.matcherErrorMessage)((0, jest_matcher_utils_1.matcherHint)(matcherName, undefined, undefined, options), `${(0, jest_matcher_utils_1.RECEIVED_COLOR)('received')} value must be a number`, (0, jest_matcher_utils_1.printWithType)('Received', received, jest_matcher_utils_1.printReceived)));
     }
     let pass = false;
     let expectedDiff = 0;
@@ -39,24 +39,24 @@ function toBeCloseWith(received, expected, delta, precision = 4) {
     }
     else {
         expectedDiff = Math.pow(10, -precision) / 2;
-        receivedDiff = Number(util_1.subAbs(received, expected));
-        pass = num_in_delta_1.default(received, expected, delta);
+        receivedDiff = Number((0, util_1.subAbs)(received, expected));
+        pass = (0, num_in_delta_1.default)(received, expected, delta);
     }
     const message = pass
-        ? () => jest_matcher_utils_1.matcherHint(matcherName, undefined, undefined, options) +
+        ? () => (0, jest_matcher_utils_1.matcherHint)(matcherName, undefined, undefined, options) +
             '\n\n' +
-            `Expected: not ${jest_matcher_utils_1.printExpected(expected)}\n` +
+            `Expected: not ${(0, jest_matcher_utils_1.printExpected)(expected)}\n` +
             (receivedDiff === 0
                 ? ''
-                : `Received:     ${jest_matcher_utils_1.printReceived(received)}\n` +
+                : `Received:     ${(0, jest_matcher_utils_1.printReceived)(received)}\n` +
                     '\n' +
-                    print_1.printCloseTo(receivedDiff, expectedDiff, precision, isNot))
-        : () => jest_matcher_utils_1.matcherHint(matcherName, undefined, undefined, options) +
+                    (0, print_1.printCloseTo)(receivedDiff, expectedDiff, precision, isNot))
+        : () => (0, jest_matcher_utils_1.matcherHint)(matcherName, undefined, undefined, options) +
             '\n\n' +
-            `Expected: ${jest_matcher_utils_1.printExpected(expected)}\n` +
-            `Received: ${jest_matcher_utils_1.printReceived(received)}\n` +
+            `Expected: ${(0, jest_matcher_utils_1.printExpected)(expected)}\n` +
+            `Received: ${(0, jest_matcher_utils_1.printReceived)(received)}\n` +
             '\n' +
-            print_1.printCloseTo(receivedDiff, expectedDiff, precision, isNot);
+            (0, print_1.printCloseTo)(receivedDiff, expectedDiff, precision, isNot);
     return { message, pass };
 }
 exports.toBeCloseWith = toBeCloseWith;
@@ -66,7 +66,7 @@ exports.default = {
      */
     toBeCloseWith,
 };
-jest_install_matcher_extends_1.default({
+(0, jest_install_matcher_extends_1.default)({
     toBeCloseWith,
 });
 //# sourceMappingURL=index.js.map

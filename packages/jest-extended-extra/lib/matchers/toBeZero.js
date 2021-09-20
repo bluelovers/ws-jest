@@ -8,7 +8,7 @@ function toBeZero(received) {
     const pass = received === 0 || received === -0;
     return {
         pass,
-        message: msg_1.autoMessage(pass, received, matcherName, type),
+        message: (0, msg_1.autoMessage)(pass, received, matcherName, type),
     };
 }
 exports.toBeZero = toBeZero;

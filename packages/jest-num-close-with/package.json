@@ -1,6 +1,6 @@
 {
   "name": "jest-num-close-with",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "check actual number is expected number ± delta",
   "keywords": [
     "jest",
@@ -29,7 +29,7 @@
     "sort-package-json": "ynpx --quiet yarn-tool -- sort"
   },
   "dependencies": {
-    "jest-install-matcher-extends": "^1.0.2",
+    "jest-install-matcher-extends": "^1.0.3",
     "num-in-delta": "^1.0.7"
   },
   "peerDependencies": {

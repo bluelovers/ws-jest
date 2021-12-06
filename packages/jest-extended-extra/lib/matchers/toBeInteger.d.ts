@@ -1,4 +1,3 @@
-/// <reference types="jest" />
 declare const matcherName: "toBeInteger";
 declare global {
     namespace jest {

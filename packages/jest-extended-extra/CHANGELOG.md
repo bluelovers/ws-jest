@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.7](https://github.com/bluelovers/ws-jest/compare/jest-extended-extra@1.0.6...jest-extended-extra@1.0.7) (2021-12-06)
+
+
+### ♻️　Chores
+
+* **deps:** update deps ([8e32de8](https://github.com/bluelovers/ws-jest/commit/8e32de81854b8083088c62a808d311f6c8ea3aa3))
+
+
+
+
+
 ## [1.0.6](https://github.com/bluelovers/ws-jest/compare/jest-extended-extra@1.0.5...jest-extended-extra@1.0.6) (2021-09-20)
 
 

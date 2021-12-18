@@ -2,9 +2,9 @@ export interface IOptions
 {
 	expect?: jest.Expect,
 
-	cbNotExists?(matchers: jest.ExpectExtendMap, options?: IOptions),
+	cbNotExists?(matchers: jest.ExpectExtendMap, options?: IOptions): any,
 
-	cbExists?(matchers: jest.ExpectExtendMap, options?: IOptions),
+	cbExists?(matchers: jest.ExpectExtendMap, options?: IOptions): any,
 }
 
 export function getGlobalExpect(): jest.Expect

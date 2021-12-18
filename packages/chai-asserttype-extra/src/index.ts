@@ -2,20 +2,18 @@
  * Created by user on 2018/11/13/013.
  */
 
-import CHAI = require('chai');
-import typeDetect = require('type-detect');
-import { IAssertion, IAssertionStatic, IChaiStatic, ITSOverwrite } from './lib/type';
-import { isFloat, isInt, isNum } from './lib/check';
+import typeDetect from 'type-detect';
+import { IAssertion, IAssertionInstalled2, IAssertionStatic, IChaiAssertion, IChaiStatic } from './type';
+import { isInfinity, isNaN, isFloat, isInt } from '@lazy-assert/check-basic';
+import { ITSOverwrite } from 'ts-type/lib/type/record';
+import _chai from 'chai';
 
 export type ChaiObject = IChaiStatic
 
 export type IAssertionInstalled = {
 	[K in keyof IAssertion]: IAssertion[K] & IAssertionInstalled;
 } & {
-	[k in keyof typeof EnumTypeDetect]: ((expected?, msg?) => IAssertionInstalled) & IAssertionInstalled;
-} & {
-	float: ((expected?, msg?) => IAssertionInstalled) & IAssertionInstalled;
-	integer: ((expected?, msg?) => IAssertionInstalled) & IAssertionInstalled;
+	[k in keyof typeof EnumTypeDetect]: ((expected?: any, msg?: any) => IAssertionInstalled) & IAssertionInstalled;
 }
 
 export type IExpectStaticInstalled = IAssertionStatic<IAssertionInstalled>
@@ -25,7 +23,7 @@ export type IChaiInstalled<T extends IChaiStatic> = ITSOverwrite<T, {
 	//expect(target: any, message?: string): IAssertionInstalled
 }>
 
-enum EnumTypeDetect
+export const enum EnumTypeDetect
 {
 	array = 'Array',
 	boolean = 'boolean',
@@ -39,7 +37,7 @@ enum EnumTypeDetect
 	//undefined = 'undefined',
 }
 
-function ChaiPluginAssertType<T extends ChaiObject>(chai: T, utils)
+export function ChaiPluginAssertType<T extends ChaiObject>(chai: T, utils: any)
 {
 	// @ts-ignore
 	const Assertion = chai.Assertion;
@@ -59,6 +57,8 @@ function ChaiPluginAssertType<T extends ChaiObject>(chai: T, utils)
 		})
 	;
 
+
+
 	/*
 	const oldString = Assertion.prototype.string;
 
@@ -77,32 +77,45 @@ function ChaiPluginAssertType<T extends ChaiObject>(chai: T, utils)
 	});
 	*/
 
-	addToAssertion(chai, 'integer', function ()
+	addToAssertionLazy(chai, 'integer', isInt, utils);
+
+	addToAssertionLazy(chai, 'float', isFloat, utils);
+
+	addToAssertionLazy(chai, 'infinity', isInfinity, utils);
+
+	addToAssertionLazy(chai, 'finite', isFinite, utils);
+
+	addToAssertionLazy(chai, 'nan', isNaN, utils);
+}
+
+export function addToAssertionLazy<T extends ChaiObject>(chai: T,
+	key: string | keyof IAssertionInstalled2,
+	fnCheck: (v: any) => boolean,
+	utils: any,
+)
+{
+	return addToAssertion<T>(chai, key, function ()
 	{
 		//utils.expectTypes(this, [EnumTypeDetect.number]);
 
 		let obj = utils.flag(this, 'object');
 
-		_assertType(this, 'integer', isInt(obj), obj)
-	}, utils);
-
-	addToAssertion(chai, 'float', function ()
-	{
-		//utils.expectTypes(this, [EnumTypeDetect.number]);
-
-		let obj = utils.flag(this, 'object');
-
-		_assertType(this, 'float', isFloat(obj), obj)
+		_assertType(this, key, fnCheck(obj), obj)
 	}, utils);
 }
 
-function addToAssertion<T extends ChaiObject>(chai: T, key: string, fn: (this: IAssertionInstalled) => void , utils, fnMethod?: (this: IAssertionInstalled, ...argv) => void)
+export function addToAssertion<T extends ChaiObject>(chai: T,
+	key: string,
+	fn: (this: IAssertionInstalled) => void,
+	utils: any,
+	fnMethod?: (this: IAssertionInstalled, ...argv: any[]) => void,
+)
 {
 	//chai.Assertion.addProperty(key, fn);
 	//chai.Assertion.addMethod(key, fn);
 
 	// @ts-ignore
-	return chai.Assertion.addChainableMethod(key, fnMethod || function(...argv)
+	return chai.Assertion.addChainableMethod(key, fnMethod || function (...argv)
 	{
 		if (argv.length)
 		{
@@ -121,7 +134,7 @@ function addToAssertion<T extends ChaiObject>(chai: T, key: string, fn: (this: I
 	}, fn)
 }
 
-function _assertType(target: IAssertionInstalled, typeName: string, bool: boolean, obj)
+export function _assertType(target: IAssertionInstalled, typeName: string, bool: boolean, obj: any)
 {
 	// @ts-ignore
 	return target.assert(
@@ -135,7 +148,7 @@ function _assertType(target: IAssertionInstalled, typeName: string, bool: boolea
 /**
  * auto install this plugin to chai
  */
-function install<T extends ChaiObject>(chai?: T): IChaiInstalled<T>
+export function install<T extends ChaiObject>(chai?: T): IChaiInstalled<T>
 {
 	// @ts-ignore
 	let o = (chai || require('chai')).use(ChaiPluginAssertType);
@@ -143,12 +156,16 @@ function install<T extends ChaiObject>(chai?: T): IChaiInstalled<T>
 	return o;
 }
 
-function list(): ReadonlyArray<string>
+export function list(): ReadonlyArray<string>
 {
+	// @ts-ignore
 	return Object.keys(EnumTypeDetect)
 		.concat(['float', 'integer'])
 		.sort()
 }
+
+export { ChaiPluginAssertType as ChaiPlugin }
+export { typeDetect as typeOf }
 
 //namespace ChaiPluginAssertType {}
 
@@ -157,13 +174,10 @@ ChaiPluginAssertType.ChaiPlugin = ChaiPluginAssertType;
 ChaiPluginAssertType.typeOf = typeDetect;
 ChaiPluginAssertType.install = install;
 ChaiPluginAssertType.default = ChaiPluginAssertType;
-ChaiPluginAssertType.isNum = isNum;
-ChaiPluginAssertType.isInt = isInt;
-ChaiPluginAssertType.isFloat = isFloat;
 ChaiPluginAssertType.list = list;
 
 // @ts-ignore
-export = ChaiPluginAssertType
+export default ChaiPluginAssertType
 
 // @ts-ignore
 //exports = ChaiPluginAssertType = Object.freeze(ChaiPluginAssertType);

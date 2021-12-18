@@ -3,9 +3,9 @@
  */
 
 // @ts-ignore
-import ChaiPluginAssertType = require('chai-asserttype-extra');
+import ChaiPluginAssertType from '../src/index';
 
-import _chai = require('chai');
+import _chai from 'chai';
 
 //chai.use(ChaiPluginAssertType);
 const chai = ChaiPluginAssertType.install(_chai);
@@ -74,11 +74,29 @@ const tests: {
 		input: '27.5',
 		not: true,
 	},
+
+	{
+		propName: 'nan',
+		input: NaN,
+	},
+	{
+		propName: 'infinity',
+		input: Infinity,
+	},
+	{
+		propName: 'finite',
+		input: 1,
+	},
+	{
+		propName: 'finite',
+		input: Infinity,
+		not: true,
+	},
 ];
 
 tests.forEach(function (testData)
 {
-	let method = expect(testData.input).to.be;
+	let method = expect(testData.input).to.be as any;
 
 	if (testData.not)
 	{
@@ -91,11 +109,13 @@ tests.forEach(function (testData)
 
 		expect(function ()
 		{
+			// ts-ignore
 			method[testData.propName]();
 		}, testData.errMsg).to.throw();
 
 		expect(function ()
 		{
+			// ts-ignore
 			method[testData.propName];
 		}, testData.errMsg).to.throw();
 	}
@@ -103,7 +123,9 @@ tests.forEach(function (testData)
 	{
 		console.log(`expect(${JSON.stringify(testData.input)}) should is ${testData.not ? 'not ' : ''}${testData.propName}`);
 
+		// ts-ignore
 		method[testData.propName]();
+		// ts-ignore
 		method[testData.propName];
 	}
 });

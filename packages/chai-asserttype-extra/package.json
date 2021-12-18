@@ -1,6 +1,6 @@
 {
   "name": "chai-asserttype-extra",
-  "version": "1.2.3",
+  "version": "2.0.0",
   "description": "a chai plugin for type assertions, support typescript",
   "keywords": [
     "assert",
@@ -12,7 +12,9 @@
     "chaiplugin",
     "expect",
     "testing",
-    "type"
+    "type",
+    "create-by-yarn-tool",
+    "create-by-tsdx"
   ],
   "homepage": "https://github.com/bluelovers/chai-asserttype-extra#readme",
   "bugs": {
@@ -23,25 +25,48 @@
     "url": "git+https://github.com/bluelovers/chai-asserttype-extra.git"
   },
   "license": "ISC",
-  "author": "",
-  "main": "index.js",
+  "author": "bluelovers",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.esm.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.esm.mjs",
+  "types": "dist/index.d.ts",
+  "typings": "dist/index.d.ts",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
   "scripts": {
-    "test": "npx ts-node ./test/test.ts & jest"
+    "test": "npx ts-node ./test/test.ts && jest --passWithNoTests",
+    "posttest": "yarn run build",
+    "build": "yarn run build:tsdx && yarn run build:dts",
+    "build:dts": "ynpx dts-bundle-generator -o ./dist/index.d.ts ./src/index.ts --no-banner & echo build:dts",
+    "build:tsdx": "ynpx @bluelovers/tsdx build --target node --name index",
+    "preversion": "echo preversion && yarn run test",
+    "version": "echo version",
+    "postversion": "echo postversion",
+    "prepublish": "echo prepublish",
+    "prepublishOnly": "echo prepublishOnly",
+    "prepublishOnly:update": "yarn run ncu && yarn run sort-package-json",
+    "publish": "echo publish",
+    "postpublish": "echo postpublish",
+    "postpublishOnly": "echo postpublishOnly",
+    "ncu": "yarn-tool ncu -u",
+    "sort-package-json": "yarn-tool sort",
+    "tsc:showConfig": "ynpx get-current-tsconfig -p"
   },
   "dependencies": {
+    "@lazy-assert/check-basic": "^1.0.0",
     "@types/type-detect": "^4",
-    "ts-type": "^1.2.34"
+    "ts-type": "^2.1.2",
+    "type-detect": "^4.0.8"
   },
-  "devDependencies": {
-    "@bluelovers/tsconfig": "^1.0.20",
-    "@types/chai": "^4",
-    "@types/jest": "^26.0.23",
-    "chai": "^4",
-    "jest": "^26.6.3",
-    "ts-jest": "^26.5.6"
-  },
-  "peerDependencies": {
-    "chai": "^4",
-    "type-detect": "^4"
-  }
+  "devDependencies": {},
+  "peerDependencies": {},
+  "packageManager": "yarn@^1.22.11"
 }

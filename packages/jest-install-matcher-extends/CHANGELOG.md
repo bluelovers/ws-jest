@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.4](https://github.com/bluelovers/ws-jest/compare/jest-install-matcher-extends@1.0.3...jest-install-matcher-extends@1.0.4) (2021-12-18)
+
+
+### 📦　Code Refactoring
+
+* update to tsdx ([347c7c1](https://github.com/bluelovers/ws-jest/commit/347c7c1415c0245a9c2b051f9929c7d89c871ce9))
+
+
+### ♻️　Chores
+
+* use tsdx ([1ccbb31](https://github.com/bluelovers/ws-jest/commit/1ccbb3175d19c8a11d57c31d714bb55097e52d8a))
+
+
+
+
+
 ## [1.0.3](https://github.com/bluelovers/ws-jest/compare/jest-install-matcher-extends@1.0.2...jest-install-matcher-extends@1.0.3) (2021-09-20)
 
 

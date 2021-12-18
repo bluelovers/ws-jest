@@ -1,6 +1,6 @@
 {
   "name": "jest-install-matcher-extends",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "",
   "keywords": [
     "jest",
@@ -56,6 +56,5 @@
   "dependencies": {
     "@types/jest": "*"
   },
-  "peerDependencies": {},
   "packageManager": "yarn@^1.22.11"
 }

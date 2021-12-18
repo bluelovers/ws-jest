@@ -1,6 +1,6 @@
 {
   "name": "jest-extended-extra",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "",
   "homepage": "https://github.com/bluelovers/ws-jest/tree/master/packages/jest-extended-extra#readme",
   "bugs": {
@@ -24,10 +24,9 @@
     "sort-package-json": "ynpx --quiet yarn-tool -- sort"
   },
   "dependencies": {
-    "@lazy-assert/check-basic": "^1.0.0",
+    "@lazy-assert/check-basic": "^1.0.1",
     "check-types": "^11.1.2",
-    "jest-install-matcher-extends": "^1.0.3",
+    "jest-install-matcher-extends": "^1.0.4",
     "ts-type": "^2.1.2"
-  },
-  "peerDependencies": {}
+  }
 }

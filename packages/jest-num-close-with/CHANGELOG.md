@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.5](https://github.com/bluelovers/ws-jest/compare/jest-num-close-with@1.0.4...jest-num-close-with@1.0.5) (2021-12-18)
+
+
+### 📦　Code Refactoring
+
+* update to tsdx ([f042d78](https://github.com/bluelovers/ws-jest/commit/f042d78b9e52db4936876062809fe86ab86c2472))
+
+
+### ♻️　Chores
+
+* use tsdx ([1ccbb31](https://github.com/bluelovers/ws-jest/commit/1ccbb3175d19c8a11d57c31d714bb55097e52d8a))
+
+
+
+
+
 ## [1.0.4](https://github.com/bluelovers/ws-jest/compare/jest-num-close-with@1.0.3...jest-num-close-with@1.0.4) (2021-09-20)
 
 

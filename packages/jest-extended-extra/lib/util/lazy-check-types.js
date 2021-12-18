@@ -8,6 +8,7 @@ const check_types_1 = __importDefault(require("check-types"));
 const msg_1 = require("./msg");
 function createNewCheckTypes(matcherName, type) {
     return function toBeCheckTypes(received) {
+        // @ts-ignore
         const pass = check_types_1.default[type](received);
         return {
             pass,

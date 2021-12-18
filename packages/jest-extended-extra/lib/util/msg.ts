@@ -1,6 +1,6 @@
 import { matcherHint, printReceived } from 'jest-matcher-utils';
 
-export function passMessage(received, matcherName: string, type: string)
+export function passMessage(received: any, matcherName: string, type: string)
 {
 	return () =>
 		matcherHint(`.not.${matcherName}`, 'received', '') +
@@ -9,7 +9,7 @@ export function passMessage(received, matcherName: string, type: string)
 		`  ${printReceived(received)}`;
 }
 
-export function failMessage(received, matcherName: string, type: string)
+export function failMessage(received: any, matcherName: string, type: string)
 {
 	return () =>
 		matcherHint(`.${matcherName}`, 'received', '') +
@@ -18,7 +18,7 @@ export function failMessage(received, matcherName: string, type: string)
 		`  ${printReceived(received)}`;
 }
 
-export function autoMessage(pass: boolean, received, matcherName: string, type: string)
+export function autoMessage(pass: boolean, received: any, matcherName: string, type: string)
 {
 	return pass ? passMessage(received, matcherName, type) : failMessage(received, matcherName, type)
 }

@@ -34,7 +34,7 @@ bin/**/*.d.ts
 /packages/*/tests/temp*
 **/node_modules
 *.tgz
-/tsconfig.json.tpl
+/tsconfig.json
 /.eslintrc.json.tpl
 !tsconfig.json
 !.eslintrc.json

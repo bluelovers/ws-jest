@@ -1,15 +1,15 @@
 /// <reference types="jest" />
 export declare const matchers: {
-    toBeFloat: (this: jest.MatcherContext, received: number) => {
+    readonly toBeZero: typeof import("./matchers/toBeZero").toBeZero;
+    readonly toBeInteger: (this: jest.MatcherContext, received: number) => {
         pass: boolean;
         message: () => string;
     };
-} & {
-    toBeInteger: (this: jest.MatcherContext, received: number) => {
+    readonly toBeInfinity: typeof import("./matchers/toBeInfinity").toBeInfinity;
+    readonly toBeFloat: (this: jest.MatcherContext, received: number) => {
         pass: boolean;
         message: () => string;
     };
-} & {
-    toBeZero: typeof import("./matchers/toBeZero").toBeZero;
+    readonly toBeFinite: typeof import("./matchers/toBeFinite").toBeFinite;
 };
 export default matchers;

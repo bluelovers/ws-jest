@@ -1,8 +1,7 @@
 import { autoMessage } from '../util/msg';
-import { isZero } from '@lazy-assert/check-basic';
 
-const matcherName = 'toBeZero' as const;
-const type = 'zero' as const
+const matcherName = 'toBeFinite' as const;
+const type = 'finite' as const
 
 declare global
 {
@@ -19,9 +18,9 @@ declare global
 
 }
 
-export function toBeZero(this: jest.MatcherContext, received: number)
+export function toBeFinite(this: jest.MatcherContext, received: number)
 {
-	const pass = isZero(received);
+	const pass = isFinite(received);
 
 	return {
 		pass,
@@ -30,5 +29,5 @@ export function toBeZero(this: jest.MatcherContext, received: number)
 }
 
 export default {
-	toBeZero,
+	toBeFinite,
 };

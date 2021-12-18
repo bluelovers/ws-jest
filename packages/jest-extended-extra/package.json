@@ -24,8 +24,10 @@
     "sort-package-json": "ynpx --quiet yarn-tool -- sort"
   },
   "dependencies": {
+    "@lazy-assert/check-basic": "^1.0.0",
     "check-types": "^11.1.2",
-    "jest-install-matcher-extends": "^1.0.3"
+    "jest-install-matcher-extends": "^1.0.3",
+    "ts-type": "^2.1.2"
   },
   "peerDependencies": {}
 }

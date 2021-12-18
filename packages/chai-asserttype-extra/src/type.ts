@@ -19,6 +19,7 @@ export type IAssertionInstalled2 = {
 	infinity: IFnAssertion01;
 	finite: IFnAssertion01;
 	nan: IFnAssertion01;
+	zero: IFnAssertion01;
 }
 
 export interface IChaiAssertion extends IAssertionInstalled2

@@ -1,6 +1,6 @@
 import typeDetect from 'type-detect';
 export { default as typeOf } from 'type-detect';
-import { isFloat, isInfinity, isNaN, isInt } from '@lazy-assert/check-basic';
+import { isFloat, isInfinity, isNaN, isZero, isInt } from '@lazy-assert/check-basic';
 
 var EnumTypeDetect;
 
@@ -28,6 +28,7 @@ function ChaiPluginAssertType(chai, utils) {
   addToAssertionLazy(chai, 'infinity', isInfinity, utils);
   addToAssertionLazy(chai, 'finite', isFinite, utils);
   addToAssertionLazy(chai, 'nan', isNaN, utils);
+  addToAssertionLazy(chai, 'zero', isZero, utils);
 }
 function addToAssertionLazy(chai, key, fnCheck, utils) {
   return addToAssertion(chai, key, function () {

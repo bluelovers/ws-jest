@@ -35,6 +35,7 @@ function ChaiPluginAssertType(chai, utils) {
   addToAssertionLazy(chai, 'infinity', checkBasic.isInfinity, utils);
   addToAssertionLazy(chai, 'finite', isFinite, utils);
   addToAssertionLazy(chai, 'nan', checkBasic.isNaN, utils);
+  addToAssertionLazy(chai, 'zero', checkBasic.isZero, utils);
 }
 function addToAssertionLazy(chai, key, fnCheck, utils) {
   return addToAssertion(chai, key, function () {

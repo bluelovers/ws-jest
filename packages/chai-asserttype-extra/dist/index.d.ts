@@ -11,6 +11,7 @@ export declare type IAssertionInstalled2 = {
 	infinity: IFnAssertion01;
 	finite: IFnAssertion01;
 	nan: IFnAssertion01;
+	zero: IFnAssertion01;
 };
 export declare type IExpectStatic = ITSPickMember<IChaiStatic, "expect">;
 export declare type IAssertion = ReturnType<IExpectStatic>;

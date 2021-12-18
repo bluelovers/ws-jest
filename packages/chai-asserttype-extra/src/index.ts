@@ -4,7 +4,7 @@
 
 import typeDetect from 'type-detect';
 import { IAssertion, IAssertionInstalled2, IAssertionStatic, IChaiAssertion, IChaiStatic } from './type';
-import { isInfinity, isNaN, isFloat, isInt } from '@lazy-assert/check-basic';
+import { isInfinity, isNaN, isFloat, isInt, isZero } from '@lazy-assert/check-basic';
 import { ITSOverwrite } from 'ts-type/lib/type/record';
 import _chai from 'chai';
 
@@ -86,6 +86,8 @@ export function ChaiPluginAssertType<T extends ChaiObject>(chai: T, utils: any)
 	addToAssertionLazy(chai, 'finite', isFinite, utils);
 
 	addToAssertionLazy(chai, 'nan', isNaN, utils);
+
+	addToAssertionLazy(chai, 'zero', isZero, utils);
 }
 
 export function addToAssertionLazy<T extends ChaiObject>(chai: T,

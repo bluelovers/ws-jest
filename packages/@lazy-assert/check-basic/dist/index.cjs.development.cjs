@@ -23,6 +23,9 @@ function isFiniteFloat(n) {
 function isInfinity(n) {
   return n === Infinity || n === -Infinity;
 }
+function isZero(n) {
+  return n === 0 || n === -0;
+}
 
 exports.isFiniteFloat = isFiniteFloat;
 exports.isFiniteInt = isFiniteInt;
@@ -31,4 +34,5 @@ exports.isInfinity = isInfinity;
 exports.isInt = isInt;
 exports.isNaN = isNaN;
 exports.isNum = isNum;
+exports.isZero = isZero;
 //# sourceMappingURL=index.cjs.development.cjs.map

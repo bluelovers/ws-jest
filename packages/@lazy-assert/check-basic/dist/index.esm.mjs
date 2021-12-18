@@ -19,6 +19,9 @@ function isFiniteFloat(n) {
 function isInfinity(n) {
   return n === Infinity || n === -Infinity;
 }
+function isZero(n) {
+  return n === 0 || n === -0;
+}
 
-export { isFiniteFloat, isFiniteInt, isFloat, isInfinity, isInt, isNaN, isNum };
+export { isFiniteFloat, isFiniteInt, isFloat, isInfinity, isInt, isNaN, isNum, isZero };
 //# sourceMappingURL=index.esm.mjs.map

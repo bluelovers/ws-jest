@@ -33,3 +33,8 @@ export function isInfinity(n: unknown): n is typeof Infinity
 {
 	return (n === Infinity || n === -Infinity)
 }
+
+export function isZero(n: unknown): n is 0
+{
+	return n === 0 || n === -0
+}

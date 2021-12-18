@@ -1,0 +1,2 @@
+"use strict";function t(t){return t===+t}function n(t){return t===Math.floor(t)}function i(i){return t(i)&&!n(i)}Object.defineProperty(exports,"__esModule",{value:!0}),exports.isFiniteFloat=function(t){return isFinite(t)&&i(t)},exports.isFiniteInt=function(t){return isFinite(t)&&n(t)},exports.isFloat=i,exports.isInfinity=function(t){return Infinity===t||-Infinity===t},exports.isInt=n,exports.isNaN=function(t){return Number.isNaN(t)},exports.isNum=t;
+//# sourceMappingURL=index.cjs.production.min.cjs.map

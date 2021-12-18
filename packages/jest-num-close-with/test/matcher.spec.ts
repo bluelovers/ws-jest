@@ -1,4 +1,4 @@
-import matcher from '../';
+import matcher from '../src';
 
 expect.extend(matcher);
 

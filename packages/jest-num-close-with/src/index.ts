@@ -6,9 +6,9 @@ import {
 	matcherErrorMessage,
 	EXPECTED_COLOR, printWithType, RECEIVED_COLOR,
 } from 'jest-matcher-utils';
-import expectInDelta from 'num-in-delta';
+import { numberInDelta } from 'num-in-delta';
 import { printCloseTo } from 'expect/build/print';
-import jestAutoInstallExpectExtend from 'jest-install-matcher-extends';
+import { jestAutoInstallExpectExtend } from 'jest-install-matcher-extends';
 import { subAbs } from 'num-in-delta/lib/util';
 
 declare global
@@ -89,7 +89,7 @@ export function toBeCloseWith(
 		expectedDiff = Math.pow(10, -precision) / 2;
 		receivedDiff = Number(subAbs(received, expected));
 
-		pass = expectInDelta(received, expected, delta)
+		pass = numberInDelta(received, expected, delta)
 	}
 
 	const message = pass

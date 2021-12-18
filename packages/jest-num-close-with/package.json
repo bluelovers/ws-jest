@@ -9,7 +9,9 @@
     "extended",
     "test",
     "testing",
-    "assertions"
+    "assertions",
+    "create-by-yarn-tool",
+    "create-by-tsdx"
   ],
   "homepage": "https://github.com/bluelovers/ws-jest/tree/master/packages/jest-num-close-with#readme",
   "bugs": {
@@ -21,16 +23,43 @@
   },
   "license": "ISC",
   "author": "bluelovers",
-  "main": "index.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.esm.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.esm.mjs",
+  "types": "dist/index.d.ts",
+  "typings": "dist/index.d.ts",
+  "directories": {
+    "test": "test"
+  },
   "scripts": {
     "test": "jest",
+    "posttest": "yarn run build",
+    "build": "yarn run build:tsdx && yarn run build:dts",
+    "build:dts": "ynpx dts-bundle-generator -o ./dist/index.d.ts ./src/index.ts --no-banner & echo build:dts",
+    "build:tsdx": "ynpx @bluelovers/tsdx build --target node --name index",
     "preversion": "yarn run test",
+    "version": "echo version",
+    "postversion": "echo postversion",
+    "prepublish": "echo prepublish",
+    "prepublishOnly": "echo prepublishOnly",
+    "prepublishOnly:update": "yarn run ncu && yarn run sort-package-json",
+    "publish": "echo publish",
+    "postpublish": "echo postpublish",
+    "postpublishOnly": "echo postpublishOnly",
     "ncu": "ynpx --quiet yarn-tool -- ncu -u",
-    "sort-package-json": "ynpx --quiet yarn-tool -- sort"
+    "sort-package-json": "ynpx --quiet yarn-tool -- sort",
+    "tsc:showConfig": "ynpx get-current-tsconfig -p"
   },
   "dependencies": {
     "jest-install-matcher-extends": "^1.0.3",
     "num-in-delta": "^1.0.7"
   },
-  "peerDependencies": {}
+  "peerDependencies": {},
+  "packageManager": "yarn@^1.22.11"
 }

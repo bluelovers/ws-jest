@@ -31,7 +31,5 @@
   "dependencies": {
     "@types/jest": "*"
   },
-  "peerDependencies": {
-    "jest": "*"
-  }
+  "peerDependencies": {}
 }

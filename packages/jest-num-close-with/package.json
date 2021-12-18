@@ -32,9 +32,5 @@
     "jest-install-matcher-extends": "^1.0.3",
     "num-in-delta": "^1.0.7"
   },
-  "peerDependencies": {
-    "expect": "*",
-    "jest": "*",
-    "jest-matcher-utils": "*"
-  }
+  "peerDependencies": {}
 }

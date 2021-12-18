@@ -27,9 +27,5 @@
     "check-types": "^11.1.2",
     "jest-install-matcher-extends": "^1.0.3"
   },
-  "peerDependencies": {
-    "expect": "*",
-    "jest": "*",
-    "jest-matcher-utils": "*"
-  }
+  "peerDependencies": {}
 }

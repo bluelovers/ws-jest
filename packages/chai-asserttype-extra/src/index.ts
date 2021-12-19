@@ -10,11 +10,7 @@ import _chai from 'chai';
 
 export type ChaiObject = IChaiStatic
 
-export type IAssertionInstalled = {
-	[K in keyof IAssertion]: IAssertion[K] & IAssertionInstalled;
-} & {
-	[k in keyof typeof EnumTypeDetect]: ((expected?: any, msg?: any) => IAssertionInstalled) & IAssertionInstalled;
-}
+export type IAssertionInstalled = Chai.Assertion & IAssertionInstalled2
 
 export type IExpectStaticInstalled = IAssertionStatic<IAssertionInstalled>
 
@@ -82,8 +78,6 @@ export function ChaiPluginAssertType<T extends ChaiObject>(chai: T, utils: any)
 	addToAssertionLazy(chai, 'float', isFloat, utils);
 
 	addToAssertionLazy(chai, 'infinity', isInfinity, utils);
-
-	addToAssertionLazy(chai, 'finite', isFinite, utils);
 
 	addToAssertionLazy(chai, 'nan', isNaN, utils);
 

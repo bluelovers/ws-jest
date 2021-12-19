@@ -4,8 +4,6 @@
 
 import { ITSPickMember } from 'ts-type/lib/type/record';
 import { EnumTypeDetect } from './index';
-import { isInfinity } from '@lazy-assert/check-basic';
-import { isFiniteInt } from '@lazy-assert/check-basic/src/index';
 
 export type IChaiStatic = Chai.ChaiStatic
 
@@ -17,7 +15,6 @@ export type IAssertionInstalled2 = {
 	float: IFnAssertion01;
 	integer: IFnAssertion01;
 	infinity: IFnAssertion01;
-	finite: IFnAssertion01;
 	nan: IFnAssertion01;
 	zero: IFnAssertion01;
 }

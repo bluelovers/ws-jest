@@ -9,7 +9,6 @@ export declare type IAssertionInstalled2 = {
 	float: IFnAssertion01;
 	integer: IFnAssertion01;
 	infinity: IFnAssertion01;
-	finite: IFnAssertion01;
 	nan: IFnAssertion01;
 	zero: IFnAssertion01;
 };
@@ -21,11 +20,7 @@ export declare type IAssertionStatic<T = IAssertion> = {
 	fail(...args: Parameters<IExpectStaticFail>): ReturnType<IExpectStaticFail>;
 };
 export declare type ChaiObject = IChaiStatic;
-export declare type IAssertionInstalled = {
-	[K in keyof IAssertion]: IAssertion[K] & IAssertionInstalled;
-} & {
-	[k in keyof typeof EnumTypeDetect]: ((expected?: any, msg?: any) => IAssertionInstalled) & IAssertionInstalled;
-};
+export declare type IAssertionInstalled = Chai.Assertion & IAssertionInstalled2;
 export declare type IExpectStaticInstalled = IAssertionStatic<IAssertionInstalled>;
 export declare type IChaiInstalled<T extends IChaiStatic> = ITSOverwrite<T, {
 	expect: IExpectStaticInstalled;

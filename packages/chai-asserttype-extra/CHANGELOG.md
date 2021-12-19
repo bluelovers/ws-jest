@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.2](https://github.com/bluelovers/chai-asserttype-extra/compare/chai-asserttype-extra@2.0.1...chai-asserttype-extra@2.0.2) (2021-12-19)
+
+
+### 🐛　Bug Fixes
+
+* typescript ([7a33a26](https://github.com/bluelovers/chai-asserttype-extra/commit/7a33a2677b67a29da1de6b1c4ac483e83837afa8))
+* typescript ([8f69073](https://github.com/bluelovers/chai-asserttype-extra/commit/8f69073e336d2b27962315a405221ec904e203e7))
+
+
+### 🔖　Miscellaneous
+
+* . ([989e5b4](https://github.com/bluelovers/chai-asserttype-extra/commit/989e5b405663b53a07155ee09c194b6898411431))
+* . ([2c3126b](https://github.com/bluelovers/chai-asserttype-extra/commit/2c3126b33a92cbe58723c5ee90490b5f68fabe0a))
+* . ([1e98ea3](https://github.com/bluelovers/chai-asserttype-extra/commit/1e98ea3df7b733e2d4be6957e42188c747eb80bf))
+
+
+
+
+
 ## 2.0.1 (2021-12-18)
 
 

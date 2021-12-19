@@ -164,4 +164,6 @@ export { ChaiPluginAssertType as ChaiPlugin }
 
 export const typeOf = typeDetect;
 
-export default ChaiPluginAssertType
+export default {
+	install,
+}

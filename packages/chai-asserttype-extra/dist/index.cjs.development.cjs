@@ -62,13 +62,16 @@ function list() {
   return Object.keys(exports.EnumTypeDetect).concat(['float', 'integer']).sort();
 }
 const typeOf = typeDetect__default["default"];
+var index = {
+  install
+};
 
 exports.ChaiPlugin = ChaiPluginAssertType;
 exports.ChaiPluginAssertType = ChaiPluginAssertType;
 exports._assertType = _assertType;
 exports.addToAssertion = addToAssertion;
 exports.addToAssertionLazy = addToAssertionLazy;
-exports["default"] = ChaiPluginAssertType;
+exports["default"] = index;
 exports.install = install;
 exports.list = list;
 exports.typeOf = typeOf;

@@ -54,6 +54,9 @@ function list() {
   return Object.keys(EnumTypeDetect).concat(['float', 'integer']).sort();
 }
 const typeOf = typeDetect;
+var index = {
+  install
+};
 
-export { ChaiPluginAssertType as ChaiPlugin, ChaiPluginAssertType, EnumTypeDetect, _assertType, addToAssertion, addToAssertionLazy, ChaiPluginAssertType as default, install, list, typeOf };
+export { ChaiPluginAssertType as ChaiPlugin, ChaiPluginAssertType, EnumTypeDetect, _assertType, addToAssertion, addToAssertionLazy, index as default, install, list, typeOf };
 //# sourceMappingURL=index.esm.mjs.map

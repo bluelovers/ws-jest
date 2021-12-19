@@ -45,7 +45,10 @@ export declare function _assertType(target: IAssertionInstalled, typeName: strin
 export declare function install<T extends ChaiObject>(chai?: T): IChaiInstalled<T>;
 export declare function list(): ReadonlyArray<string>;
 export declare const typeOf: typeof typeDetect;
-export default ChaiPluginAssertType;
+declare const _default: {
+	install: typeof install;
+};
+export default _default;
 
 export {
 	ChaiPluginAssertType as ChaiPlugin,

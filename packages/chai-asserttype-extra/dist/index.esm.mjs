@@ -1,5 +1,4 @@
 import typeDetect from 'type-detect';
-export { default as typeOf } from 'type-detect';
 import { isFloat, isInfinity, isNaN, isZero, isInt } from '@lazy-assert/check-basic';
 
 var EnumTypeDetect;
@@ -54,12 +53,7 @@ function install(chai) {
 function list() {
   return Object.keys(EnumTypeDetect).concat(['float', 'integer']).sort();
 }
-ChaiPluginAssertType.addToAssertion = addToAssertion;
-ChaiPluginAssertType.ChaiPlugin = ChaiPluginAssertType;
-ChaiPluginAssertType.typeOf = typeDetect;
-ChaiPluginAssertType.install = install;
-ChaiPluginAssertType.default = ChaiPluginAssertType;
-ChaiPluginAssertType.list = list;
+const typeOf = typeDetect;
 
-export { ChaiPluginAssertType as ChaiPlugin, ChaiPluginAssertType, EnumTypeDetect, _assertType, addToAssertion, addToAssertionLazy, ChaiPluginAssertType as default, install, list };
+export { ChaiPluginAssertType as ChaiPlugin, ChaiPluginAssertType, EnumTypeDetect, _assertType, addToAssertion, addToAssertionLazy, ChaiPluginAssertType as default, install, list, typeOf };
 //# sourceMappingURL=index.esm.mjs.map

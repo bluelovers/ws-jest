@@ -36,15 +36,6 @@ export declare const enum EnumTypeDetect {
 	string = "string"
 }
 export declare function ChaiPluginAssertType<T extends ChaiObject>(chai: T, utils: any): void;
-export declare namespace ChaiPluginAssertType {
-	export var addToAssertion: typeof addToAssertion;
-	export var ChaiPlugin: typeof ChaiPluginAssertType;
-	export var typeOf: typeof typeDetect;
-	export var install: typeof install;
-	var _a: typeof ChaiPluginAssertType;
-	export var list: typeof list;
-	export { _a as default };
-}
 export declare function addToAssertionLazy<T extends ChaiObject>(chai: T, key: string | keyof IAssertionInstalled2, fnCheck: (v: any) => boolean, utils: any): void;
 export declare function addToAssertion<T extends ChaiObject>(chai: T, key: string, fn: (this: IAssertionInstalled) => void, utils: any, fnMethod?: (this: IAssertionInstalled, ...argv: any[]) => void): void;
 export declare function _assertType(target: IAssertionInstalled, typeName: string, bool: boolean, obj: any): any;
@@ -53,11 +44,11 @@ export declare function _assertType(target: IAssertionInstalled, typeName: strin
  */
 export declare function install<T extends ChaiObject>(chai?: T): IChaiInstalled<T>;
 export declare function list(): ReadonlyArray<string>;
+export declare const typeOf: typeof typeDetect;
 export default ChaiPluginAssertType;
 
 export {
 	ChaiPluginAssertType as ChaiPlugin,
-	typeDetect as typeOf,
 };
 
 export {};

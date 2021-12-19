@@ -61,17 +61,8 @@ function install(chai) {
 function list() {
   return Object.keys(exports.EnumTypeDetect).concat(['float', 'integer']).sort();
 }
-ChaiPluginAssertType.addToAssertion = addToAssertion;
-ChaiPluginAssertType.ChaiPlugin = ChaiPluginAssertType;
-ChaiPluginAssertType.typeOf = typeDetect__default["default"];
-ChaiPluginAssertType.install = install;
-ChaiPluginAssertType.default = ChaiPluginAssertType;
-ChaiPluginAssertType.list = list;
+const typeOf = typeDetect__default["default"];
 
-Object.defineProperty(exports, 'typeOf', {
-	enumerable: true,
-	get: function () { return typeDetect__default["default"]; }
-});
 exports.ChaiPlugin = ChaiPluginAssertType;
 exports.ChaiPluginAssertType = ChaiPluginAssertType;
 exports._assertType = _assertType;
@@ -80,4 +71,5 @@ exports.addToAssertionLazy = addToAssertionLazy;
 exports["default"] = ChaiPluginAssertType;
 exports.install = install;
 exports.list = list;
+exports.typeOf = typeOf;
 //# sourceMappingURL=index.cjs.development.cjs.map

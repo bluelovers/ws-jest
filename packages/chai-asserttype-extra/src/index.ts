@@ -161,19 +161,7 @@ export function list(): ReadonlyArray<string>
 }
 
 export { ChaiPluginAssertType as ChaiPlugin }
-export { typeDetect as typeOf }
 
-//namespace ChaiPluginAssertType {}
+export const typeOf = typeDetect;
 
-ChaiPluginAssertType.addToAssertion = addToAssertion;
-ChaiPluginAssertType.ChaiPlugin = ChaiPluginAssertType;
-ChaiPluginAssertType.typeOf = typeDetect;
-ChaiPluginAssertType.install = install;
-ChaiPluginAssertType.default = ChaiPluginAssertType;
-ChaiPluginAssertType.list = list;
-
-// @ts-ignore
 export default ChaiPluginAssertType
-
-// @ts-ignore
-//exports = ChaiPluginAssertType = Object.freeze(ChaiPluginAssertType);

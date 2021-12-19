@@ -83,15 +83,6 @@ const tests: {
 		propName: 'infinity',
 		input: Infinity,
 	},
-	{
-		propName: 'finite',
-		input: 1,
-	},
-	{
-		propName: 'finite',
-		input: Infinity,
-		not: true,
-	},
 ];
 
 tests.forEach(function (testData)

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.4](https://github.com/bluelovers/chai-asserttype-extra/compare/chai-asserttype-extra@2.0.3...chai-asserttype-extra@2.0.4) (2021-12-20)
+
+
+### 🔖　Miscellaneous
+
+* . ([430dd00](https://github.com/bluelovers/chai-asserttype-extra/commit/430dd00085dffda3774e53cd404b57fc0fc3261b))
+
+
+
+
+
 ## [2.0.3](https://github.com/bluelovers/chai-asserttype-extra/compare/chai-asserttype-extra@2.0.2...chai-asserttype-extra@2.0.3) (2021-12-20)
 
 

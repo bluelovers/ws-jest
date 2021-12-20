@@ -172,10 +172,10 @@ export function list(): ReadonlyArray<keyof IAssertionInstalled2>
 		.sort()
 }
 
-export { ChaiPluginAssertType as ChaiPlugin }
+export const ChaiPlugin = {
+	install,
+}
 
 export const typeOf = typeDetect;
 
-export default {
-	install,
-}
+export default ChaiPlugin

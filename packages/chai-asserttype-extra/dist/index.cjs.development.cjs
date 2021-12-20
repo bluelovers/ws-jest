@@ -64,17 +64,17 @@ function install(chai) {
 function list() {
   return arrayHyperUnique.array_unique_overwrite(Object.keys(exports.EnumTypeDetect).concat(['float', 'integer', 'nan', 'zero', 'positive', 'negative'])).sort();
 }
-const typeOf = typeDetect__default["default"];
-var index = {
+const ChaiPlugin = {
   install
 };
+const typeOf = typeDetect__default["default"];
 
-exports.ChaiPlugin = ChaiPluginAssertType;
+exports.ChaiPlugin = ChaiPlugin;
 exports.ChaiPluginAssertType = ChaiPluginAssertType;
 exports._assertType = _assertType;
 exports.addToAssertion = addToAssertion;
 exports.addToAssertionLazy = addToAssertionLazy;
-exports["default"] = index;
+exports["default"] = ChaiPlugin;
 exports.install = install;
 exports.list = list;
 exports.typeOf = typeOf;

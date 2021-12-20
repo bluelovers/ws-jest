@@ -56,10 +56,10 @@ function install(chai) {
 function list() {
   return array_unique_overwrite(Object.keys(EnumTypeDetect).concat(['float', 'integer', 'nan', 'zero', 'positive', 'negative'])).sort();
 }
-const typeOf = typeDetect;
-var index = {
+const ChaiPlugin = {
   install
 };
+const typeOf = typeDetect;
 
-export { ChaiPluginAssertType as ChaiPlugin, ChaiPluginAssertType, EnumTypeDetect, _assertType, addToAssertion, addToAssertionLazy, index as default, install, list, typeOf };
+export { ChaiPlugin, ChaiPluginAssertType, EnumTypeDetect, _assertType, addToAssertion, addToAssertionLazy, ChaiPlugin as default, install, list, typeOf };
 //# sourceMappingURL=index.esm.mjs.map

@@ -38,3 +38,13 @@ export function isZero(n: unknown): n is 0
 {
 	return n === 0 || n === -0
 }
+
+export function isPositive(n: unknown): n is number
+{
+	return isNum(n) && (n > 0 || n === Infinity)
+}
+
+export function isNegative(n: unknown): n is number
+{
+	return isNum(n) && (n < 0 || n === -Infinity)
+}

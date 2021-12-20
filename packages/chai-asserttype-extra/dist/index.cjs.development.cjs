@@ -4,6 +4,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 var typeDetect = require('type-detect');
 var checkBasic = require('@lazy-assert/check-basic');
+var arrayHyperUnique = require('array-hyper-unique');
 
 function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
@@ -35,6 +36,8 @@ function ChaiPluginAssertType(chai, utils) {
   addToAssertionLazy(chai, 'infinity', checkBasic.isInfinity, utils);
   addToAssertionLazy(chai, 'nan', checkBasic.isNaN, utils);
   addToAssertionLazy(chai, 'zero', checkBasic.isZero, utils);
+  addToAssertionLazy(chai, 'positive', checkBasic.isPositive, utils);
+  addToAssertionLazy(chai, 'negative', checkBasic.isNegative, utils);
 }
 function addToAssertionLazy(chai, key, fnCheck, utils) {
   return addToAssertion(chai, key, function () {
@@ -59,7 +62,7 @@ function install(chai) {
   return o;
 }
 function list() {
-  return Object.keys(exports.EnumTypeDetect).concat(['float', 'integer']).sort();
+  return arrayHyperUnique.array_unique_overwrite(Object.keys(exports.EnumTypeDetect).concat(['float', 'integer', 'nan', 'zero', 'positive', 'negative'])).sort();
 }
 const typeOf = typeDetect__default["default"];
 var index = {

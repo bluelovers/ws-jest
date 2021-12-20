@@ -26,6 +26,12 @@ function isInfinity(n) {
 function isZero(n) {
   return n === 0 || n === -0;
 }
+function isPositive(n) {
+  return isNum(n) && (n > 0 || n === Infinity);
+}
+function isNegative(n) {
+  return isNum(n) && (n < 0 || n === -Infinity);
+}
 
 exports.isFiniteFloat = isFiniteFloat;
 exports.isFiniteInt = isFiniteInt;
@@ -33,6 +39,8 @@ exports.isFloat = isFloat;
 exports.isInfinity = isInfinity;
 exports.isInt = isInt;
 exports.isNaN = isNaN;
+exports.isNegative = isNegative;
 exports.isNum = isNum;
+exports.isPositive = isPositive;
 exports.isZero = isZero;
 //# sourceMappingURL=index.cjs.development.cjs.map

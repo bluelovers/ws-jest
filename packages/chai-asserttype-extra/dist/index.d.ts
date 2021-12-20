@@ -11,6 +11,8 @@ export declare type IAssertionInstalled2 = {
 	infinity: IFnAssertion01;
 	nan: IFnAssertion01;
 	zero: IFnAssertion01;
+	positive: IFnAssertion01;
+	negative: IFnAssertion01;
 };
 export declare type IExpectStatic = ITSPickMember<IChaiStatic, "expect">;
 export declare type IAssertion = ReturnType<IExpectStatic>;
@@ -36,14 +38,14 @@ export declare const enum EnumTypeDetect {
 	string = "string"
 }
 export declare function ChaiPluginAssertType<T extends ChaiObject>(chai: T, utils: any): void;
-export declare function addToAssertionLazy<T extends ChaiObject>(chai: T, key: string | keyof IAssertionInstalled2, fnCheck: (v: any) => boolean, utils: any): void;
+export declare function addToAssertionLazy<T extends ChaiObject>(chai: T, key: keyof IAssertionInstalled2, fnCheck: (v: any) => boolean, utils: any): void;
 export declare function addToAssertion<T extends ChaiObject>(chai: T, key: string, fn: (this: IAssertionInstalled) => void, utils: any, fnMethod?: (this: IAssertionInstalled, ...argv: any[]) => void): void;
 export declare function _assertType(target: IAssertionInstalled, typeName: string, bool: boolean, obj: any): any;
 /**
  * auto install this plugin to chai
  */
 export declare function install<T extends ChaiObject>(chai?: T): IChaiInstalled<T>;
-export declare function list(): ReadonlyArray<string>;
+export declare function list(): ReadonlyArray<keyof IAssertionInstalled2>;
 export declare const typeOf: typeof typeDetect;
 declare const _default: {
 	install: typeof install;

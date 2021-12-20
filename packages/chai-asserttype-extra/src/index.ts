@@ -4,9 +4,10 @@
 
 import typeDetect from 'type-detect';
 import { IAssertion, IAssertionInstalled2, IAssertionStatic, IChaiAssertion, IChaiStatic } from './type';
-import { isInfinity, isNaN, isFloat, isInt, isZero } from '@lazy-assert/check-basic';
+import { isInfinity, isNaN, isFloat, isInt, isZero, isPositive, isNegative } from '@lazy-assert/check-basic';
 import { ITSOverwrite } from 'ts-type/lib/type/record';
 import _chai from 'chai';
+import { array_unique_overwrite } from 'array-hyper-unique';
 
 export type ChaiObject = IChaiStatic
 
@@ -82,10 +83,14 @@ export function ChaiPluginAssertType<T extends ChaiObject>(chai: T, utils: any)
 	addToAssertionLazy(chai, 'nan', isNaN, utils);
 
 	addToAssertionLazy(chai, 'zero', isZero, utils);
+
+	addToAssertionLazy(chai, 'positive', isPositive, utils);
+
+	addToAssertionLazy(chai, 'negative', isNegative, utils);
 }
 
 export function addToAssertionLazy<T extends ChaiObject>(chai: T,
-	key: string | keyof IAssertionInstalled2,
+	key: keyof IAssertionInstalled2,
 	fnCheck: (v: any) => boolean,
 	utils: any,
 )
@@ -152,11 +157,18 @@ export function install<T extends ChaiObject>(chai?: T): IChaiInstalled<T>
 	return o;
 }
 
-export function list(): ReadonlyArray<string>
+export function list(): ReadonlyArray<keyof IAssertionInstalled2>
 {
 	// @ts-ignore
-	return Object.keys(EnumTypeDetect)
-		.concat(['float', 'integer'])
+	return array_unique_overwrite(Object.keys(EnumTypeDetect)
+		.concat([
+			'float',
+			'integer',
+			'nan',
+			'zero',
+			'positive',
+			'negative',
+		]))
 		.sort()
 }
 

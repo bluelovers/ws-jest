@@ -22,6 +22,12 @@ function isInfinity(n) {
 function isZero(n) {
   return n === 0 || n === -0;
 }
+function isPositive(n) {
+  return isNum(n) && (n > 0 || n === Infinity);
+}
+function isNegative(n) {
+  return isNum(n) && (n < 0 || n === -Infinity);
+}
 
-export { isFiniteFloat, isFiniteInt, isFloat, isInfinity, isInt, isNaN, isNum, isZero };
+export { isFiniteFloat, isFiniteInt, isFloat, isInfinity, isInt, isNaN, isNegative, isNum, isPositive, isZero };
 //# sourceMappingURL=index.esm.mjs.map

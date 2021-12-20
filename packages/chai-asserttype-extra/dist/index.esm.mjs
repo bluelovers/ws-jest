@@ -1,5 +1,6 @@
 import typeDetect from 'type-detect';
-import { isFloat, isInfinity, isNaN, isZero, isInt } from '@lazy-assert/check-basic';
+import { isFloat, isInfinity, isNaN, isZero, isPositive, isNegative, isInt } from '@lazy-assert/check-basic';
+import { array_unique_overwrite } from 'array-hyper-unique';
 
 var EnumTypeDetect;
 
@@ -27,6 +28,8 @@ function ChaiPluginAssertType(chai, utils) {
   addToAssertionLazy(chai, 'infinity', isInfinity, utils);
   addToAssertionLazy(chai, 'nan', isNaN, utils);
   addToAssertionLazy(chai, 'zero', isZero, utils);
+  addToAssertionLazy(chai, 'positive', isPositive, utils);
+  addToAssertionLazy(chai, 'negative', isNegative, utils);
 }
 function addToAssertionLazy(chai, key, fnCheck, utils) {
   return addToAssertion(chai, key, function () {
@@ -51,7 +54,7 @@ function install(chai) {
   return o;
 }
 function list() {
-  return Object.keys(EnumTypeDetect).concat(['float', 'integer']).sort();
+  return array_unique_overwrite(Object.keys(EnumTypeDetect).concat(['float', 'integer', 'nan', 'zero', 'positive', 'negative'])).sort();
 }
 const typeOf = typeDetect;
 var index = {

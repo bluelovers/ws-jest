@@ -1,65 +1,54 @@
-import typeDetect from 'type-detect';
-import { isFloat, isInfinity, isNaN, isZero, isPositive, isNegative, isInt } from '@lazy-assert/check-basic';
-import { array_unique_overwrite } from 'array-hyper-unique';
+import t from "type-detect";
 
-var EnumTypeDetect;
+import { isInt as e, isFloat as n, isInfinity as i, isNaN as o, isZero as s, isPositive as a, isNegative as r } from "@lazy-assert/check-basic";
 
-(function (EnumTypeDetect) {
-  EnumTypeDetect["array"] = "Array";
-  EnumTypeDetect["boolean"] = "boolean";
-  EnumTypeDetect["date"] = "Date";
-  EnumTypeDetect["function"] = "function";
-  EnumTypeDetect["number"] = "number";
-  EnumTypeDetect["object"] = "Object";
-  EnumTypeDetect["regexp"] = "RegExp";
-  EnumTypeDetect["string"] = "string";
-})(EnumTypeDetect || (EnumTypeDetect = {}));
+import { array_unique_overwrite as d } from "array-hyper-unique";
 
-function ChaiPluginAssertType(chai, utils) {
-  Object.entries(EnumTypeDetect).forEach(function ([key, value]) {
-    let fn = function () {
-      this.an(value);
-    };
+var c;
 
-    addToAssertion(chai, key, fn);
-  });
-  addToAssertionLazy(chai, 'integer', isInt, utils);
-  addToAssertionLazy(chai, 'float', isFloat, utils);
-  addToAssertionLazy(chai, 'infinity', isInfinity, utils);
-  addToAssertionLazy(chai, 'nan', isNaN, utils);
-  addToAssertionLazy(chai, 'zero', isZero, utils);
-  addToAssertionLazy(chai, 'positive', isPositive, utils);
-  addToAssertionLazy(chai, 'negative', isNegative, utils);
+function ChaiPluginAssertType(t, d) {
+  Object.entries(c).forEach((function([e, n]) {
+    addToAssertion(t, e, (function() {
+      this.an(n);
+    }));
+  })), addToAssertionLazy(t, "integer", e, d), addToAssertionLazy(t, "float", n, d), 
+  addToAssertionLazy(t, "infinity", i, d), addToAssertionLazy(t, "nan", o, d), addToAssertionLazy(t, "zero", s, d), 
+  addToAssertionLazy(t, "positive", a, d), addToAssertionLazy(t, "negative", r, d);
 }
-function addToAssertionLazy(chai, key, fnCheck, utils) {
-  return addToAssertion(chai, key, function () {
-    let obj = utils.flag(this, 'object');
 
-    _assertType(this, key, fnCheck(obj), obj);
-  });
+function addToAssertionLazy(t, e, n, i) {
+  return addToAssertion(t, e, (function() {
+    let t = i.flag(this, "object");
+    _assertType(this, e, n(t), t);
+  }));
 }
-function addToAssertion(chai, key, fn, utils, fnMethod) {
-  return chai.Assertion.addChainableMethod(key, fnMethod || function (...argv) {
-    if (argv.length) {
-      this.deep.equal(...argv);
-    }
-  }, fn);
-}
-function _assertType(target, typeName, bool, obj) {
-  return target.assert(bool, `expected #{this} to be an ${typeName}`, `expected #{this} to not be an ${typeName}`, obj);
-}
-function install(chai) {
-  let o = (chai || require('chai')).use(ChaiPluginAssertType);
 
-  return o;
+function addToAssertion(t, e, n, i, o) {
+  return t.Assertion.addChainableMethod(e, o || function(...t) {
+    t.length && this.deep.equal(...t);
+  }, n);
 }
+
+function _assertType(t, e, n, i) {
+  return t.assert(n, `expected #{this} to be an ${e}`, `expected #{this} to not be an ${e}`, i);
+}
+
+function install(t) {
+  return (t || require("chai")).use(ChaiPluginAssertType);
+}
+
 function list() {
-  return array_unique_overwrite(Object.keys(EnumTypeDetect).concat(['float', 'integer', 'nan', 'zero', 'positive', 'negative'])).sort();
+  return d(Object.keys(c).concat([ "float", "integer", "nan", "zero", "positive", "negative" ])).sort();
 }
-const ChaiPlugin = {
-  install
-};
-const typeOf = typeDetect;
 
-export { ChaiPlugin, ChaiPluginAssertType, EnumTypeDetect, _assertType, addToAssertion, addToAssertionLazy, ChaiPlugin as default, install, list, typeOf };
+!function(t) {
+  t.array = "Array", t.boolean = "boolean", t.date = "Date", t.function = "function", 
+  t.number = "number", t.object = "Object", t.regexp = "RegExp", t.string = "string";
+}(c || (c = {}));
+
+const u = {
+  install
+}, l = t;
+
+export { u as ChaiPlugin, ChaiPluginAssertType, c as EnumTypeDetect, _assertType, addToAssertion, addToAssertionLazy, u as default, install, list, l as typeOf };
 //# sourceMappingURL=index.esm.mjs.map

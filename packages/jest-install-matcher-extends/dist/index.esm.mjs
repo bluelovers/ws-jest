@@ -1,30 +1,16 @@
 function getGlobalExpect() {
-  if (typeof global !== 'undefined' && global.expect) {
-    return global.expect;
-  } else if (typeof globalThis !== 'undefined' && globalThis.expect) {
-    return globalThis.expect;
-  } else if (typeof window !== 'undefined' && window.expect) {
-    return window.expect;
-  }
+  return "undefined" != typeof global && global.expect ? global.expect : "undefined" != typeof globalThis && globalThis.expect ? globalThis.expect : "undefined" != typeof window && window.expect ? window.expect : void 0;
 }
-function jestInstallExpectExtend(matchers, expect) {
-  return (expect !== null && expect !== void 0 ? expect : getGlobalExpect()).extend(matchers);
+
+function jestInstallExpectExtend(e, t) {
+  return (null != t ? t : getGlobalExpect()).extend(e);
 }
-function jestAutoInstallExpectExtend(matchers, options) {
-  var _options$expect;
 
-  const expect = (_options$expect = options === null || options === void 0 ? void 0 : options.expect) !== null && _options$expect !== void 0 ? _options$expect : getGlobalExpect();
-
-  if (typeof expect !== 'undefined') {
-    var _options$cbExists;
-
-    expect.extend(matchers);
-    options === null || options === void 0 ? void 0 : (_options$cbExists = options.cbExists) === null || _options$cbExists === void 0 ? void 0 : _options$cbExists.call(options, matchers, options);
-  } else {
-    var _options$cbNotExists;
-
-    options === null || options === void 0 ? void 0 : (_options$cbNotExists = options.cbNotExists) === null || _options$cbNotExists === void 0 ? void 0 : _options$cbNotExists.call(options, matchers, options);
-  }
+function jestAutoInstallExpectExtend(e, t) {
+  var l;
+  const n = null !== (l = null == t ? void 0 : t.expect) && void 0 !== l ? l : getGlobalExpect();
+  var o, x;
+  void 0 !== n ? (n.extend(e), null == t || null === (o = t.cbExists) || void 0 === o || o.call(t, e, t)) : null == t || null === (x = t.cbNotExists) || void 0 === x || x.call(t, e, t);
 }
 
 export { jestAutoInstallExpectExtend as default, getGlobalExpect, jestAutoInstallExpectExtend, jestInstallExpectExtend };

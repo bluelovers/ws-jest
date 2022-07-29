@@ -1,32 +1,41 @@
-function isNum(n) {
-  return n === +n;
+function isNum(i) {
+  return i === +i;
 }
-function isNaN(n) {
-  return Number.isNaN(n);
+
+function isNaN(i) {
+  return Number.isNaN(i);
 }
-function isInt(n) {
-  return n === Math.floor(n);
+
+function isInt(i) {
+  return i === Math.floor(i);
 }
-function isFloat(n) {
-  return isNum(n) && !isInt(n);
+
+function isFloat(i) {
+  return isNum(i) && !isInt(i);
 }
-function isFiniteInt(n) {
-  return isFinite(n) && isInt(n);
+
+function isFiniteInt(i) {
+  return isFinite(i) && isInt(i);
 }
-function isFiniteFloat(n) {
-  return isFinite(n) && isFloat(n);
+
+function isFiniteFloat(i) {
+  return isFinite(i) && isFloat(i);
 }
-function isInfinity(n) {
-  return n === Infinity || n === -Infinity;
+
+function isInfinity(i) {
+  return Infinity === i || -Infinity === i;
 }
-function isZero(n) {
-  return n === 0 || n === -0;
+
+function isZero(i) {
+  return 0 === i || -0 === i;
 }
-function isPositive(n) {
-  return isNum(n) && (n > 0 || n === Infinity);
+
+function isPositive(i) {
+  return isNum(i) && (i > 0 || Infinity === i);
 }
-function isNegative(n) {
-  return isNum(n) && (n < 0 || n === -Infinity);
+
+function isNegative(i) {
+  return isNum(i) && (i < 0 || -Infinity === i);
 }
 
 export { isFiniteFloat, isFiniteInt, isFloat, isInfinity, isInt, isNaN, isNegative, isNum, isPositive, isZero };

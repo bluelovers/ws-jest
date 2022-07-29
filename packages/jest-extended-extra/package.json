@@ -27,6 +27,6 @@
     "@lazy-assert/check-basic": "^1.0.2",
     "check-types": "^11.1.2",
     "jest-install-matcher-extends": "^1.0.4",
-    "ts-type": "^2.1.2"
+    "ts-type": "^2.1.8"
   }
 }

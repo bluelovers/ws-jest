@@ -16,13 +16,13 @@
     "create-by-yarn-tool",
     "create-by-tsdx"
   ],
-  "homepage": "https://github.com/bluelovers/chai-asserttype-extra#readme",
+  "homepage": "https://github.com/bluelovers/ws-jest/tree/master/packages/chai-asserttype-extra#readme",
   "bugs": {
-    "url": "https://github.com/bluelovers/chai-asserttype-extra/issues"
+    "url": "https://github.com/bluelovers/ws-jest/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bluelovers/chai-asserttype-extra.git"
+    "url": "git+https://github.com/bluelovers/ws-jest.git"
   },
   "license": "ISC",
   "author": "bluelovers",
@@ -31,7 +31,8 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.esm.mjs",
       "require": "./dist/index.cjs"
-    }
+    },
+    "./package.json": "./package.json"
   },
   "main": "dist/index.cjs",
   "module": "dist/index.esm.mjs",
@@ -63,7 +64,7 @@
   "dependencies": {
     "@lazy-assert/check-basic": "^1.0.2",
     "@types/type-detect": "^4",
-    "ts-type": "^2.1.2",
+    "ts-type": "^2.1.8",
     "type-detect": "^4.0.8"
   },
   "packageManager": "yarn@^1.22.11"

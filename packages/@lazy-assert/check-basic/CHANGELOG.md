@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.3](https://github.com/bluelovers/ws-jest/compare/@lazy-assert/check-basic@1.0.2...@lazy-assert/check-basic@1.0.3) (2022-07-29)
+
+
+### 🛠　Build System
+
+* **release:** update build ([71d2fdc](https://github.com/bluelovers/ws-jest/commit/71d2fdc71463d67c9b49924a5a2dd1783db69747))
+
+
+### 📌　Dependencies
+
+* update deps and homepage ([5340dde](https://github.com/bluelovers/ws-jest/commit/5340dde4e3f5c04c77df0cf7c99fa61c09dabf9f))
+
+
+
+
+
 ## [1.0.2](https://github.com/bluelovers/ws-jest/compare/@lazy-assert/check-basic@1.0.1...@lazy-assert/check-basic@1.0.2) (2021-12-20)
 
 

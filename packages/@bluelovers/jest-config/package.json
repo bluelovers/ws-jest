@@ -31,6 +31,16 @@
       "import": "./dist/index.esm.mjs",
       "require": "./dist/index.cjs"
     },
+    "./jest-preset": {
+      "import": "./jest-preset.mjs",
+      "require": "./jest-preset.cjs"
+    },
+    "./jest-preset.js": {
+      "import": "./jest-preset.mjs",
+      "require": "./jest-preset.cjs"
+    },
+    "./jest-preset.mjs": "./jest-preset.mjs",
+    "./jest-preset.cjs": "./jest-preset.cjs",
     "./package.json": "./package.json",
     "./src/*": "./src/*"
   },

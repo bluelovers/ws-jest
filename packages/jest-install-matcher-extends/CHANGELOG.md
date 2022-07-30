@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.6](https://github.com/bluelovers/ws-jest/compare/jest-install-matcher-extends@1.0.4...jest-install-matcher-extends@1.0.6) (2022-07-30)
+
+
+### 🛠　Build System
+
+* **release:** update build ([71d2fdc](https://github.com/bluelovers/ws-jest/commit/71d2fdc71463d67c9b49924a5a2dd1783db69747))
+
+
+### 📌　Dependencies
+
+* update deps and homepage ([5340dde](https://github.com/bluelovers/ws-jest/commit/5340dde4e3f5c04c77df0cf7c99fa61c09dabf9f))
+
+
+### 🔖　Miscellaneous
+
+* . ([1427757](https://github.com/bluelovers/ws-jest/commit/14277572799285e793ccf496c9eb3cf9b08d37ca))
+
+
+
+
+
 ## [1.0.5](https://github.com/bluelovers/ws-jest/compare/jest-install-matcher-extends@1.0.4...jest-install-matcher-extends@1.0.5) (2022-07-29)
 
 

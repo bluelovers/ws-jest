@@ -1,6 +1,6 @@
 {
   "name": "expect-print-close-to",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "export `printCloseTo` from `expect`",
   "keywords": [
     "assert",
@@ -82,7 +82,5 @@
     "jest-matcher-utils": "^28",
     "tslib": "^2"
   },
-  "devDependencies": {},
-  "peerDependencies": {},
   "packageManager": "yarn@1.22.19"
 }

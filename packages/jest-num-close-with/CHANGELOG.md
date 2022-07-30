@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.6](https://github.com/bluelovers/ws-jest/compare/jest-num-close-with@1.0.5...jest-num-close-with@1.0.6) (2022-07-30)
+
+
+### 📦　Code Refactoring
+
+* use `expect-print-close-to` ([48b9950](https://github.com/bluelovers/ws-jest/commit/48b99507758dc42e782063d29a46b293dc2cceb3))
+
+
+### 🛠　Build System
+
+* **release:** update build ([71d2fdc](https://github.com/bluelovers/ws-jest/commit/71d2fdc71463d67c9b49924a5a2dd1783db69747))
+
+
+### 📌　Dependencies
+
+* update deps and homepage ([5340dde](https://github.com/bluelovers/ws-jest/commit/5340dde4e3f5c04c77df0cf7c99fa61c09dabf9f))
+
+
+### BREAKING CHANGES
+
+* use `expect-print-close-to`
+
+
+
+
+
 ## [1.0.5](https://github.com/bluelovers/ws-jest/compare/jest-num-close-with@1.0.4...jest-num-close-with@1.0.5) (2021-12-18)
 
 

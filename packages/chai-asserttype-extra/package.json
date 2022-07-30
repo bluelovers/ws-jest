@@ -1,6 +1,6 @@
 {
   "name": "chai-asserttype-extra",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "a chai plugin for type assertions, support typescript",
   "keywords": [
     "assert",
@@ -62,7 +62,7 @@
     "tsc:showConfig": "ynpx get-current-tsconfig -p"
   },
   "dependencies": {
-    "@lazy-assert/check-basic": "^1.0.2",
+    "@lazy-assert/check-basic": "^1.0.5",
     "@types/type-detect": "^4",
     "ts-type": "^2.1.8",
     "type-detect": "^4.0.8"

@@ -1,10 +1,10 @@
 import { requireResolveCore, requireResolveExtra } from '@yarn-tool/require-resolve';
 import { join } from 'path';
-import { tryRealpath } from 'jest-util';
 import { tmpdir } from 'os';
 import { InitialOptionsTsJest } from 'ts-jest';
 import { ITSArrayListMaybeReadonly } from 'ts-type/lib/type/base';
 import { console } from 'debug-color2';
+import { realpathSync } from 'graceful-fs';
 
 export function _requireResolve(name: string)
 {
@@ -69,4 +69,24 @@ export function fixJestConfig<T extends InitialOptionsTsJest>(jestConfig: T): T
 	}
 
 	return jestConfig
+}
+
+/**
+ * @see https://github.com/facebook/jest/blob/main/packages/jest-util/src/tryRealpath.ts
+ */
+export default function tryRealpath(path: string): string
+{
+	try
+	{
+		path = realpathSync.native(path);
+	}
+	catch (error: any)
+	{
+		if (error.code !== 'ENOENT')
+		{
+			throw error;
+		}
+	}
+
+	return path;
 }

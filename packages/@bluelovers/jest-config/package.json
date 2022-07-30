@@ -1,8 +1,11 @@
 {
   "name": "@bluelovers/jest-config",
   "version": "1.0.2",
-  "description": "",
+  "description": "Jest preset configuration",
   "keywords": [
+    "jest-preset",
+    "jest",
+    "preset",
     "assert",
     "test",
     "check",
@@ -10,7 +13,6 @@
     "testing",
     "chai",
     "expect",
-    "jest",
     "create-by-yarn-tool",
     "create-by-tsdx"
   ],

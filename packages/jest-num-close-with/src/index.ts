@@ -7,8 +7,7 @@ import {
 	EXPECTED_COLOR, printWithType, RECEIVED_COLOR,
 } from 'jest-matcher-utils';
 import { numberInDelta } from 'num-in-delta';
-// @ts-ignore
-import { printCloseTo } from 'expect/build/print';
+import { printCloseTo } from 'expect-print-close-to';
 import { jestAutoInstallExpectExtend } from 'jest-install-matcher-extends';
 import { subAbs } from 'num-in-delta/lib/util';
 

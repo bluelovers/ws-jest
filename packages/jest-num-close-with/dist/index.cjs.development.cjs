@@ -4,7 +4,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 var jestMatcherUtils = require('jest-matcher-utils');
 var numInDelta = require('num-in-delta');
-var print = require('expect/build/print');
+var expectPrintCloseTo = require('expect-print-close-to');
 var jestInstallMatcherExtends = require('jest-install-matcher-extends');
 var util = require('num-in-delta/lib/util');
 
@@ -41,7 +41,7 @@ function toBeCloseWith(received, expected, delta, precision = 4) {
     pass = numInDelta.numberInDelta(received, expected, delta);
   }
 
-  const message = pass ? () => jestMatcherUtils.matcherHint(matcherName, undefined, undefined, options) + '\n\n' + `Expected: not ${jestMatcherUtils.printExpected(expected)}\n` + (receivedDiff === 0 ? '' : `Received:     ${jestMatcherUtils.printReceived(received)}\n` + '\n' + print.printCloseTo(receivedDiff, expectedDiff, precision, isNot)) : () => jestMatcherUtils.matcherHint(matcherName, undefined, undefined, options) + '\n\n' + `Expected: ${jestMatcherUtils.printExpected(expected)}\n` + `Received: ${jestMatcherUtils.printReceived(received)}\n` + '\n' + print.printCloseTo(receivedDiff, expectedDiff, precision, isNot);
+  const message = pass ? () => jestMatcherUtils.matcherHint(matcherName, undefined, undefined, options) + '\n\n' + `Expected: not ${jestMatcherUtils.printExpected(expected)}\n` + (receivedDiff === 0 ? '' : `Received:     ${jestMatcherUtils.printReceived(received)}\n` + '\n' + expectPrintCloseTo.printCloseTo(receivedDiff, expectedDiff, precision, isNot)) : () => jestMatcherUtils.matcherHint(matcherName, undefined, undefined, options) + '\n\n' + `Expected: ${jestMatcherUtils.printExpected(expected)}\n` + `Received: ${jestMatcherUtils.printReceived(received)}\n` + '\n' + expectPrintCloseTo.printCloseTo(receivedDiff, expectedDiff, precision, isNot);
   return {
     message,
     pass

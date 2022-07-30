@@ -58,6 +58,7 @@
     "tsc:showConfig": "ynpx get-current-tsconfig -p"
   },
   "dependencies": {
+    "expect-print-close-to": "^1.0.0",
     "jest-install-matcher-extends": "^1.0.4",
     "num-in-delta": "^1.0.7"
   },

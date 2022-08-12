@@ -2,6 +2,7 @@ import { applyStyleBorderless, Table } from '@yarn-tool/table';
 import { TableConstructorOptions } from 'cli-table3';
 import { InitialOptionsTsJest } from 'ts-jest';
 import { console } from 'debug-color2';
+import { inspect } from 'util';
 
 export function _newTableBorderless(options?: TableConstructorOptions)
 {
@@ -52,6 +53,11 @@ export function printJestConfigInfo(jestConfig: InitialOptionsTsJest, options?: 
 	options.file?.length && table.push(['file:', options.file]);
 
 	jestConfig.cacheDirectory?.length && table.push(['cacheDirectory:', jestConfig.cacheDirectory]);
+
+	jestConfig.rootDir?.length && table.push(['rootDir:', jestConfig.rootDir]);
+	jestConfig.roots?.length && table.push(['roots:', inspect(jestConfig.roots)]);
+
+	jestConfig.preset?.length && table.push(['preset:', jestConfig.preset]);
 
 	console.gray.log('─'.repeat(20));
 	console.log(`jest.config`);

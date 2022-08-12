@@ -8,6 +8,7 @@ var os = require('os');
 var debugColor2 = require('debug-color2');
 var gracefulFs = require('graceful-fs');
 var table = require('@yarn-tool/table');
+var util = require('util');
 
 function _requireResolve(name) {
   const paths = [requireResolve.requireResolveExtra('@bluelovers/tsdx').result, requireResolve.requireResolveExtra('tsdx').result].filter(Boolean);
@@ -102,7 +103,7 @@ function _newTableBorderless(options) {
   return table$1;
 }
 function printJestConfigInfo(jestConfig, options) {
-  var _options, _jestConfig, _options$cwd, _options$file, _jestConfig$cacheDire;
+  var _options, _jestConfig, _options$cwd, _options$file, _jestConfig$cacheDire, _jestConfig$rootDir, _jestConfig$roots, _jestConfig$preset;
 
   const table = _newTableBorderless();
 
@@ -111,6 +112,9 @@ function printJestConfigInfo(jestConfig, options) {
   table.push(['cwd:', (_options$cwd = options.cwd) !== null && _options$cwd !== void 0 ? _options$cwd : process.cwd()]);
   ((_options$file = options.file) === null || _options$file === void 0 ? void 0 : _options$file.length) && table.push(['file:', options.file]);
   ((_jestConfig$cacheDire = jestConfig.cacheDirectory) === null || _jestConfig$cacheDire === void 0 ? void 0 : _jestConfig$cacheDire.length) && table.push(['cacheDirectory:', jestConfig.cacheDirectory]);
+  ((_jestConfig$rootDir = jestConfig.rootDir) === null || _jestConfig$rootDir === void 0 ? void 0 : _jestConfig$rootDir.length) && table.push(['rootDir:', jestConfig.rootDir]);
+  ((_jestConfig$roots = jestConfig.roots) === null || _jestConfig$roots === void 0 ? void 0 : _jestConfig$roots.length) && table.push(['roots:', util.inspect(jestConfig.roots)]);
+  ((_jestConfig$preset = jestConfig.preset) === null || _jestConfig$preset === void 0 ? void 0 : _jestConfig$preset.length) && table.push(['preset:', jestConfig.preset]);
   debugColor2.console.gray.log('─'.repeat(20));
   debugColor2.console.log(`jest.config`);
   debugColor2.console.log(table.toString());

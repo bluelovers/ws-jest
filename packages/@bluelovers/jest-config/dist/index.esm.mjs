@@ -10,6 +10,8 @@ import { realpathSync as n } from "graceful-fs";
 
 import { Table as i, applyStyleBorderless as l } from "@yarn-tool/table";
 
+import { inspect as u } from "util";
+
 function _requireResolve(s) {
   const o = [ t("@bluelovers/tsdx").result, t("tsdx").result ].filter(Boolean), n = e(s, {
     includeGlobal: !0,
@@ -85,12 +87,15 @@ function _newTableBorderless(t) {
 }
 
 function printJestConfigInfo(t, e) {
-  var s, o, n, i, l;
-  const c = _newTableBorderless();
+  var s, o, n, i, l, c, _, a;
+  const d = _newTableBorderless();
   null !== (s = e) && void 0 !== s || (e = {}), null !== (o = t) && void 0 !== o || (t = {}), 
-  c.push([ "cwd:", null !== (n = e.cwd) && void 0 !== n ? n : process.cwd() ]), (null === (i = e.file) || void 0 === i ? void 0 : i.length) && c.push([ "file:", e.file ]), 
-  (null === (l = t.cacheDirectory) || void 0 === l ? void 0 : l.length) && c.push([ "cacheDirectory:", t.cacheDirectory ]), 
-  r.gray.log("─".repeat(20)), r.log("jest.config"), r.log(c.toString()), r.gray.log("─".repeat(20));
+  d.push([ "cwd:", null !== (n = e.cwd) && void 0 !== n ? n : process.cwd() ]), (null === (i = e.file) || void 0 === i ? void 0 : i.length) && d.push([ "file:", e.file ]), 
+  (null === (l = t.cacheDirectory) || void 0 === l ? void 0 : l.length) && d.push([ "cacheDirectory:", t.cacheDirectory ]), 
+  (null === (c = t.rootDir) || void 0 === c ? void 0 : c.length) && d.push([ "rootDir:", t.rootDir ]), 
+  (null === (_ = t.roots) || void 0 === _ ? void 0 : _.length) && d.push([ "roots:", u(t.roots) ]), 
+  (null === (a = t.preset) || void 0 === a ? void 0 : a.length) && d.push([ "preset:", t.preset ]), 
+  r.gray.log("─".repeat(20)), r.log("jest.config"), r.log(d.toString()), r.gray.log("─".repeat(20));
 }
 
 const c = getCacheDirectory();

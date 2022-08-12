@@ -2,25 +2,32 @@ import { requireResolveExtra as t, requireResolveCore as e } from "@yarn-tool/re
 
 import { join as s } from "path";
 
-import { tryRealpath as o } from "jest-util";
+import { tmpdir as o } from "os";
 
-import { tmpdir as r } from "os";
+import { console as r } from "debug-color2";
 
-import { console as n } from "debug-color2";
+import { realpathSync as n } from "graceful-fs";
 
 import { Table as i, applyStyleBorderless as l } from "@yarn-tool/table";
 
 function _requireResolve(s) {
-  const o = [ t("@bluelovers/tsdx").result, t("tsdx").result ].filter(Boolean), r = e(s, {
+  const o = [ t("@bluelovers/tsdx").result, t("tsdx").result ].filter(Boolean), n = e(s, {
     includeGlobal: !0,
     includeCurrentDirectory: !0,
     paths: o
   });
-  return n.debug("[require.resolve]", s, "=>", r), r;
+  return r.debug("[require.resolve]", s, "=>", n), n;
 }
 
 function getCacheDirectory() {
-  const {getuid: t} = process, e = process.env.JEST_CACHE_DIRECTORY || s(o(r()), "jest");
+  const {getuid: t} = process, e = process.env.JEST_CACHE_DIRECTORY || s(function tryRealpath(t) {
+    try {
+      t = n.native(t);
+    } catch (t) {
+      if ("ENOENT" !== t.code) throw t;
+    }
+    return t;
+  }(o()), "jest");
   return null == t ? e : `${e}_${t.call(process).toString(36)}`;
 }
 
@@ -78,15 +85,15 @@ function _newTableBorderless(t) {
 }
 
 function printJestConfigInfo(t, e) {
-  var s, o, r, i, l;
-  const _ = _newTableBorderless();
+  var s, o, n, i, l;
+  const c = _newTableBorderless();
   null !== (s = e) && void 0 !== s || (e = {}), null !== (o = t) && void 0 !== o || (t = {}), 
-  _.push([ "cwd:", null !== (r = e.cwd) && void 0 !== r ? r : process.cwd() ]), (null === (i = e.file) || void 0 === i ? void 0 : i.length) && _.push([ "file:", e.file ]), 
-  (null === (l = t.cacheDirectory) || void 0 === l ? void 0 : l.length) && _.push([ "cacheDirectory:", t.cacheDirectory ]), 
-  n.gray.log("─".repeat(20)), n.log("jest.config"), n.log(_.toString()), n.gray.log("─".repeat(20));
+  c.push([ "cwd:", null !== (n = e.cwd) && void 0 !== n ? n : process.cwd() ]), (null === (i = e.file) || void 0 === i ? void 0 : i.length) && c.push([ "file:", e.file ]), 
+  (null === (l = t.cacheDirectory) || void 0 === l ? void 0 : l.length) && c.push([ "cacheDirectory:", t.cacheDirectory ]), 
+  r.gray.log("─".repeat(20)), r.log("jest.config"), r.log(c.toString()), r.gray.log("─".repeat(20));
 }
 
-const _ = getCacheDirectory();
+const c = getCacheDirectory();
 
 function mixinJestConfig(t, e, s) {
   var o;
@@ -95,7 +102,7 @@ function mixinJestConfig(t, e, s) {
     globals: {
       "ts-jest": {}
     },
-    cacheDirectory: _,
+    cacheDirectory: c,
     maxWorkers: 1,
     clearMocks: !0,
     passWithNoTests: !0,
@@ -116,5 +123,5 @@ function mixinJestConfig(t, e, s) {
   return e && printJestConfigInfo(r, s), r;
 }
 
-export { _newTableBorderless, _requireResolve, _ as cacheDirectory, mixinJestConfig as default, defaultCoveragePathIgnorePatterns, defaultModuleFileExtensions, defaultTestFileExtensions, defaultTestPathIgnorePatterns, fixJestConfig, getCacheDirectory, makeTestRegexConfig, mixinJestConfig, printJestConfigInfo };
+export { _newTableBorderless, _requireResolve, c as cacheDirectory, mixinJestConfig as default, defaultCoveragePathIgnorePatterns, defaultModuleFileExtensions, defaultTestFileExtensions, defaultTestPathIgnorePatterns, fixJestConfig, getCacheDirectory, makeTestRegexConfig, mixinJestConfig, printJestConfigInfo };
 //# sourceMappingURL=index.esm.mjs.map

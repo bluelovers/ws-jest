@@ -4,9 +4,9 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 var requireResolve = require('@yarn-tool/require-resolve');
 var path = require('path');
-var jestUtil = require('jest-util');
 var os = require('os');
 var debugColor2 = require('debug-color2');
+var gracefulFs = require('graceful-fs');
 var table = require('@yarn-tool/table');
 
 function _requireResolve(name) {
@@ -23,7 +23,7 @@ function getCacheDirectory() {
   const {
     getuid
   } = process;
-  const tmpdirPath = process.env['JEST_CACHE_DIRECTORY'] || path.join(jestUtil.tryRealpath(os.tmpdir()), 'jest');
+  const tmpdirPath = process.env['JEST_CACHE_DIRECTORY'] || path.join(tryRealpath(os.tmpdir()), 'jest');
 
   if (getuid == null) {
     return tmpdirPath;
@@ -46,6 +46,17 @@ function fixJestConfig(jestConfig) {
   }
 
   return jestConfig;
+}
+function tryRealpath(path) {
+  try {
+    path = gracefulFs.realpathSync.native(path);
+  } catch (error) {
+    if (error.code !== 'ENOENT') {
+      throw error;
+    }
+  }
+
+  return path;
 }
 
 function defaultTestFileExtensions() {

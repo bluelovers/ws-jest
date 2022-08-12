@@ -44,7 +44,13 @@
     "./jest-preset.mjs": "./jest-preset.mjs",
     "./jest-preset.cjs": "./jest-preset.cjs",
     "./package.json": "./package.json",
-    "./src/*": "./src/*"
+    "./src/*": "./src/*",
+    "./dist/jest-preset.js": {
+      "import": "./jest-preset.mjs",
+      "require": "./jest-preset.cjs"
+    },
+    "./dist/jest-preset.mjs": "./jest-preset.mjs",
+    "./dist/jest-preset.cjs": "./jest-preset.cjs"
   },
   "main": "dist/index.cjs",
   "unpkg": "dist/index.umd.production.min.cjs",

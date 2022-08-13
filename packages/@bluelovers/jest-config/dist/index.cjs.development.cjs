@@ -78,7 +78,7 @@ function defaultTestPathIgnorePatterns() {
 }
 
 var name = "@bluelovers/jest-config";
-var version = "1.0.7";
+var version = "1.0.8";
 
 function _newTableBorderless(options) {
   let table$1 = new table.Table({
@@ -113,6 +113,7 @@ function printJestConfigInfo(jestConfig, options) {
   (_options = options) !== null && _options !== void 0 ? _options : options = {};
   (_jestConfig = jestConfig) !== null && _jestConfig !== void 0 ? _jestConfig : jestConfig = {};
   table.push([`${name}:`, version]);
+  table.push([`process.versions.node:`, process.versions.node]);
   table.push(['cwd:', (_options$cwd = options.cwd) !== null && _options$cwd !== void 0 ? _options$cwd : process.cwd()]);
   ((_options$file = options.file) === null || _options$file === void 0 ? void 0 : _options$file.length) && table.push(['file:', options.file]);
   ((_jestConfig$cacheDire = jestConfig.cacheDirectory) === null || _jestConfig$cacheDire === void 0 ? void 0 : _jestConfig$cacheDire.length) && table.push(['cacheDirectory:', jestConfig.cacheDirectory]);

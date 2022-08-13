@@ -3,6 +3,7 @@ import { TableConstructorOptions } from 'cli-table3';
 import { InitialOptionsTsJest } from 'ts-jest';
 import { console } from 'debug-color2';
 import { inspect } from 'util';
+import { name as jName, version as jVersion } from '../package.json';
 
 export function _newTableBorderless(options?: TableConstructorOptions)
 {
@@ -48,6 +49,7 @@ export function printJestConfigInfo(jestConfig: InitialOptionsTsJest, options?: 
 	// @ts-ignore
 	jestConfig ??= {};
 
+	table.push([`${jName}:`, jVersion]);
 	table.push(['cwd:', options.cwd ?? process.cwd()]);
 
 	options.file?.length && table.push(['file:', options.file]);

@@ -88,14 +88,15 @@ function _newTableBorderless(t) {
 
 function printJestConfigInfo(t, e) {
   var s, o, n, i, l, c, _, a;
-  const d = _newTableBorderless();
+  const f = _newTableBorderless();
   null !== (s = e) && void 0 !== s || (e = {}), null !== (o = t) && void 0 !== o || (t = {}), 
-  d.push([ "cwd:", null !== (n = e.cwd) && void 0 !== n ? n : process.cwd() ]), (null === (i = e.file) || void 0 === i ? void 0 : i.length) && d.push([ "file:", e.file ]), 
-  (null === (l = t.cacheDirectory) || void 0 === l ? void 0 : l.length) && d.push([ "cacheDirectory:", t.cacheDirectory ]), 
-  (null === (c = t.rootDir) || void 0 === c ? void 0 : c.length) && d.push([ "rootDir:", t.rootDir ]), 
-  (null === (_ = t.roots) || void 0 === _ ? void 0 : _.length) && d.push([ "roots:", u(t.roots) ]), 
-  (null === (a = t.preset) || void 0 === a ? void 0 : a.length) && d.push([ "preset:", t.preset ]), 
-  r.gray.log("─".repeat(20)), r.log("jest.config"), r.log(d.toString()), r.gray.log("─".repeat(20));
+  f.push([ "@bluelovers/jest-config:", "1.0.6" ]), f.push([ "cwd:", null !== (n = e.cwd) && void 0 !== n ? n : process.cwd() ]), 
+  (null === (i = e.file) || void 0 === i ? void 0 : i.length) && f.push([ "file:", e.file ]), 
+  (null === (l = t.cacheDirectory) || void 0 === l ? void 0 : l.length) && f.push([ "cacheDirectory:", t.cacheDirectory ]), 
+  (null === (c = t.rootDir) || void 0 === c ? void 0 : c.length) && f.push([ "rootDir:", t.rootDir ]), 
+  (null === (_ = t.roots) || void 0 === _ ? void 0 : _.length) && f.push([ "roots:", u(t.roots) ]), 
+  (null === (a = t.preset) || void 0 === a ? void 0 : a.length) && f.push([ "preset:", t.preset ]), 
+  r.gray.log("─".repeat(20)), r.log("jest.config"), r.log(f.toString()), r.gray.log("─".repeat(20));
 }
 
 const c = getCacheDirectory();

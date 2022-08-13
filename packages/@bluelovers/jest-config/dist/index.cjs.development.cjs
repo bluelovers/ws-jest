@@ -78,7 +78,7 @@ function defaultTestPathIgnorePatterns() {
 }
 
 var name = "@bluelovers/jest-config";
-var version = "1.0.6";
+var version = "1.0.7";
 
 function _newTableBorderless(options) {
   let table$1 = new table.Table({

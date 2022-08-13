@@ -50,6 +50,7 @@ export function printJestConfigInfo(jestConfig: InitialOptionsTsJest, options?: 
 	jestConfig ??= {};
 
 	table.push([`${jName}:`, jVersion]);
+	table.push([`process.versions.node:`, process.versions.node]);
 	table.push(['cwd:', options.cwd ?? process.cwd()]);
 
 	options.file?.length && table.push(['file:', options.file]);

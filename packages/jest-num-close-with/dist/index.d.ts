@@ -1,3 +1,13 @@
+declare global {
+	namespace jest {
+		interface Matchers<R> {
+			/**
+			 * check actual number is expected number ± delta
+			 */
+			toBeCloseWith(expected: number, delta?: number, numDigits?: number): R;
+		}
+	}
+}
 /**
  * check actual number is expected number ± delta
  */
@@ -8,6 +18,9 @@ declare const _default: {
 	 */
 	toBeCloseWith: typeof toBeCloseWith;
 };
-export default _default;
+
+export {
+	_default as default,
+};
 
 export {};

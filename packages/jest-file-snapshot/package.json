@@ -1,54 +1,72 @@
 {
-  "name": "jest-file-snapshot",
+  "name": "jest-file-snapshot2",
   "version": "0.5.0",
   "description": "Jest matcher to write snapshots to a separate file instead of the default snapshot file used by Jest",
   "keywords": [
     "test",
     "jest",
-    "snapshot"
+    "snapshot",
+    "create-by-yarn-tool",
+    "create-by-tsdx"
   ],
-  "main": "index.js",
+  "homepage": "https://github.com/bluelovers/ws-jest/tree/master/packages/jest-file-snapshot#readme",
+  "bugs": {
+    "url": "https://github.com/bluelovers/ws-jest/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bluelovers/ws-jest.git",
+    "directory": "packages/jest-file-snapshot"
+  },
+  "license": "MIT",
+  "author": "Satyajit Sahoo <satyajit.happy@gmail.com> (https://github.com/satya164/)",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.esm.mjs",
+      "require": "./dist/index.cjs"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*"
+  },
+  "main": "dist/index.cjs",
+  "unpkg": "dist/index.umd.production.min.cjs",
+  "module": "dist/index.esm.mjs",
+  "types": "dist/index.d.ts",
+  "typings": "dist/index.d.ts",
   "files": [
     "index.js",
     "index.d.ts"
   ],
-  "types": "index.d.ts",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/satya164/jest-file-snapshot.git"
-  },
-  "author": "Satyajit Sahoo <satyajit.happy@gmail.com> (https://github.com/satya164/)",
   "scripts": {
-    "test": "jest",
-    "lint": "eslint .",
-    "typescript": "tsc --noEmit",
-    "release": "release-it"
-  },
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.12.3",
-    "@release-it/conventional-changelog": "^2.0.0",
-    "@types/jest": "^26.0.15",
-    "@types/jest-diff": "^24.3.0",
-    "@types/mkdirp": "^1.0.1",
-    "codecov": "^3.8.0",
-    "conventional-changelog-cli": "^2.1.0",
-    "eslint": "^7.12.1",
-    "eslint-config-satya164": "^3.1.8",
-    "husky": "^4.3.0",
-    "jest": "^26.6.1",
-    "prettier": "^2.1.2",
-    "release-it": "^14.2.0",
-    "typescript": "^4.0.5"
-  },
-  "dependencies": {
-    "chalk": "^4.1.0",
-    "filenamify": "^4.2.0",
-    "jest-diff": "^26.6.1",
-    "mkdirp": "^1.0.4"
+    "pretest": "echo pretest",
+    "test": "jest --passWithNoTests",
+    "posttest": "yarn run build",
+    "build": "yarn run build:tsdx && yarn run build:dts:bundle",
+    "build:dts:bundle": "ynpx dts-bundle-generator -o ./dist/index.d.ts ./src/index.ts --no-banner --inline-declare-global & echo build:dts:bundle",
+    "build:dts:copy": "copy .\\src\\index.d.ts .\\dist\\index.d.ts & echo build:dts",
+    "build:dts:tsc": "yarn run build:dts:tsc:emit && yarn run build:dts:copy",
+    "build:dts:tsc:emit": "tsc --emitDeclarationOnly --declaration --noEmit false",
+    "build:tsdx": "ynpx @bluelovers/tsdx build --target node",
+    "ci:install": "echo ci:install",
+    "ci:build": "echo ci:build",
+    "preversion": "echo preversion && yarn run test",
+    "version": "echo version",
+    "postversion": "echo postversion",
+    "prepublish": "echo prepublish",
+    "prepare": "echo prepare",
+    "prepublishOnly": "echo prepublishOnly",
+    "prepublishOnly:update": "yarn run ncu && yarn run sort-package-json",
+    "prepack": "echo prepack",
+    "pack": "echo pack",
+    "postpack": "echo postpack",
+    "publish": "echo publish",
+    "postpublish": "echo postpublish",
+    "postpublishOnly": "echo postpublishOnly",
+    "ncu": "yarn-tool ncu -u",
+    "sort-package-json": "yarn-tool sort",
+    "tsc:showConfig": "ynpx get-current-tsconfig -p"
   },
   "jest": {
     "testEnvironment": "node",
@@ -59,9 +77,15 @@
       "(__fixtures__|__file_snapshots__)"
     ]
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "yarn lint && yarn typescript && yarn test"
-    }
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "filenamify": "^4.2.0",
+    "jest-diff": "^26.6.1",
+    "mkdirp": "^1.0.4"
+  },
+  "devDependencies": {},
+  "packageManager": "yarn@1.22.19",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
   }
 }

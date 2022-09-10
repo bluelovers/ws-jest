@@ -38,10 +38,6 @@
   "directories": {
     "test": "test"
   },
-  "files": [
-    "index.js",
-    "index.d.ts"
-  ],
   "scripts": {
     "pretest": "echo pretest",
     "test": "jest --passWithNoTests",

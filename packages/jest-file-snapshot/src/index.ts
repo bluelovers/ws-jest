@@ -3,6 +3,28 @@ import { basename, dirname, join } from 'path';
 import filenamify from 'filenamify';
 import { diff, DiffOptions, EXPECTED_COLOR, RECEIVED_COLOR } from 'jest-matcher-utils';
 
+export interface IFileMatcherOptions
+{
+	diff?: DiffOptions;
+}
+
+declare global
+{
+	namespace jest
+	{
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		interface Matchers<R, T>
+		{
+			toMatchFile(filename?: string, options?: IFileMatcherOptions): void;
+		}
+
+		interface Expect
+		{
+			toMatchFile: (filename?: string, options?: IFileMatcherOptions) => void;
+		}
+	}
+}
+
 interface IMatcherContext extends jest.MatcherContext
 {
 	snapshotState?: {
@@ -32,7 +54,7 @@ function isEqual(a: string | Buffer, b: string | Buffer)
 export function toMatchFile(this: IMatcherContext,
 	content: string | Buffer,
 	filepath: string,
-	options: { diff?: DiffOptions; } = {},
+	options: IFileMatcherOptions = {},
 )
 {
 	const { isNot, snapshotState } = this;

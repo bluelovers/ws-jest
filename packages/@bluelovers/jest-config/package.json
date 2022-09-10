@@ -1,6 +1,6 @@
 {
   "name": "@bluelovers/jest-config",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "Jest preset configuration",
   "keywords": [
     "jest-preset",

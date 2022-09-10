@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.10](https://github.com/bluelovers/ws-jest/compare/@bluelovers/jest-config@1.0.9...@bluelovers/jest-config@1.0.10) (2022-09-10)
+
+
+
+### 🛠　Build System
+
+* **dist:** update build ([df7b52d](https://github.com/bluelovers/ws-jest/commit/df7b52d8ef6765382a6bea20fe278956e80ba1eb))
+
+
+
 ## [1.0.9](https://github.com/bluelovers/ws-jest/compare/@bluelovers/jest-config@1.0.8...@bluelovers/jest-config@1.0.9) (2022-09-10)
 
 

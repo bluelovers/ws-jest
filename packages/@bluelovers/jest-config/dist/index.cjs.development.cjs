@@ -36,7 +36,7 @@ function makeTestRegexConfig(testExt) {
   testExt = [testExt].flat().join('|');
   return {
     testMatch: void 0,
-    testRegex: [`\\.(tests?|spec)\\.(${testExt})$`, `__tests__\/\.*\\.(${testExt})$`]
+    testRegex: [`\\.(tests?|spec)\\.(${testExt})$`, `__tests__\/\.*\\.(tests?|spec)\\.(${testExt})$`]
   };
 }
 function fixJestConfig(jestConfig) {
@@ -69,11 +69,11 @@ function defaultModuleFileExtensions() {
   return value;
 }
 function defaultCoveragePathIgnorePatterns() {
-  const value = ['/node_modules/', '/__snapshots__/', '/__tests__/', '/__test__/', '/dist/', '/test/', '/fixture/'];
+  const value = ['/node_modules/', '/__snapshots__/', '/__tests__/', '/__test__/', '/dist/', '/test/', '/fixture/', '/__file_snapshots__/', '/__fixtures__/'];
   return value;
 }
 function defaultTestPathIgnorePatterns() {
-  const value = ['/node_modules/', '/__fixtures__/', '/fixtures/', '/__tests__/helpers/', '/__tests__/utils/', '__mocks__', '/dist/'];
+  const value = ['/node_modules/', '/__fixtures__/', '/__file_snapshots__/', '/fixtures/', '/__tests__/helpers/', '/__tests__/utils/', '__mocks__', '/dist/'];
   return value;
 }
 

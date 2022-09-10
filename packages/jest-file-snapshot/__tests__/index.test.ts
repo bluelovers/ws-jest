@@ -1,6 +1,6 @@
-const path = require('path');
-const fs = require('fs');
-const { toMatchFile } = require('../index');
+import { toMatchFile } from '../src/index';
+import { readFileSync } from 'fs';
+import path from 'path';
 
 expect.extend({ toMatchFile });
 
@@ -16,7 +16,7 @@ it('matches content of file on disk without filename', () => {
 
 it('matches binary content of file on disk', () => {
   expect(
-    fs.readFileSync(path.join(__dirname, 'minimal.pdf'), 'binary')
+    readFileSync(path.join(__dirname, 'minimal.pdf'), 'binary')
   ).toMatchFile();
 });
 
@@ -30,6 +30,6 @@ it('works with .not', () => {
 
 it('works with .not for binary files', () => {
   expect(
-    fs.readFileSync(path.join(__dirname, 'minimal.pdf'), 'binary')
+    readFileSync(path.join(__dirname, 'minimal.pdf'), 'binary')
   ).not.toMatchFile();
 });

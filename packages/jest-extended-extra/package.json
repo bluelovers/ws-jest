@@ -8,7 +8,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bluelovers/ws-jest.git"
+    "url": "git+https://github.com/bluelovers/ws-jest.git",
+    "directory": "packages/jest-extended-extra"
   },
   "license": "ISC",
   "author": "bluelovers",
@@ -16,6 +17,9 @@
   "scripts": {
     "pretest": "yarn run build",
     "test": "jest",
+    "test:jest": "jest --passWithNoTests",
+    "test:jest:snapshot": "yarn run test:jest -- -u",
+    "test:snapshot": "yarn run test -- -u",
     "build": "ts-node ./test/scripts/build-matchers.ts",
     "postbuild": "yarn run postbuild:commit",
     "postbuild:commit": "git commit -m \"build(matchers): update index of matchers\" ./lib/matchers.ts ./lib/matchers.d.ts ./lib/matchers.js & echo postbuild:commit",
@@ -27,6 +31,6 @@
     "@lazy-assert/check-basic": "^1.0.6",
     "check-types": "^11.1.2",
     "jest-install-matcher-extends": "^1.0.8",
-    "ts-type": "^2.1.8"
+    "ts-type": "^2.1.10"
   }
 }

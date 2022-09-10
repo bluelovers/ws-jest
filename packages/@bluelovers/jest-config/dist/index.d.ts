@@ -41,11 +41,14 @@ export declare function defaultCoveragePathIgnorePatterns(): [
 	"/__test__/",
 	"/dist/",
 	"/test/",
-	"/fixture/"
+	"/fixture/",
+	"/__file_snapshots__/",
+	"/__fixtures__/"
 ];
 export declare function defaultTestPathIgnorePatterns(): [
 	"/node_modules/",
 	"/__fixtures__/",
+	"/__file_snapshots__/",
 	"/fixtures/",
 	"/__tests__/helpers/",
 	"/__tests__/utils/",
@@ -54,6 +57,9 @@ export declare function defaultTestPathIgnorePatterns(): [
 ];
 export declare const cacheDirectory: string;
 export declare function mixinJestConfig<T extends InitialOptionsTsJest>(jestConfig?: T, autoPrint?: boolean, options?: IOptionsPrintJestConfigInfo): T;
-export default mixinJestConfig;
+
+export {
+	mixinJestConfig as default,
+};
 
 export {};

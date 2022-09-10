@@ -52,7 +52,7 @@ export function makeTestRegexConfig(testExt: string | ITSArrayListMaybeReadonly<
 		testMatch: void 0 as undefined,
 		testRegex: [
 			`\\.(tests?|spec)\\.(${testExt})$`,
-			`__tests__\/\.*\\.(${testExt})$`,
+			`__tests__\/\.*\\.(tests?|spec)\\.(${testExt})$`,
 		],
 	}
 }

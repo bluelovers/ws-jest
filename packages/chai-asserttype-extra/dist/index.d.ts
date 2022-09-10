@@ -1,9 +1,9 @@
 import { ITSOverwrite, ITSPickMember } from 'ts-type/lib/type/record';
 import typeDetect from 'type-detect';
 
-export declare type IChaiStatic = Chai.ChaiStatic;
-export declare type IFnAssertion01 = ((expected?: any, msg?: any) => Chai.Assertion) & Chai.Assertion;
-export declare type IAssertionInstalled2 = {
+export type IChaiStatic = Chai.ChaiStatic;
+export type IFnAssertion01 = ((expected?: any, msg?: any) => Chai.Assertion) & Chai.Assertion;
+export type IAssertionInstalled2 = {
 	[k in keyof typeof EnumTypeDetect]: IFnAssertion01;
 } & {
 	float: IFnAssertion01;
@@ -14,17 +14,23 @@ export declare type IAssertionInstalled2 = {
 	positive: IFnAssertion01;
 	negative: IFnAssertion01;
 };
-export declare type IExpectStatic = ITSPickMember<IChaiStatic, "expect">;
-export declare type IAssertion = ReturnType<IExpectStatic>;
-export declare type IExpectStaticFail = ITSPickMember<IExpectStatic, "fail">;
-export declare type IAssertionStatic<T = IAssertion> = {
+declare global {
+	export namespace Chai {
+		interface Assertion extends IChaiAssertion {
+		}
+	}
+}
+export type IExpectStatic = ITSPickMember<IChaiStatic, "expect">;
+export type IAssertion = ReturnType<IExpectStatic>;
+export type IExpectStaticFail = ITSPickMember<IExpectStatic, "fail">;
+export type IAssertionStatic<T = IAssertion> = {
 	(target: any, message?: string): T;
 	fail(...args: Parameters<IExpectStaticFail>): ReturnType<IExpectStaticFail>;
 };
-export declare type ChaiObject = IChaiStatic;
-export declare type IAssertionInstalled = Chai.Assertion & IAssertionInstalled2;
-export declare type IExpectStaticInstalled = IAssertionStatic<IAssertionInstalled>;
-export declare type IChaiInstalled<T extends IChaiStatic> = ITSOverwrite<T, {
+export type ChaiObject = IChaiStatic;
+export type IAssertionInstalled = Chai.Assertion & IAssertionInstalled2;
+export type IExpectStaticInstalled = IAssertionStatic<IAssertionInstalled>;
+export type IChaiInstalled<T extends IChaiStatic> = ITSOverwrite<T, {
 	expect: IExpectStaticInstalled;
 }>;
 export declare const enum EnumTypeDetect {
@@ -50,6 +56,9 @@ export declare const ChaiPlugin: {
 	install: typeof install;
 };
 export declare const typeOf: typeof typeDetect;
-export default ChaiPlugin;
+
+export {
+	ChaiPlugin as default,
+};
 
 export {};

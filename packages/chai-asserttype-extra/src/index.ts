@@ -3,10 +3,9 @@
  */
 
 import typeDetect from 'type-detect';
-import { IAssertion, IAssertionInstalled2, IAssertionStatic, IChaiAssertion, IChaiStatic } from './type';
-import { isInfinity, isNaN, isFloat, isInt, isZero, isPositive, isNegative } from '@lazy-assert/check-basic';
+import { IAssertionInstalled2, IAssertionStatic, IChaiStatic } from './type';
+import { isFloat, isInfinity, isInt, isNaN, isNegative, isPositive, isZero } from '@lazy-assert/check-basic';
 import { ITSOverwrite } from 'ts-type/lib/type/record';
-import _chai from 'chai';
 import { array_unique_overwrite } from 'array-hyper-unique';
 
 export type ChaiObject = IChaiStatic

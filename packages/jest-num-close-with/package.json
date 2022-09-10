@@ -19,7 +19,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bluelovers/ws-jest.git"
+    "url": "git+https://github.com/bluelovers/ws-jest.git",
+    "directory": "packages/jest-num-close-with"
   },
   "license": "ISC",
   "author": "bluelovers",
@@ -40,6 +41,9 @@
   },
   "scripts": {
     "test": "jest",
+    "test:jest": "jest --passWithNoTests",
+    "test:jest:snapshot": "yarn run test:jest -- -u",
+    "test:snapshot": "yarn run test -- -u",
     "posttest": "yarn run build",
     "build": "yarn run build:tsdx && yarn run build:dts",
     "build:dts": "ynpx dts-bundle-generator -o ./dist/index.d.ts ./src/index.ts --no-banner & echo build:dts",

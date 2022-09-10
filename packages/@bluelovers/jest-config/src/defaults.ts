@@ -1,4 +1,4 @@
-import { ITSToWriteableAArray } from 'ts-type/lib/helper/array/readonly';
+import { ITSToWriteableArray } from 'ts-type/lib/helper/array/readonly';
 
 export function defaultTestFileExtensions()
 {
@@ -12,7 +12,7 @@ export function defaultTestFileExtensions()
 //	'mjs',
 //	'cjs',
 	] as const;
-	return value as ITSToWriteableAArray<typeof value>;
+	return value as ITSToWriteableArray<typeof value>;
 }
 
 export function defaultModuleFileExtensions()
@@ -29,7 +29,7 @@ export function defaultModuleFileExtensions()
 		'json',
 		'node',
 	] as const
-	return value as ITSToWriteableAArray<typeof value>;
+	return value as ITSToWriteableArray<typeof value>;
 }
 
 export function defaultCoveragePathIgnorePatterns()
@@ -45,8 +45,10 @@ export function defaultCoveragePathIgnorePatterns()
 		'/dist/',
 		'/test/',
 		'/fixture/',
+		'/__file_snapshots__/',
+		'/__fixtures__/',
 	] as const
-	return value as ITSToWriteableAArray<typeof value>;
+	return value as ITSToWriteableArray<typeof value>;
 }
 
 export function defaultTestPathIgnorePatterns()
@@ -54,11 +56,12 @@ export function defaultTestPathIgnorePatterns()
 	const value = [
 		'/node_modules/',
 		'/__fixtures__/',
+		'/__file_snapshots__/',
 		'/fixtures/',
 		'/__tests__/helpers/',
 		'/__tests__/utils/',
 		'__mocks__',
 		'/dist/',
 	] as const
-	return value as ITSToWriteableAArray<typeof value>;
+	return value as ITSToWriteableArray<typeof value>;
 }

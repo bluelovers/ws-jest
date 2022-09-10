@@ -1,3 +1,5 @@
+/// <reference types="jest" />
+
 export interface IOptions
 {
 	expect?: jest.Expect,

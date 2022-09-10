@@ -35,6 +35,9 @@
   "module": "dist/index.esm.mjs",
   "types": "dist/index.d.ts",
   "typings": "dist/index.d.ts",
+  "directories": {
+    "test": "test"
+  },
   "files": [
     "index.js",
     "index.d.ts"
@@ -42,9 +45,12 @@
   "scripts": {
     "pretest": "echo pretest",
     "test": "jest --passWithNoTests",
+    "test:jest": "jest --passWithNoTests",
+    "test:jest:snapshot": "yarn run test:jest -- -u",
+    "test:snapshot": "yarn run test -- -u",
     "posttest": "yarn run build",
-    "build": "yarn run build:tsdx && yarn run build:dts:bundle",
-    "build:dts:bundle": "ynpx dts-bundle-generator -o ./dist/index.d.ts ./src/index.ts --no-banner --inline-declare-global & echo build:dts:bundle",
+    "build": "yarn run build:tsdx && yarn run build:dts:tsc",
+    "build:dts:bundle": "ynpx dts-bundle-generator -o ./dist/index.d.ts ./src/index.ts --no-banner --inline-declare-global --export-referenced-types --external-types jest & echo build:dts:bundle",
     "build:dts:copy": "copy .\\src\\index.d.ts .\\dist\\index.d.ts & echo build:dts",
     "build:dts:tsc": "yarn run build:dts:tsc:emit && yarn run build:dts:copy",
     "build:dts:tsc:emit": "tsc --emitDeclarationOnly --declaration --noEmit false",
@@ -68,7 +74,17 @@
     "sort-package-json": "yarn-tool sort",
     "tsc:showConfig": "ynpx get-current-tsconfig -p"
   },
-  "jest": {
+  "dependencies": {
+    "filenamify": "<5 >=4.3.0",
+    "fs-extra": "^10.1.0",
+    "jest-matcher-utils": "^29"
+  },
+  "devDependencies": {},
+  "packageManager": "yarn@1.22.19",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "jest_": {
     "testEnvironment": "node",
     "testMatch": [
       "**/__tests__/**/*.test.js"
@@ -76,16 +92,5 @@
     "watchPathIgnorePatterns": [
       "(__fixtures__|__file_snapshots__)"
     ]
-  },
-  "dependencies": {
-    "chalk": "^4.1.0",
-    "filenamify": "^4.2.0",
-    "jest-diff": "^26.6.1",
-    "mkdirp": "^1.0.4"
-  },
-  "devDependencies": {},
-  "packageManager": "yarn@1.22.19",
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
   }
 }

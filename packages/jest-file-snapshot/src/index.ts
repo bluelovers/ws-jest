@@ -1,18 +1,22 @@
-/* istanbul ignore file */
-
-import fs from 'fs';
-import path from 'path';
-import chalk from 'chalk';
-import diff from 'jest-diff';
-import mkdirp from 'mkdirp';
+import { existsSync, readFileSync, outputFileSync } from 'fs-extra';
+import { basename, dirname, join } from 'path';
 import filenamify from 'filenamify';
+import { diff, DiffOptions, EXPECTED_COLOR, RECEIVED_COLOR } from 'jest-matcher-utils';
+
+interface IMatcherContext extends jest.MatcherContext
+{
+	snapshotState?: {
+		added: number,
+		updated: number,
+		unmatched: number,
+		_updateSnapshot: 'none' | 'new' | 'all'
+	}
+}
 
 /**
  * Check if 2 strings or buffer are equal
- * @param {string | Buffer} a
- * @param {string | Buffer} b
  */
-function isEqual(a, b)
+function isEqual(a: string | Buffer, b: string | Buffer)
 {
 	// @ts-ignore: TypeScript gives error if we pass string to buffer.equals
 	return Buffer.isBuffer(a) ? a.equals(b) : a === b;
@@ -24,23 +28,25 @@ function isEqual(a, b)
  * @param {string | Buffer} content Output content to match
  * @param {string} [filepath] Path to the file to match against
  * @param {{ diff?: import('jest-diff').DiffOptions }} options Additional options for matching
- * @this {{ testPath: string, currentTestName: string, assertionCalls: number, isNot: boolean, snapshotState: { added: number, updated: number, unmatched: number, _updateSnapshot: 'none' | 'new' | 'all' } }}
  */
-export function toMatchFile(content, filepath, options = {})
+export function toMatchFile(this: IMatcherContext,
+	content: string | Buffer,
+	filepath: string,
+	options: { diff?: DiffOptions; } = {},
+)
 {
 	const { isNot, snapshotState } = this;
 
-	const filename =
-		filepath === undefined
-			? // If file name is not specified, generate one from the test title
-			path.join(
-				path.dirname(this.testPath),
-				'__file_snapshots__',
-				`${filenamify(this.currentTestName, {
-					replacement: '-',
-				}).replace(/\s/g, '-')}-${this.assertionCalls}`
-			)
-			: filepath;
+	/**
+	 * If file name is not specified, generate one from the test title
+	 */
+	const filename = filepath ?? join(
+		dirname(this.testPath),
+		'__file_snapshots__',
+		`${filenamify(this.currentTestName, {
+			replacement: '-',
+		}).replace(/\s/g, '-')}-${this.assertionCalls}`,
+	);
 
 	options = {
 		// Options for jest-diff
@@ -50,11 +56,11 @@ export function toMatchFile(content, filepath, options = {})
 				contextLines: 5,
 				aAnnotation: 'Snapshot',
 			},
-			options.diff
+			options.diff,
 		),
 	};
 
-	if (snapshotState._updateSnapshot === 'none' && !fs.existsSync(filename))
+	if (snapshotState._updateSnapshot === 'none' && !existsSync(filename))
 	{
 		// We're probably running in CI environment
 
@@ -63,21 +69,21 @@ export function toMatchFile(content, filepath, options = {})
 		return {
 			pass: isNot,
 			message: () =>
-				`New output file ${chalk.blue(
-					path.basename(filename)
-				)} was ${chalk.bold.red('not written')}.\n\n` +
+				`New output file ${EXPECTED_COLOR(
+					basename(filename),
+				)} was ${RECEIVED_COLOR('not written')}.\n\n` +
 				'The update flag must be explicitly passed to write a new snapshot.\n\n' +
-				`This is likely because this test is run in a ${chalk.blue(
-					'continuous integration (CI) environment'
+				`This is likely because this test is run in a ${EXPECTED_COLOR(
+					'continuous integration (CI) environment',
 				)} in which snapshots are not written by default.\n\n`,
 		};
 	}
 
-	if (fs.existsSync(filename))
+	if (existsSync(filename))
 	{
-		const output = fs.readFileSync(
+		const output = readFileSync(
 			filename,
-			Buffer.isBuffer(content) ? null : 'utf8'
+			Buffer.isBuffer(content) ? null : 'utf8',
 		);
 
 		if (isNot)
@@ -96,9 +102,9 @@ export function toMatchFile(content, filepath, options = {})
 				return {
 					pass: true,
 					message: () =>
-						`Expected received content ${chalk.red(
-							'to not match'
-						)} the file ${chalk.blue(path.basename(filename))}.`,
+						`Expected received content ${RECEIVED_COLOR(
+							'to not match',
+						)} the file ${EXPECTED_COLOR(basename(filename))}.`,
 				};
 			}
 		}
@@ -112,8 +118,7 @@ export function toMatchFile(content, filepath, options = {})
 			{
 				if (snapshotState._updateSnapshot === 'all')
 				{
-					mkdirp.sync(path.dirname(filename));
-					fs.writeFileSync(filename, content);
+					outputFileSync(filename, content);
 
 					snapshotState.updated++;
 
@@ -131,9 +136,9 @@ export function toMatchFile(content, filepath, options = {})
 					return {
 						pass: false,
 						message: () =>
-							`Received content ${chalk.red(
-								"doesn't match"
-							)} the file ${chalk.blue(path.basename(filename))}.${difference}`,
+							`Received content ${RECEIVED_COLOR(
+								"doesn't match",
+							)} the file ${EXPECTED_COLOR(basename(filename))}.${difference}`,
 					};
 				}
 			}
@@ -147,8 +152,7 @@ export function toMatchFile(content, filepath, options = {})
 				snapshotState._updateSnapshot === 'all')
 		)
 		{
-			mkdirp.sync(path.dirname(filename));
-			fs.writeFileSync(filename, content);
+			outputFileSync(filename, content);
 
 			snapshotState.added++;
 
@@ -161,10 +165,14 @@ export function toMatchFile(content, filepath, options = {})
 			return {
 				pass: true,
 				message: () =>
-					`The output file ${chalk.blue(
-						path.basename(filename)
-					)} ${chalk.bold.red("doesn't exist")}.`,
+					`The output file ${EXPECTED_COLOR(
+						basename(filename),
+					)} ${RECEIVED_COLOR("doesn't exist")}.`,
 			};
 		}
 	}
+}
+
+export default {
+	toMatchFile,
 }

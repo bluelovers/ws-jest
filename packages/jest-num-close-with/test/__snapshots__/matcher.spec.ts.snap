@@ -6,7 +6,7 @@ exports[`.toBeCloseWith fails when given non-number 1`] = `
 [1mMatcher error[22m: [31mreceived[39m value must be a number
 
 Received has type:  string
-Received has value: [31m\\"\\"[39m"
+Received has value: [31m""[39m"
 `;
 
 exports[`.toBeCloseWith fails when given number out range 1`] = `
@@ -26,7 +26,7 @@ exports[`not.toBeCloseWith fails when given non-number 1`] = `
 [1mMatcher error[22m: [31mreceived[39m value must be a number
 
 Received has type:  string
-Received has value: [31m\\"\\"[39m"
+Received has value: [31m""[39m"
 `;
 
 exports[`not.toBeCloseWith fails when given number in range 1`] = `

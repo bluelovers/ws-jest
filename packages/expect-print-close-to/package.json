@@ -20,7 +20,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bluelovers/ws-jest.git"
+    "url": "git+https://github.com/bluelovers/ws-jest.git",
+    "directory": "packages/expect-print-close-to"
   },
   "license": "ISC",
   "author": "bluelovers",
@@ -49,7 +50,9 @@
     "pretest": "echo pretest",
     "test": "jest --passWithNoTests",
     "test:jest": "jest --passWithNoTests",
+    "test:jest:snapshot": "yarn run test:jest -- -u",
     "test:mocha": "ynpx --quiet -p ts-node -p mocha mocha -- --require ts-node/register \"!(node_modules)/**/*.{test,spec}.{ts,tsx}\"",
+    "test:snapshot": "yarn run test -- -u",
     "test:tsdx": "ynpx @bluelovers/tsdx test --passWithNoTests",
     "posttest": "yarn run build",
     "build": "yarn run build:tsdx && yarn run build:dts:bundle",
@@ -79,8 +82,7 @@
     "tsc:showConfig": "ynpx get-current-tsconfig -p"
   },
   "dependencies": {
-    "jest-matcher-utils": "^28",
-    "tslib": "^2"
+    "jest-matcher-utils": "^29"
   },
   "packageManager": "yarn@1.22.19"
 }

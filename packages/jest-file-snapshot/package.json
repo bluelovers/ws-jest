@@ -1,6 +1,6 @@
 {
   "name": "jest-file-snapshot2",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Jest matcher to write snapshots to a separate file instead of the default snapshot file used by Jest",
   "keywords": [
     "test",
@@ -79,7 +79,6 @@
     "fs-extra": "^10.1.0",
     "jest-matcher-utils": "^29"
   },
-  "devDependencies": {},
   "packageManager": "yarn@1.22.19",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"

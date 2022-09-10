@@ -1,6 +1,6 @@
 {
   "name": "@lazy-assert/check-basic",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "",
   "keywords": [
     "assert",
@@ -77,7 +77,6 @@
     "sort-package-json": "yarn-tool sort",
     "tsc:showConfig": "ynpx get-current-tsconfig -p"
   },
-  "dependencies": {},
   "packageManager": "yarn@^1.22.11",
   "publishConfig": {
     "access": "public"

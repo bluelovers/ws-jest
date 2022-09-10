@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.4](https://github.com/bluelovers/ws-jest/compare/expect-print-close-to@1.0.3...expect-print-close-to@1.0.4) (2022-09-10)
+
+
+
+### 🛠　Build System
+
+* update build ([baafc80](https://github.com/bluelovers/ws-jest/commit/baafc80e84ea5d2470db07ce356c3be2df87a7be))
+
+
+
 ## [1.0.3](https://github.com/bluelovers/ws-jest/compare/expect-print-close-to@1.0.2...expect-print-close-to@1.0.3) (2022-07-30)
 
 

@@ -1,68 +1,65 @@
-import { existsSync as e, readFileSync as t, outputFileSync as s } from "fs-extra";
+import { pathExistsSync as e, readFileSync as t, outputFileSync as n } from "fs-extra";
 
-import { join as a, dirname as n, basename as i } from "path";
+import { join as s, dirname as a, basename as i } from "path";
 
 import o from "filenamify";
 
-import { EXPECTED_COLOR as r, RECEIVED_COLOR as u, diff as f } from "jest-matcher-utils";
+import { EXPECTED_COLOR as r, RECEIVED_COLOR as u, diff as f, matcherHint as l } from "jest-matcher-utils";
+
+var p;
 
 function isEqual(e, t) {
   return Buffer.isBuffer(e) ? e.equals(t) : e === t;
 }
 
-function toMatchFile(p, h, l = {}) {
-  const {isNot: c, snapshotState: m} = this, d = null != h ? h : a(n(this.testPath), "__file_snapshots__", `${o(this.currentTestName, {
+function currentSnapshotFileName(e) {
+  return s(a(e.testPath), "__file_snapshots__", `${o(e.currentTestName, {
     replacement: "-"
-  }).replace(/\s/g, "-")}-${this.assertionCalls}`);
-  if (l = {
+  }).replace(/\s/g, "-")}-${e.assertionCalls}`);
+}
+
+function toMatchFile(s, a, o = {}) {
+  const {isNot: p, snapshotState: h} = this, c = "toMatchFile", m = null != a ? a : currentSnapshotFileName(this), d = i(m);
+  o = {
     diff: Object.assign({
       expand: !1,
       contextLines: 5,
       aAnnotation: "Snapshot"
-    }, l.diff)
-  }, "none" === m._updateSnapshot && !e(d)) return m.unmatched++, {
-    pass: c,
-    message: () => `New output file ${r(i(d))} was ${u("not written")}.\n\nThe update flag must be explicitly passed to write a new snapshot.\n\nThis is likely because this test is run in a ${r("continuous integration (CI) environment")} in which snapshots are not written by default.\n\n`
+    }, o.diff)
   };
-  if (e(d)) {
-    const e = t(d, Buffer.isBuffer(p) ? null : "utf8");
-    if (c) return isEqual(p, e) ? (m.unmatched++, {
-      pass: !0,
-      message: () => `Expected received content ${u("to not match")} the file ${r(i(d))}.`
-    }) : {
-      pass: !1,
-      message: () => ""
-    };
-    if (isEqual(p, e)) return {
-      pass: !0,
-      message: () => ""
-    };
-    if ("all" === m._updateSnapshot) return s(d, p), m.updated++, {
-      pass: !0,
-      message: () => ""
-    };
-    {
-      m.unmatched++;
-      const t = Buffer.isBuffer(p) || Buffer.isBuffer(e) ? "" : `\n\n${f(e, p, l.diff)}`;
-      return {
-        pass: !1,
-        message: () => `Received content ${u("doesn't match")} the file ${r(i(d))}.${t}`
-      };
+  const w = {
+    isNot: p,
+    promise: this.promise
+  };
+  if ("none" === h._updateSnapshot && !e(m)) return h.unmatched++, {
+    pass: p,
+    message: () => `New output file ${r(d)} was ${u("not written")}.\n\nThe update flag must be explicitly passed to write a new snapshot.\n\nThis is likely because this test is run in a ${r("continuous integration (CI) environment")} in which snapshots are not written by default.\n\n`
+  };
+  let S = !1, message = () => l(c, void 0, d, w);
+  if (e(m)) {
+    const e = t(m, Buffer.isBuffer(s) ? null : "utf8");
+    if (p) isEqual(s, e) ? (h.unmatched++, S = !0) : S = !1; else if (isEqual(s, e)) S = !0; else if ("all" === h._updateSnapshot) S = !0, 
+    n(m, s), h.updated++; else {
+      h.unmatched++;
+      const t = Buffer.isBuffer(s) || Buffer.isBuffer(e) ? "" : `\n\n${f(e, s, o.diff)}`;
+      message = () => l(c, void 0, d, w) + t;
     }
-  }
-  return c || "new" !== m._updateSnapshot && "all" !== m._updateSnapshot ? (m.unmatched++, 
-  {
-    pass: !0,
-    message: () => `The output file ${r(i(d))} ${u("doesn't exist")}.`
-  }) : (s(d, p), m.added++, {
-    pass: !0,
-    message: () => ""
-  });
+  } else S = !0, p || "new" !== h._updateSnapshot && "all" !== h._updateSnapshot ? (h.unmatched++, 
+  message = () => `The output file ${r(i(m))} ${u("doesn't exist")}.`) : (n(m, s), 
+  h.added++);
+  return {
+    pass: S,
+    message
+  };
 }
 
-var p = {
+!function(e) {
+  e.none = "none", e.new = "new", e.all = "all";
+}(p || (p = {}));
+
+var h = {
   toMatchFile
 };
 
-export { p as default, toMatchFile };
+export { p as EnumUpdateSnapshot, currentSnapshotFileName, h as default, toMatchFile };
 //# sourceMappingURL=index.esm.mjs.map

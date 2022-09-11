@@ -1,7 +1,8 @@
-import { existsSync, readFileSync, outputFileSync } from 'fs-extra';
+import { outputFileSync, pathExistsSync, readFileSync } from 'fs-extra';
 import { basename, dirname, join } from 'path';
 import filenamify from 'filenamify';
-import { diff, DiffOptions, EXPECTED_COLOR, RECEIVED_COLOR } from 'jest-matcher-utils';
+import { diff, DiffOptions, EXPECTED_COLOR, matcherHint, MatcherHintOptions, RECEIVED_COLOR } from 'jest-matcher-utils';
+import { ITSTypeAndStringLiteral } from 'ts-type/lib/helper/string';
 
 export interface IFileMatcherOptions
 {
@@ -25,14 +26,21 @@ declare global
 	}
 }
 
-interface IMatcherContext extends jest.MatcherContext
+export interface IMatcherContext extends jest.MatcherContext
 {
 	snapshotState?: {
 		added: number,
 		updated: number,
 		unmatched: number,
-		_updateSnapshot: 'none' | 'new' | 'all'
+		_updateSnapshot: ITSTypeAndStringLiteral<EnumUpdateSnapshot>
 	}
+}
+
+export const enum EnumUpdateSnapshot
+{
+	'none' = 'none',
+	'new' = 'new',
+	'all' = 'all',
 }
 
 /**
@@ -45,30 +53,40 @@ function isEqual(a: string | Buffer, b: string | Buffer)
 }
 
 /**
+ * generate from the test title
+ */
+export function currentSnapshotFileName(context: Pick<IMatcherContext, 'testPath' | 'currentTestName' | 'assertionCalls'>)
+{
+	return join(
+		dirname(context.testPath),
+		'__file_snapshots__',
+		`${filenamify(context.currentTestName, {
+			replacement: '-',
+		}).replace(/\s/g, '-')}-${context.assertionCalls}`,
+	)
+}
+
+/**
  * Match given content against content of the specified file.
  *
- * @param {string | Buffer} content Output content to match
+ * @param {string | Buffer} received Output content to match
  * @param {string} [filepath] Path to the file to match against
  * @param {{ diff?: import('jest-diff').DiffOptions }} options Additional options for matching
  */
 export function toMatchFile(this: IMatcherContext,
-	content: string | Buffer,
+	received: string | Buffer,
 	filepath: string,
 	options: IFileMatcherOptions = {},
 )
 {
 	const { isNot, snapshotState } = this;
+	const matcherName = 'toMatchFile' as const;
 
 	/**
 	 * If file name is not specified, generate one from the test title
 	 */
-	const filename = filepath ?? join(
-		dirname(this.testPath),
-		'__file_snapshots__',
-		`${filenamify(this.currentTestName, {
-			replacement: '-',
-		}).replace(/\s/g, '-')}-${this.assertionCalls}`,
-	);
+	const snapshotFileName = filepath ?? currentSnapshotFileName(this);
+	const snapshotBaseName = basename(snapshotFileName);
 
 	options = {
 		// Options for jest-diff
@@ -76,13 +94,18 @@ export function toMatchFile(this: IMatcherContext,
 			{
 				expand: false,
 				contextLines: 5,
-				aAnnotation: 'Snapshot',
+				aAnnotation: `Snapshot`,
 			},
 			options.diff,
 		),
 	};
 
-	if (snapshotState._updateSnapshot === 'none' && !existsSync(filename))
+	const optsMatcherHint: MatcherHintOptions = {
+		isNot,
+		promise: this.promise,
+	};
+
+	if (snapshotState._updateSnapshot === EnumUpdateSnapshot.none && !pathExistsSync(snapshotFileName))
 	{
 		// We're probably running in CI environment
 
@@ -92,7 +115,7 @@ export function toMatchFile(this: IMatcherContext,
 			pass: isNot,
 			message: () =>
 				`New output file ${EXPECTED_COLOR(
-					basename(filename),
+					snapshotBaseName,
 				)} was ${RECEIVED_COLOR('not written')}.\n\n` +
 				'The update flag must be explicitly passed to write a new snapshot.\n\n' +
 				`This is likely because this test is run in a ${EXPECTED_COLOR(
@@ -101,66 +124,57 @@ export function toMatchFile(this: IMatcherContext,
 		};
 	}
 
-	if (existsSync(filename))
+	let pass = false;
+	let message = () => matcherHint(matcherName, undefined, snapshotBaseName, optsMatcherHint);
+
+	if (pathExistsSync(snapshotFileName))
 	{
-		const output = readFileSync(
-			filename,
-			Buffer.isBuffer(content) ? null : 'utf8',
+		const expected = readFileSync(
+			snapshotFileName,
+			Buffer.isBuffer(received) ? null : 'utf8',
 		);
 
 		if (isNot)
 		{
 			// The matcher is being used with `.not`
 
-			if (!isEqual(content, output))
+			if (!isEqual(received, expected))
 			{
-				// The value of `pass` is reversed when used with `.not`
-				return { pass: false, message: () => '' };
+				pass = false;
 			}
 			else
 			{
 				snapshotState.unmatched++;
-
-				return {
-					pass: true,
-					message: () =>
-						`Expected received content ${RECEIVED_COLOR(
-							'to not match',
-						)} the file ${EXPECTED_COLOR(basename(filename))}.`,
-				};
+				pass = true;
 			}
 		}
 		else
 		{
-			if (isEqual(content, output))
+			if (isEqual(received, expected))
 			{
-				return { pass: true, message: () => '' };
+				pass = true;
 			}
 			else
 			{
-				if (snapshotState._updateSnapshot === 'all')
+				if (snapshotState._updateSnapshot === EnumUpdateSnapshot.all)
 				{
-					outputFileSync(filename, content);
+					pass = true;
+					outputFileSync(snapshotFileName, received);
 
 					snapshotState.updated++;
-
-					return { pass: true, message: () => '' };
 				}
 				else
 				{
 					snapshotState.unmatched++;
 
 					const difference =
-						Buffer.isBuffer(content) || Buffer.isBuffer(output)
+						Buffer.isBuffer(received) || Buffer.isBuffer(expected)
 							? ''
-							: `\n\n${diff(output, content, options.diff)}`;
+							: `\n\n${diff(expected, received, options.diff)}`;
 
-					return {
-						pass: false,
-						message: () =>
-							`Received content ${RECEIVED_COLOR(
-								"doesn't match",
-							)} the file ${EXPECTED_COLOR(basename(filename))}.${difference}`,
+					message = () =>
+					{
+						return matcherHint(matcherName, undefined, snapshotBaseName, optsMatcherHint) + difference
 					};
 				}
 			}
@@ -168,31 +182,33 @@ export function toMatchFile(this: IMatcherContext,
 	}
 	else
 	{
+		pass = true;
+
 		if (
 			!isNot &&
-			(snapshotState._updateSnapshot === 'new' ||
-				snapshotState._updateSnapshot === 'all')
+			(snapshotState._updateSnapshot === EnumUpdateSnapshot.new ||
+				snapshotState._updateSnapshot === EnumUpdateSnapshot.all)
 		)
 		{
-			outputFileSync(filename, content);
+			outputFileSync(snapshotFileName, received);
 
 			snapshotState.added++;
-
-			return { pass: true, message: () => '' };
 		}
 		else
 		{
 			snapshotState.unmatched++;
 
-			return {
-				pass: true,
-				message: () =>
-					`The output file ${EXPECTED_COLOR(
-						basename(filename),
-					)} ${RECEIVED_COLOR("doesn't exist")}.`,
-			};
+			message = () =>
+				`The output file ${EXPECTED_COLOR(
+					basename(snapshotFileName),
+				)} ${RECEIVED_COLOR("doesn't exist")}.`;
 		}
 	}
+
+	return {
+		pass,
+		message,
+	};
 }
 
 export default {

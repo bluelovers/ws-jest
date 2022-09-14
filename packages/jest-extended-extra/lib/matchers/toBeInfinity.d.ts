@@ -13,6 +13,9 @@ declare global {
 export declare function toBeInfinity(this: jest.MatcherContext, received: number): {
     pass: boolean;
     message: () => string;
+    actual: number;
+    expected: "infinity";
+    name: "toBeInfinity";
 };
 declare const _default: {
     toBeInfinity: typeof toBeInfinity;

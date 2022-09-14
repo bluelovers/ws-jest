@@ -31,6 +31,9 @@ export function toBePositive(this: jest.MatcherContext, received: number)
 	return {
 		pass,
 		message: autoMessage(pass, received, matcherName, type),
+		actual: received,
+		expected: type,
+		name: matcherName,
 	};
 }
 

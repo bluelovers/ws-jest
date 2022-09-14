@@ -13,6 +13,9 @@ declare global {
 export declare function toBeZero(this: jest.MatcherContext, received: number): {
     pass: boolean;
     message: () => string;
+    actual: number;
+    expected: "zero";
+    name: "toBeZero";
 };
 declare const _default: {
     toBeZero: typeof toBeZero;

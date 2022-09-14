@@ -13,6 +13,9 @@ declare global {
 export declare function toBePositive(this: jest.MatcherContext, received: number): {
     pass: boolean;
     message: () => string;
+    actual: number;
+    expected: "positive";
+    name: "toBePositive";
 };
 declare const _default: {
     toBePositive: typeof toBePositive;

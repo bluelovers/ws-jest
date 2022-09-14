@@ -9,6 +9,9 @@ function toBeFinite(received) {
     return {
         pass,
         message: (0, jest_util_1.autoMessage)(pass, received, matcherName, type),
+        actual: received,
+        expected: type,
+        name: matcherName,
     };
 }
 exports.toBeFinite = toBeFinite;

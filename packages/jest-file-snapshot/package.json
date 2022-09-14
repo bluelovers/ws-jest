@@ -71,9 +71,13 @@
     "tsc:showConfig": "ynpx get-current-tsconfig -p"
   },
   "dependencies": {
+    "@yarn-tool/find-root": "^2.0.6",
+    "crlf-normalize": "^1.0.12",
     "filenamify": "<5 >=4.3.0",
     "fs-extra": "^10.1.0",
-    "jest-matcher-utils": "^29"
+    "jest-matcher-utils": "^29",
+    "path-in-dir": "^1.0.5",
+    "upath2": "^3.1.15"
   },
   "packageManager": "yarn@1.22.19",
   "publishConfig": {

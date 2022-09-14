@@ -1,8 +1,18 @@
 import { outputFileSync, pathExistsSync, readFileSync } from 'fs-extra';
-import { basename, dirname, join } from 'path';
+import { basename, dirname, join, relative, resolve } from 'upath2';
 import filenamify from 'filenamify';
-import { diff, DiffOptions, EXPECTED_COLOR, matcherHint, MatcherHintOptions, RECEIVED_COLOR } from 'jest-matcher-utils';
+import {
+	diff,
+	DiffOptions,
+	EXPECTED_COLOR,
+	matcherHint,
+	MatcherHintOptions,
+	RECEIVED_COLOR,
+} from 'jest-matcher-utils';
 import { ITSTypeAndStringLiteral } from 'ts-type/lib/helper/string';
+import { chkcrlf, crlf, EnumLineBreak } from 'crlf-normalize';
+import pathInsideDirectory from 'path-in-dir';
+import { findRootLazy, IFindRootReturnType } from '@yarn-tool/find-root';
 
 export interface IFileMatcherOptions
 {
@@ -43,6 +53,12 @@ export const enum EnumUpdateSnapshot
 	'all' = 'all',
 }
 
+const _defaultDiffOptions: DiffOptions = {
+	expand: false,
+	contextLines: 5,
+	aAnnotation: `Snapshot`,
+};
+
 /**
  * Check if 2 strings or buffer are equal
  */
@@ -52,18 +68,75 @@ function isEqual(a: string | Buffer, b: string | Buffer)
 	return Buffer.isBuffer(a) ? a.equals(b) : a === b;
 }
 
+export function getBaseSnapshotDirectory(context: Pick<IMatcherContext, 'testPath'>)
+{
+	return join(dirname(context.testPath),'__file_snapshots__')
+}
+
 /**
  * generate from the test title
  */
-export function currentSnapshotFileName(context: Pick<IMatcherContext, 'testPath' | 'currentTestName' | 'assertionCalls'>)
+export function getBaseSnapshotFileName(context: Pick<IMatcherContext, 'testPath' | 'currentTestName' | 'assertionCalls'>)
 {
 	return join(
-		dirname(context.testPath),
-		'__file_snapshots__',
+		getBaseSnapshotDirectory(context),
 		`${filenamify(context.currentTestName, {
 			replacement: '-',
 		}).replace(/\s/g, '-')}-${context.assertionCalls}`,
 	)
+}
+
+export function _hintSnapshotFileName(context: Pick<IMatcherContext, 'testPath'>, snapshotFileName: string)
+{
+	const snapshotDirectory = getBaseSnapshotDirectory(context);
+
+	let rootData: IFindRootReturnType;
+	let snapshotDisplayName: string;
+
+	if (pathInsideDirectory(snapshotFileName, snapshotDirectory))
+	{
+		snapshotDisplayName = relative(snapshotDirectory, snapshotFileName);
+	}
+	else
+	{
+		rootData = findRootLazy({
+			cwd: context.testPath,
+		}, false);
+
+		if (rootData)
+		{
+			if (pathInsideDirectory(snapshotFileName, rootData.pkg))
+			{
+				snapshotDisplayName = relative(rootData.pkg, snapshotFileName);
+			}
+			else if (pathInsideDirectory(snapshotFileName, rootData.root))
+			{
+				snapshotDisplayName = relative(rootData.root, snapshotFileName);
+			}
+		}
+	}
+
+	if (!snapshotDisplayName?.length)
+	{
+		let rootData2 = findRootLazy({
+			cwd: dirname(snapshotFileName),
+		}, false);
+
+		if (rootData2?.pkg)
+		{
+			snapshotDisplayName = relative(resolve(rootData2.pkg, '..'), snapshotFileName);
+		}
+		else
+		{
+			snapshotDisplayName = snapshotFileName;
+		}
+	}
+
+	return {
+		snapshotFileName,
+		snapshotDisplayName,
+		rootData,
+	}
 }
 
 /**
@@ -85,17 +158,14 @@ export function toMatchFile(this: IMatcherContext,
 	/**
 	 * If file name is not specified, generate one from the test title
 	 */
-	const snapshotFileName = filepath ?? currentSnapshotFileName(this);
-	const snapshotBaseName = basename(snapshotFileName);
+	const snapshotFileName = filepath ?? getBaseSnapshotFileName(this);
+	const snapshotDisplayName = _hintSnapshotFileName(this, snapshotFileName).snapshotDisplayName;
 
 	options = {
 		// Options for jest-diff
 		diff: Object.assign(
-			{
-				expand: false,
-				contextLines: 5,
-				aAnnotation: `Snapshot`,
-			},
+			{},
+			_defaultDiffOptions,
 			options.diff,
 		),
 	};
@@ -115,7 +185,7 @@ export function toMatchFile(this: IMatcherContext,
 			pass: isNot,
 			message: () =>
 				`New output file ${EXPECTED_COLOR(
-					snapshotBaseName,
+					snapshotDisplayName,
 				)} was ${RECEIVED_COLOR('not written')}.\n\n` +
 				'The update flag must be explicitly passed to write a new snapshot.\n\n' +
 				`This is likely because this test is run in a ${EXPECTED_COLOR(
@@ -125,11 +195,13 @@ export function toMatchFile(this: IMatcherContext,
 	}
 
 	let pass = false;
-	let message = () => matcherHint(matcherName, undefined, snapshotBaseName, optsMatcherHint);
+	let message = () => matcherHint(matcherName, undefined, snapshotDisplayName, optsMatcherHint);
+
+	let expected: Buffer | string;
 
 	if (pathExistsSync(snapshotFileName))
 	{
-		const expected = readFileSync(
+		expected = readFileSync(
 			snapshotFileName,
 			Buffer.isBuffer(received) ? null : 'utf8',
 		);
@@ -167,14 +239,11 @@ export function toMatchFile(this: IMatcherContext,
 				{
 					snapshotState.unmatched++;
 
-					const difference =
-						Buffer.isBuffer(received) || Buffer.isBuffer(expected)
-							? ''
-							: `\n\n${diff(expected, received, options.diff)}`;
+					const difference = _diffHint(expected, received, options.diff);
 
 					message = () =>
 					{
-						return matcherHint(matcherName, undefined, snapshotBaseName, optsMatcherHint) + difference
+						return matcherHint(matcherName, undefined, snapshotDisplayName, optsMatcherHint) + difference
 					};
 				}
 			}
@@ -208,7 +277,34 @@ export function toMatchFile(this: IMatcherContext,
 	return {
 		pass,
 		message,
+		actual: received,
+		expected,
+		name: matcherName,
 	};
+}
+
+export function _diffHint(received: Buffer | string, expected: Buffer | string, options?: DiffOptions)
+{
+	if (Buffer.isBuffer(received) || Buffer.isBuffer(expected))
+	{
+		return ''
+	}
+
+	options ??= _defaultDiffOptions;
+
+	let difference: string[] = [''];
+
+	if (crlf(expected) === crlf(received))
+	{
+		difference.push(`Contents have differences only in line separators`);
+		difference.push(diff(chkcrlf(expected), chkcrlf(received)));
+	}
+	else
+	{
+		difference.push(diff(expected, received, options));
+	}
+
+	return difference.join(EnumLineBreak.LF + EnumLineBreak.LF);
 }
 
 export default {

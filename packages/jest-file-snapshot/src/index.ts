@@ -1,5 +1,8 @@
+/// <reference types="jest" />
+/// <reference types="node" />
+/// <reference types="expect" />
 import { outputFileSync, pathExistsSync, readFileSync } from 'fs-extra';
-import { basename, dirname, join, relative, resolve } from 'upath2';
+import { dirname, join, normalize, relative, resolve } from 'upath2';
 import filenamify from 'filenamify';
 import {
 	diff,
@@ -9,10 +12,15 @@ import {
 	MatcherHintOptions,
 	RECEIVED_COLOR,
 } from 'jest-matcher-utils';
-import { ITSTypeAndStringLiteral } from 'ts-type/lib/helper/string';
-import { chkcrlf, crlf, EnumLineBreak } from 'crlf-normalize';
 import { pathInsideDirectory } from 'path-in-dir';
 import { findRootLazy, IFindRootReturnType } from '@yarn-tool/find-root';
+import {
+	EnumUpdateSnapshot,
+	ICustomMatcherResult,
+	IMatcherContext,
+} from '@lazy-assert/jest-global-types-extra';
+import { handleJestMatcherHintOptions } from '@lazy-assert/jest-util';
+import { _stringDiff } from '@lazy-assert/jest-diff';
 
 export interface IFileMatcherOptions
 {
@@ -31,26 +39,9 @@ declare global
 
 		interface Expect
 		{
-			toMatchFile: (filename?: string, options?: IFileMatcherOptions) => void;
+			toMatchFile(filename?: string, options?: IFileMatcherOptions): void;
 		}
 	}
-}
-
-export interface IMatcherContext extends jest.MatcherContext
-{
-	snapshotState?: {
-		added: number,
-		updated: number,
-		unmatched: number,
-		_updateSnapshot: ITSTypeAndStringLiteral<EnumUpdateSnapshot>
-	}
-}
-
-export const enum EnumUpdateSnapshot
-{
-	'none' = 'none',
-	'new' = 'new',
-	'all' = 'all',
 }
 
 const _defaultDiffOptions: DiffOptions = {
@@ -86,16 +77,20 @@ export function getBaseSnapshotFileName(context: Pick<IMatcherContext, 'testPath
 	)
 }
 
-export function _hintSnapshotFileName(context: Pick<IMatcherContext, 'testPath'>, snapshotFileName: string)
+export function _hintSnapshotFileName(context: Pick<IMatcherContext, 'testPath' | 'snapshotState'>, snapshotFileName: string)
 {
 	const snapshotDirectory = getBaseSnapshotDirectory(context);
 
 	let rootData: IFindRootReturnType;
 	let snapshotDisplayName: string;
 
+	let safeUpdateSnapshot: boolean;
+
 	if (pathInsideDirectory(snapshotFileName, snapshotDirectory))
 	{
 		snapshotDisplayName = relative(snapshotDirectory, snapshotFileName);
+
+		safeUpdateSnapshot = true;
 	}
 	else
 	{
@@ -108,11 +103,22 @@ export function _hintSnapshotFileName(context: Pick<IMatcherContext, 'testPath'>
 			if (pathInsideDirectory(snapshotFileName, rootData.pkg))
 			{
 				snapshotDisplayName = relative(rootData.pkg, snapshotFileName);
+
+				safeUpdateSnapshot = true;
 			}
 			else if (pathInsideDirectory(snapshotFileName, rootData.root))
 			{
 				snapshotDisplayName = relative(rootData.root, snapshotFileName);
+
+				safeUpdateSnapshot = true;
 			}
+		}
+
+		if (!snapshotDisplayName?.length && context.snapshotState?._rootDir?.length && pathInsideDirectory(snapshotFileName, context.snapshotState._rootDir))
+		{
+			snapshotDisplayName = relative(context.snapshotState._rootDir, snapshotFileName);
+
+			safeUpdateSnapshot = true;
 		}
 	}
 
@@ -132,10 +138,13 @@ export function _hintSnapshotFileName(context: Pick<IMatcherContext, 'testPath'>
 		}
 	}
 
+	safeUpdateSnapshot = safeUpdateSnapshot && snapshotFileName.includes('/__file_snapshots__/');
+
 	return {
 		snapshotFileName,
 		snapshotDisplayName,
 		rootData,
+		safeUpdateSnapshot,
 	}
 }
 
@@ -150,7 +159,7 @@ export function toMatchFile(this: IMatcherContext,
 	received: string | Buffer,
 	filepath: string,
 	options: IFileMatcherOptions = {},
-)
+): ICustomMatcherResult
 {
 	const { isNot, snapshotState } = this;
 	const matcherName = 'toMatchFile' as const;
@@ -158,8 +167,11 @@ export function toMatchFile(this: IMatcherContext,
 	/**
 	 * If file name is not specified, generate one from the test title
 	 */
-	const snapshotFileName = filepath ?? getBaseSnapshotFileName(this);
-	const snapshotDisplayName = _hintSnapshotFileName(this, snapshotFileName).snapshotDisplayName;
+	const snapshotFileName = normalize(filepath ?? getBaseSnapshotFileName(this));
+	const {
+		snapshotDisplayName,
+		safeUpdateSnapshot,
+	} = _hintSnapshotFileName(this, snapshotFileName);
 
 	options = {
 		// Options for jest-diff
@@ -170,10 +182,7 @@ export function toMatchFile(this: IMatcherContext,
 		),
 	};
 
-	const optsMatcherHint: MatcherHintOptions = {
-		isNot,
-		promise: this.promise,
-	};
+	const optsMatcherHint = handleJestMatcherHintOptions(this);
 
 	if (snapshotState._updateSnapshot === EnumUpdateSnapshot.none && !pathExistsSync(snapshotFileName))
 	{
@@ -196,7 +205,7 @@ export function toMatchFile(this: IMatcherContext,
 		};
 	}
 
-	let pass = false;
+	let pass = isNot;
 	let message = () => matcherHint(matcherName, undefined, snapshotDisplayName, optsMatcherHint);
 
 	let expected: Buffer | string;
@@ -208,59 +217,88 @@ export function toMatchFile(this: IMatcherContext,
 			Buffer.isBuffer(received) ? null : 'utf8',
 		);
 
-		if (isNot)
+		if (isEqual(received, expected) !== isNot)
 		{
-			// The matcher is being used with `.not`
-
-			if (!isEqual(received, expected))
+			pass = !isNot;
+		}
+		else if (isNot)
+		{
+			snapshotState.unmatched++;
+		}
+		else
+		{
+			if (safeUpdateSnapshot && snapshotState._updateSnapshot === EnumUpdateSnapshot.all)
 			{
-				pass = false;
+				pass = !isNot;
+				outputFileSync(snapshotFileName, received);
+
+				snapshotState.updated++;
 			}
 			else
 			{
 				snapshotState.unmatched++;
-				pass = true;
+
+				const difference = _diffHint(expected, received, options.diff);
+
+				message = () =>
+				{
+					return matcherHint(matcherName, undefined, snapshotDisplayName, optsMatcherHint) + difference
+				};
 			}
 		}
-		else
-		{
-			if (isEqual(received, expected))
-			{
-				pass = true;
-			}
-			else
-			{
-				if (snapshotState._updateSnapshot === EnumUpdateSnapshot.all)
-				{
-					pass = true;
-					outputFileSync(snapshotFileName, received);
 
-					snapshotState.updated++;
-				}
-				else
-				{
-					snapshotState.unmatched++;
-
-					const difference = _diffHint(expected, received, options.diff);
-
-					message = () =>
-					{
-						return matcherHint(matcherName, undefined, snapshotDisplayName, optsMatcherHint) + difference
-					};
-				}
-			}
-		}
+//		if (isNot)
+//		{
+//			// The matcher is being used with `.not`
+//
+//			if (!isEqual(received, expected))
+//			{
+//				pass = false;
+//			}
+//			else
+//			{
+//				snapshotState.unmatched++;
+//				pass = true;
+//			}
+//		}
+//		else
+//		{
+//			if (isEqual(received, expected))
+//			{
+//				pass = true;
+//			}
+//			else
+//			{
+//				if (safeUpdateSnapshot && snapshotState._updateSnapshot === EnumUpdateSnapshot.all)
+//				{
+//					pass = true;
+//					outputFileSync(snapshotFileName, received);
+//
+//					snapshotState.updated++;
+//				}
+//				else
+//				{
+//					snapshotState.unmatched++;
+//
+//					const difference = _diffHint(expected, received, options.diff);
+//
+//					message = () =>
+//					{
+//						return matcherHint(matcherName, undefined, snapshotDisplayName, optsMatcherHint) + difference
+//					};
+//				}
+//			}
+//		}
 	}
 	else
 	{
-		pass = true;
-
 		if (
-			!isNot &&
+			safeUpdateSnapshot && !isNot &&
 			(snapshotState._updateSnapshot === EnumUpdateSnapshot.new ||
 				snapshotState._updateSnapshot === EnumUpdateSnapshot.all)
 		)
 		{
+			pass = !isNot;
 			outputFileSync(snapshotFileName, received);
 
 			snapshotState.added++;
@@ -271,7 +309,7 @@ export function toMatchFile(this: IMatcherContext,
 
 			message = () =>
 				`The output file ${EXPECTED_COLOR(
-					basename(snapshotFileName),
+					snapshotDisplayName,
 				)} ${RECEIVED_COLOR("doesn't exist")}.`;
 		}
 	}
@@ -292,21 +330,7 @@ export function _diffHint(received: Buffer | string, expected: Buffer | string, 
 		return ''
 	}
 
-	options ??= _defaultDiffOptions;
-
-	let difference: string[] = [''];
-
-	if (crlf(expected) === crlf(received))
-	{
-		difference.push(`Contents have differences only in line separators`);
-		difference.push(diff(chkcrlf(expected), chkcrlf(received)));
-	}
-	else
-	{
-		difference.push(diff(expected, received, options));
-	}
-
-	return difference.join(EnumLineBreak.LF + EnumLineBreak.LF);
+	return _stringDiff(received, expected, options ?? _defaultDiffOptions)
 }
 
 export default {

@@ -6,21 +6,14 @@ var fsExtra = require('fs-extra');
 var upath2 = require('upath2');
 var filenamify = require('filenamify');
 var jestMatcherUtils = require('jest-matcher-utils');
-var crlfNormalize = require('crlf-normalize');
 var pathInDir = require('path-in-dir');
 var findRoot = require('@yarn-tool/find-root');
+var jestUtil = require('@lazy-assert/jest-util');
+var jestDiff = require('@lazy-assert/jest-diff');
 
 function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
 var filenamify__default = /*#__PURE__*/_interopDefaultLegacy(filenamify);
-
-exports.EnumUpdateSnapshot = void 0;
-
-(function (EnumUpdateSnapshot) {
-  EnumUpdateSnapshot["none"] = "none";
-  EnumUpdateSnapshot["new"] = "new";
-  EnumUpdateSnapshot["all"] = "all";
-})(exports.EnumUpdateSnapshot || (exports.EnumUpdateSnapshot = {}));
 
 const _defaultDiffOptions = {
   expand: false,
@@ -41,15 +34,19 @@ function getBaseSnapshotFileName(context) {
   }).replace(/\s/g, '-')}-${context.assertionCalls}`);
 }
 function _hintSnapshotFileName(context, snapshotFileName) {
-  var _snapshotDisplayName;
+  var _snapshotDisplayName2;
 
   const snapshotDirectory = getBaseSnapshotDirectory(context);
   let rootData;
   let snapshotDisplayName;
+  let safeUpdateSnapshot;
 
   if (pathInDir.pathInsideDirectory(snapshotFileName, snapshotDirectory)) {
     snapshotDisplayName = upath2.relative(snapshotDirectory, snapshotFileName);
+    safeUpdateSnapshot = true;
   } else {
+    var _snapshotDisplayName, _context$snapshotStat, _context$snapshotStat2;
+
     rootData = findRoot.findRootLazy({
       cwd: context.testPath
     }, false);
@@ -57,13 +54,20 @@ function _hintSnapshotFileName(context, snapshotFileName) {
     if (rootData) {
       if (pathInDir.pathInsideDirectory(snapshotFileName, rootData.pkg)) {
         snapshotDisplayName = upath2.relative(rootData.pkg, snapshotFileName);
+        safeUpdateSnapshot = true;
       } else if (pathInDir.pathInsideDirectory(snapshotFileName, rootData.root)) {
         snapshotDisplayName = upath2.relative(rootData.root, snapshotFileName);
+        safeUpdateSnapshot = true;
       }
+    }
+
+    if (!((_snapshotDisplayName = snapshotDisplayName) !== null && _snapshotDisplayName !== void 0 && _snapshotDisplayName.length) && (_context$snapshotStat = context.snapshotState) !== null && _context$snapshotStat !== void 0 && (_context$snapshotStat2 = _context$snapshotStat._rootDir) !== null && _context$snapshotStat2 !== void 0 && _context$snapshotStat2.length && pathInDir.pathInsideDirectory(snapshotFileName, context.snapshotState._rootDir)) {
+      snapshotDisplayName = upath2.relative(context.snapshotState._rootDir, snapshotFileName);
+      safeUpdateSnapshot = true;
     }
   }
 
-  if (!((_snapshotDisplayName = snapshotDisplayName) !== null && _snapshotDisplayName !== void 0 && _snapshotDisplayName.length)) {
+  if (!((_snapshotDisplayName2 = snapshotDisplayName) !== null && _snapshotDisplayName2 !== void 0 && _snapshotDisplayName2.length)) {
     let rootData2 = findRoot.findRootLazy({
       cwd: upath2.dirname(snapshotFileName)
     }, false);
@@ -75,10 +79,12 @@ function _hintSnapshotFileName(context, snapshotFileName) {
     }
   }
 
+  safeUpdateSnapshot = safeUpdateSnapshot && snapshotFileName.includes('/__file_snapshots__/');
   return {
     snapshotFileName,
     snapshotDisplayName,
-    rootData
+    rootData,
+    safeUpdateSnapshot
   };
 }
 function toMatchFile(received, filepath, options = {}) {
@@ -87,17 +93,17 @@ function toMatchFile(received, filepath, options = {}) {
     snapshotState
   } = this;
   const matcherName = 'toMatchFile';
-  const snapshotFileName = filepath !== null && filepath !== void 0 ? filepath : getBaseSnapshotFileName(this);
+  const snapshotFileName = upath2.normalize(filepath !== null && filepath !== void 0 ? filepath : getBaseSnapshotFileName(this));
 
-  const snapshotDisplayName = _hintSnapshotFileName(this, snapshotFileName).snapshotDisplayName;
+  const {
+    snapshotDisplayName,
+    safeUpdateSnapshot
+  } = _hintSnapshotFileName(this, snapshotFileName);
 
   options = {
     diff: Object.assign({}, _defaultDiffOptions, options.diff)
   };
-  const optsMatcherHint = {
-    isNot,
-    promise: this.promise
-  };
+  const optsMatcherHint = jestUtil.handleJestMatcherHintOptions(this);
 
   if (snapshotState._updateSnapshot === "none" && !fsExtra.pathExistsSync(snapshotFileName)) {
     snapshotState.unmatched++;
@@ -109,7 +115,7 @@ function toMatchFile(received, filepath, options = {}) {
     };
   }
 
-  let pass = false;
+  let pass = isNot;
 
   let message = () => jestMatcherUtils.matcherHint(matcherName, undefined, snapshotDisplayName, optsMatcherHint);
 
@@ -118,42 +124,34 @@ function toMatchFile(received, filepath, options = {}) {
   if (fsExtra.pathExistsSync(snapshotFileName)) {
     expected = fsExtra.readFileSync(snapshotFileName, Buffer.isBuffer(received) ? null : 'utf8');
 
-    if (isNot) {
-      if (!isEqual(received, expected)) {
-        pass = false;
+    if (isEqual(received, expected) !== isNot) {
+      pass = !isNot;
+    } else if (isNot) {
+      snapshotState.unmatched++;
+    } else {
+      if (safeUpdateSnapshot && snapshotState._updateSnapshot === "all") {
+        pass = !isNot;
+        fsExtra.outputFileSync(snapshotFileName, received);
+        snapshotState.updated++;
       } else {
         snapshotState.unmatched++;
-        pass = true;
-      }
-    } else {
-      if (isEqual(received, expected)) {
-        pass = true;
-      } else {
-        if (snapshotState._updateSnapshot === "all") {
-          pass = true;
-          fsExtra.outputFileSync(snapshotFileName, received);
-          snapshotState.updated++;
-        } else {
-          snapshotState.unmatched++;
 
-          const difference = _diffHint(expected, received, options.diff);
+        const difference = _diffHint(expected, received, options.diff);
 
-          message = () => {
-            return jestMatcherUtils.matcherHint(matcherName, undefined, snapshotDisplayName, optsMatcherHint) + difference;
-          };
-        }
+        message = () => {
+          return jestMatcherUtils.matcherHint(matcherName, undefined, snapshotDisplayName, optsMatcherHint) + difference;
+        };
       }
     }
   } else {
-    pass = true;
-
-    if (!isNot && (snapshotState._updateSnapshot === "new" || snapshotState._updateSnapshot === "all")) {
+    if (safeUpdateSnapshot && !isNot && (snapshotState._updateSnapshot === "new" || snapshotState._updateSnapshot === "all")) {
+      pass = !isNot;
       fsExtra.outputFileSync(snapshotFileName, received);
       snapshotState.added++;
     } else {
       snapshotState.unmatched++;
 
-      message = () => `The output file ${jestMatcherUtils.EXPECTED_COLOR(upath2.basename(snapshotFileName))} ${jestMatcherUtils.RECEIVED_COLOR("doesn't exist")}.`;
+      message = () => `The output file ${jestMatcherUtils.EXPECTED_COLOR(snapshotDisplayName)} ${jestMatcherUtils.RECEIVED_COLOR("doesn't exist")}.`;
     }
   }
 
@@ -166,23 +164,11 @@ function toMatchFile(received, filepath, options = {}) {
   };
 }
 function _diffHint(received, expected, options) {
-  var _options;
-
   if (Buffer.isBuffer(received) || Buffer.isBuffer(expected)) {
     return '';
   }
 
-  (_options = options) !== null && _options !== void 0 ? _options : options = _defaultDiffOptions;
-  let difference = [''];
-
-  if (crlfNormalize.crlf(expected) === crlfNormalize.crlf(received)) {
-    difference.push(`Contents have differences only in line separators`);
-    difference.push(jestMatcherUtils.diff(crlfNormalize.chkcrlf(expected), crlfNormalize.chkcrlf(received)));
-  } else {
-    difference.push(jestMatcherUtils.diff(expected, received, options));
-  }
-
-  return difference.join("\n" + "\n");
+  return jestDiff._stringDiff(received, expected, options !== null && options !== void 0 ? options : _defaultDiffOptions);
 }
 var index = {
   toMatchFile

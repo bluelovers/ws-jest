@@ -5,6 +5,9 @@ declare global {
         interface Matchers<R> {
             [matcherName](): R;
         }
+        interface Expect {
+            [matcherName](): void;
+        }
     }
 }
 export declare function toBeFinite(this: jest.MatcherContext, received: number): {

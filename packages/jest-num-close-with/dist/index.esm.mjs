@@ -6,28 +6,30 @@ import { printCloseTo as d } from "expect-print-close-to";
 
 import { jestAutoInstallExpectExtend as l } from "jest-install-matcher-extends";
 
-import { subAbs as p } from "num-in-delta/lib/util";
+import { subAbs as a } from "num-in-delta/lib/util";
 
-function toBeCloseWith(l, c, u, v = 4) {
-  const a = "toBeCloseWith", f = 3 === arguments.length ? "precision" : void 0, h = this.isNot, b = {
-    isNot: h,
-    promise: this.promise,
-    secondArgument: f,
-    secondArgumentColor: e => e
-  };
-  if ("number" != typeof c) throw new Error(e(t(a, void 0, void 0, b), `${o("expected")} value must be a number`, i("Expected", c, n)));
-  if ("number" != typeof l) throw new Error(e(t(a, void 0, void 0, b), `${r("received")} value must be a number`, i("Received", l, s)));
-  let C = !1, x = 0, B = 0;
-  Infinity === l && Infinity === c || -Infinity === l && -Infinity === c ? C = !0 : (x = Math.pow(10, -v) / 2, 
-  B = Number(p(l, c)), C = m(l, c, u));
-  const W = C ? () => t(a, void 0, void 0, b) + "\n\n" + `Expected: not ${n(c)}\n` + (0 === B ? "" : `Received:     ${s(l)}\n\n` + d(B, x, v, h)) : () => t(a, void 0, void 0, b) + "\n\n" + `Expected: ${n(c)}\n` + `Received: ${s(l)}\n\n` + d(B, x, v, h);
+import { handleJestMatcherHintOptions as c } from "@lazy-assert/jest-util";
+
+function toBeCloseWith(l, p, u, f = 4) {
+  const v = "toBeCloseWith", h = this.isNot, b = c(this, {
+    secondArgument: 3 === arguments.length ? "precision" : void 0
+  });
+  if ("number" != typeof p) throw new Error(e(t(v, void 0, void 0, b), `${o("expected")} value must be a number`, i("Expected", p, n)));
+  if ("number" != typeof l) throw new Error(e(t(v, void 0, void 0, b), `${r("received")} value must be a number`, i("Received", l, s)));
+  let x = !1, y = 0, B = 0;
+  Infinity === l && Infinity === p || -Infinity === l && -Infinity === p ? x = !0 : (y = Math.pow(10, -f) / 2, 
+  B = Number(a(l, p)), x = m(l, p, u));
+  const C = x ? () => t(v, void 0, void 0, b) + "\n\n" + `Expected: not ${n(p)}\n` + (0 === B ? "" : `Received:     ${s(l)}\n\n` + d(B, y, f, h)) : () => t(v, void 0, void 0, b) + "\n\n" + `Expected: ${n(p)}\n` + `Received: ${s(l)}\n\n` + d(B, y, f, h);
   return {
-    message: W,
-    pass: C
+    message: C,
+    pass: x,
+    actual: l,
+    expected: p,
+    name: v
   };
 }
 
-var c = {
+var p = {
   toBeCloseWith
 };
 
@@ -35,5 +37,5 @@ l({
   toBeCloseWith
 });
 
-export { c as default, toBeCloseWith };
+export { p as default, toBeCloseWith };
 //# sourceMappingURL=index.esm.mjs.map

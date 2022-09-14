@@ -7,17 +7,14 @@ var numInDelta = require('num-in-delta');
 var expectPrintCloseTo = require('expect-print-close-to');
 var jestInstallMatcherExtends = require('jest-install-matcher-extends');
 var util = require('num-in-delta/lib/util');
+var jestUtil = require('@lazy-assert/jest-util');
 
 function toBeCloseWith(received, expected, delta, precision = 4) {
   const matcherName = 'toBeCloseWith';
-  const secondArgument = arguments.length === 3 ? 'precision' : undefined;
   const isNot = this.isNot;
-  const options = {
-    isNot,
-    promise: this.promise,
-    secondArgument,
-    secondArgumentColor: arg => arg
-  };
+  const options = jestUtil.handleJestMatcherHintOptions(this, {
+    secondArgument: arguments.length === 3 ? 'precision' : undefined
+  });
 
   if (typeof expected !== 'number') {
     throw new Error(jestMatcherUtils.matcherErrorMessage(jestMatcherUtils.matcherHint(matcherName, undefined, undefined, options), `${jestMatcherUtils.EXPECTED_COLOR('expected')} value must be a number`, jestMatcherUtils.printWithType('Expected', expected, jestMatcherUtils.printExpected)));
@@ -44,7 +41,10 @@ function toBeCloseWith(received, expected, delta, precision = 4) {
   const message = pass ? () => jestMatcherUtils.matcherHint(matcherName, undefined, undefined, options) + '\n\n' + `Expected: not ${jestMatcherUtils.printExpected(expected)}\n` + (receivedDiff === 0 ? '' : `Received:     ${jestMatcherUtils.printReceived(received)}\n` + '\n' + expectPrintCloseTo.printCloseTo(receivedDiff, expectedDiff, precision, isNot)) : () => jestMatcherUtils.matcherHint(matcherName, undefined, undefined, options) + '\n\n' + `Expected: ${jestMatcherUtils.printExpected(expected)}\n` + `Received: ${jestMatcherUtils.printReceived(received)}\n` + '\n' + expectPrintCloseTo.printCloseTo(receivedDiff, expectedDiff, precision, isNot);
   return {
     message,
-    pass
+    pass,
+    actual: received,
+    expected,
+    name: matcherName
   };
 }
 var index = {

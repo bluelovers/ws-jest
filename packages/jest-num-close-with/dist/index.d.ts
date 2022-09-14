@@ -1,4 +1,4 @@
-/// <reference types="jest" />
+import { IMatcherContext, ICustomMatcherResult } from '@lazy-assert/jest-global-types-extra';
 declare global {
     namespace jest {
         interface Matchers<R> {
@@ -12,7 +12,7 @@ declare global {
 /**
  * check actual number is expected number ± delta
  */
-export declare function toBeCloseWith(this: jest.MatcherContext, received: number, expected: number, delta?: number, precision?: number): jest.CustomMatcherResult;
+export declare function toBeCloseWith(this: IMatcherContext, received: number, expected: number, delta?: number, precision?: number): ICustomMatcherResult;
 declare const _default: {
     /**
      * check actual number is expected number ± delta

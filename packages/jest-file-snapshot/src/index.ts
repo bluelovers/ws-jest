@@ -11,7 +11,7 @@ import {
 } from 'jest-matcher-utils';
 import { ITSTypeAndStringLiteral } from 'ts-type/lib/helper/string';
 import { chkcrlf, crlf, EnumLineBreak } from 'crlf-normalize';
-import pathInsideDirectory from 'path-in-dir';
+import { pathInsideDirectory } from 'path-in-dir';
 import { findRootLazy, IFindRootReturnType } from '@yarn-tool/find-root';
 
 export interface IFileMatcherOptions
@@ -191,6 +191,8 @@ export function toMatchFile(this: IMatcherContext,
 				`This is likely because this test is run in a ${EXPECTED_COLOR(
 					'continuous integration (CI) environment',
 				)} in which snapshots are not written by default.\n\n`,
+			actual: received,
+			name: matcherName,
 		};
 	}
 

@@ -1,12 +1,16 @@
 /// <reference types="jest" />
+/// <reference types="node" />
+/// <reference types="expect" />
+
+import { IExpectExtendMap } from '@lazy-assert/jest-global-types-extra';
 
 export interface IOptions
 {
 	expect?: jest.Expect,
 
-	cbNotExists?(matchers: jest.ExpectExtendMap, options?: IOptions): any,
+	cbNotExists?(matchers: IExpectExtendMap, options?: IOptions): any,
 
-	cbExists?(matchers: jest.ExpectExtendMap, options?: IOptions): any,
+	cbExists?(matchers: IExpectExtendMap, options?: IOptions): any,
 }
 
 export function getGlobalExpect(): jest.Expect
@@ -31,12 +35,12 @@ export function getGlobalExpect(): jest.Expect
 	}
 }
 
-export function jestInstallExpectExtend(matchers: jest.ExpectExtendMap, expect?: jest.Expect)
+export function jestInstallExpectExtend(matchers: IExpectExtendMap, expect?: jest.Expect)
 {
 	return (expect ?? getGlobalExpect()).extend(matchers)
 }
 
-export function jestAutoInstallExpectExtend(matchers: jest.ExpectExtendMap, options?: IOptions)
+export function jestAutoInstallExpectExtend(matchers: IExpectExtendMap, options?: IOptions)
 {
 	const expect = options?.expect ?? getGlobalExpect();
 

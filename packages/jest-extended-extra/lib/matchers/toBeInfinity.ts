@@ -1,5 +1,5 @@
-import { autoMessage } from '../util/msg';
 import { isInfinity } from '@lazy-assert/check-basic';
+import { autoMessage } from '@lazy-assert/jest-util';
 
 const matcherName = 'toBeInfinity' as const;
 const type = 'infinity' as const
@@ -13,6 +13,11 @@ declare global
 		interface Matchers<R>
 		{
 			[matcherName](): R;
+		}
+
+		interface Expect
+		{
+			[matcherName](): void;
 		}
 
 	}

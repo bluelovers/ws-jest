@@ -1,5 +1,5 @@
-import { autoMessage } from '../util/msg';
 import { isNegative } from '@lazy-assert/check-basic';
+import { autoMessage } from '@lazy-assert/jest-util';
 
 const matcherName = 'toBeNegative' as const;
 const type = 'negative' as const
@@ -13,6 +13,11 @@ declare global
 		interface Matchers<R>
 		{
 			[matcherName](): R;
+		}
+
+		interface Expect
+		{
+			[matcherName](): void;
 		}
 
 	}

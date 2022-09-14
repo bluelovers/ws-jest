@@ -1,26 +1,27 @@
 {
-  "name": "jest-install-matcher-extends",
-  "version": "1.0.9",
+  "name": "@lazy-assert/jest-diff",
+  "version": "1.0.0",
   "description": "",
   "keywords": [
-    "jest",
-    "matchers",
-    "extend",
-    "extended",
+    "assert",
     "test",
+    "check",
+    "assertion",
     "testing",
-    "assertions",
+    "chai",
+    "expect",
+    "jest",
     "create-by-yarn-tool",
     "create-by-tsdx"
   ],
-  "homepage": "https://github.com/bluelovers/ws-jest/tree/master/packages/jest-install-matcher-extends#readme",
+  "homepage": "https://github.com/bluelovers/ws-jest/tree/master/packages/@lazy-assert/jest-diff#readme",
   "bugs": {
     "url": "https://github.com/bluelovers/ws-jest/issues"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bluelovers/ws-jest.git",
-    "directory": "packages/jest-install-matcher-extends"
+    "directory": "packages/@lazy-assert/jest-diff"
   },
   "license": "ISC",
   "author": "bluelovers",
@@ -39,22 +40,28 @@
   "module": "dist/index.esm.mjs",
   "types": "dist/index.d.ts",
   "typings": "dist/index.d.ts",
-  "directories": {
-    "test": "test"
-  },
   "scripts": {
+    "review": "yarn run review:coverage",
+    "review:coverage": "yarn run lint && yarn run coverage",
+    "review:test": "yarn run lint && yarn run test",
+    "coverage": "yarn run test -- --coverage",
+    "lint": "yarn run lint:eslint",
+    "lint:eslint": "ynpx eslint --ext .ts,.tsx,.mts,.cts ./",
     "pretest": "echo pretest",
     "test": "jest --passWithNoTests",
     "test:jest": "jest --passWithNoTests",
     "test:jest:snapshot": "yarn run test:jest -- -u",
+    "test:mocha": "ynpx --quiet -p ts-node -p mocha mocha -- --require ts-node/register \"!(node_modules)/**/*.{test,spec}.{ts,tsx}\"",
     "test:snapshot": "yarn run test -- -u",
+    "test:tsdx": "ynpx @bluelovers/tsdx test --passWithNoTests",
     "posttest": "yarn run build",
     "build": "yarn run build:tsdx && yarn run build:dts:tsc",
     "build:dts:bundle": "ynpx dts-bundle-generator -o ./dist/index.d.ts ./src/index.ts --no-banner --inline-declare-global & echo build:dts:bundle",
     "build:dts:copy": "copy .\\src\\index.d.ts .\\dist\\index.d.ts & echo build:dts",
     "build:dts:tsc": "yarn run build:dts:tsc:emit && yarn run build:dts:copy",
     "build:dts:tsc:emit": "tsc --emitDeclarationOnly --declaration --noEmit false",
-    "build:tsdx": "ynpx @bluelovers/tsdx build --target node",
+    "build:microbundle": "ynpx microbundle --target node",
+    "build:tsdx": "ynpx @bluelovers/tsdx build --target node --name index",
     "ci:install": "echo ci:install",
     "ci:build": "echo ci:build",
     "preversion": "echo preversion && yarn run test",
@@ -75,7 +82,13 @@
     "tsc:showConfig": "ynpx get-current-tsconfig -p"
   },
   "dependencies": {
-    "@lazy-assert/jest-global-types-extra": "^1.0.0"
+    "crlf-normalize": "^1.0.12",
+    "jest-matcher-utils": ">=29"
   },
-  "packageManager": "yarn@^1.22.11"
+  "devDependencies": {},
+  "peerDependencies": {},
+  "packageManager": "yarn@1.22.19",
+  "publishConfig": {
+    "access": "public"
+  }
 }

@@ -1,10 +1,11 @@
 /// <reference types="jest" />
+/// <reference types="node" />
+/// <reference types="expect" />
 
 import {
 	matcherHint,
 	printExpected,
 	printReceived,
-	MatcherHintOptions,
 	matcherErrorMessage,
 	EXPECTED_COLOR, printWithType, RECEIVED_COLOR,
 } from 'jest-matcher-utils';
@@ -12,6 +13,8 @@ import { numberInDelta } from 'num-in-delta';
 import { printCloseTo } from 'expect-print-close-to';
 import { jestAutoInstallExpectExtend } from 'jest-install-matcher-extends';
 import { subAbs } from 'num-in-delta/lib/util';
+import { handleJestMatcherHintOptions } from '@lazy-assert/jest-util';
+import { IMatcherContext, ICustomMatcherResult } from '@lazy-assert/jest-global-types-extra';
 
 declare global
 {
@@ -35,22 +38,19 @@ declare global
  * check actual number is expected number ± delta
  */
 export function toBeCloseWith(
-	this: jest.MatcherContext,
+	this: IMatcherContext,
 	received: number,
 	expected: number,
 	delta?: number,
 	precision: number = 4
-): jest.CustomMatcherResult
+): ICustomMatcherResult
 {
-	const matcherName = 'toBeCloseWith';
-	const secondArgument = arguments.length === 3 ? 'precision' : undefined;
+	const matcherName = 'toBeCloseWith' as const;
 	const isNot = this.isNot;
-	const options: MatcherHintOptions = {
-		isNot,
-		promise: this.promise,
-		secondArgument,
-		secondArgumentColor: (arg: string) => arg,
-	};
+
+	const options = handleJestMatcherHintOptions(this, {
+		secondArgument: arguments.length === 3 ? 'precision' : undefined,
+	});
 
 	if (typeof expected !== 'number')
 	{
@@ -112,7 +112,13 @@ export function toBeCloseWith(
 			'\n' +
 			printCloseTo(receivedDiff, expectedDiff, precision, isNot);
 
-	return { message, pass };
+	return {
+		message,
+		pass,
+		actual: received,
+		expected,
+		name: matcherName,
+	};
 }
 
 export default {

@@ -1,4 +1,4 @@
-import { autoMessage } from '../util/msg';
+import { autoMessage } from '@lazy-assert/jest-util';
 
 const matcherName = 'toBeFinite' as const;
 const type = 'finite' as const
@@ -12,6 +12,11 @@ declare global
 		interface Matchers<R>
 		{
 			[matcherName](): R;
+		}
+
+		interface Expect
+		{
+			[matcherName](): void;
 		}
 
 	}

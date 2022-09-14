@@ -14,6 +14,11 @@ declare global
 			[matcherName](): R;
 		}
 
+		interface Expect
+		{
+			[matcherName](): void;
+		}
+
 	}
 
 }

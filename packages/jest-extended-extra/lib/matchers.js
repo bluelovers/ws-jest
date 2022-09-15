@@ -18,7 +18,7 @@ exports.matchers = {
     ...toBeInteger_1.default,
     ...toBeNegative_1.default,
     ...toBePositive_1.default,
-    ...toBeZero_1.default
+    ...toBeZero_1.default,
 };
 exports.default = exports.matchers;
 //# sourceMappingURL=matchers.js.map

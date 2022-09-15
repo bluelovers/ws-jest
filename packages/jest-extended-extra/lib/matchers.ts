@@ -15,7 +15,7 @@ export const matchers = {
 	...toBeInteger,
 	...toBeNegative,
 	...toBePositive,
-	...toBeZero
+	...toBeZero,
 } as const
 export default matchers
 

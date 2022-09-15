@@ -7,6 +7,14 @@ declare global {
              */
             toBeCloseWith(expected: number, delta?: number, numDigits?: number): R;
         }
+        interface Expect {
+            toBeCloseWith(expected: number, delta?: number, numDigits?: number): void;
+        }
+    }
+}
+declare module 'expect' {
+    interface Matchers<R extends void | Promise<void>> {
+        toBeCloseWith(expected: number, delta?: number, numDigits?: number): R;
     }
 }
 /**

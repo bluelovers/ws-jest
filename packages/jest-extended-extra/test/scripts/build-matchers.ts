@@ -49,7 +49,7 @@ FastGlob([
 
 		lines.push('');
 
-		lines.push(`export const matchers = {\n${ls.map(v => `\t...${v}`).join(',\n')}\n} as const`);
+		lines.push(`export const matchers = {\n${ls.map(v => `\t...${v}`).join(',\n')},\n} as const`);
 		lines.push(`export default matchers`);
 
 		let out = `\n\n${lines.join('\n')}\n\n`;
@@ -61,4 +61,3 @@ FastGlob([
 		})
 	})
 ;
-

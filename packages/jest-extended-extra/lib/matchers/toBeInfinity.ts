@@ -24,6 +24,14 @@ declare global
 
 }
 
+declare module 'expect'
+{
+	interface Matchers<R extends void | Promise<void>>
+	{
+		[matcherName](): R;
+	}
+}
+
 export function toBeInfinity(this: jest.MatcherContext, received: number)
 {
 	const pass = isInfinity(received);

@@ -1,9 +1,11 @@
 import check from 'check-types';
 import { ITSKeyofByExtractType } from 'ts-type/lib/helper/record/pick-type';
 import { autoMessage } from '@lazy-assert/jest-util';
-import { IMatcherContext, ICustomMatcherResult } from '@lazy-assert/jest-global-types-extra';
+import { ICustomMatcherResult, IMatcherContext } from '@lazy-assert/jest-global-types-extra';
 
-export function createNewCheckTypes(matcherName: string, type: ITSKeyofByExtractType<typeof check, ((...argv: any[]) => any)> | string)
+export function createNewCheckTypes(matcherName: string,
+	type: ITSKeyofByExtractType<typeof check, ((...argv: any[]) => any)> | string,
+)
 {
 	return function toBeCheckTypes(this: IMatcherContext, received: number): ICustomMatcherResult
 	{

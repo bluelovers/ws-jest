@@ -44,6 +44,14 @@ declare global
 	}
 }
 
+declare module 'expect'
+{
+	interface Matchers<R extends void | Promise<void>>
+	{
+		toMatchFile(filename?: string, options?: IFileMatcherOptions): R;
+	}
+}
+
 const _defaultDiffOptions: DiffOptions = {
 	expand: false,
 	contextLines: 5,

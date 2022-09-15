@@ -10,6 +10,11 @@ declare global {
         }
     }
 }
+declare module 'expect' {
+    interface Matchers<R extends void | Promise<void>> {
+        [matcherName](): R;
+    }
+}
 export declare const toBeInteger: (this: jest.MatcherContext, received: number) => jest.CustomMatcherResult;
 declare const _default: {
     toBeInteger: (this: jest.MatcherContext, received: number) => jest.CustomMatcherResult;

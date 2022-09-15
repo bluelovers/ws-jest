@@ -23,6 +23,14 @@ declare global
 
 }
 
+declare module 'expect'
+{
+	interface Matchers<R extends void | Promise<void>>
+	{
+		[matcherName](): R;
+	}
+}
+
 export const toBeFloat = createNewCheckTypes(matcherName, type)
 
 export default {

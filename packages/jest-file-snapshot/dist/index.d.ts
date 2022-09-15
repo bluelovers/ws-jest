@@ -15,6 +15,11 @@ declare global {
         }
     }
 }
+declare module 'expect' {
+    interface Matchers<R extends void | Promise<void>> {
+        toMatchFile(filename?: string, options?: IFileMatcherOptions): R;
+    }
+}
 export declare function getBaseSnapshotDirectory(context: Pick<IMatcherContext, 'testPath'>): string;
 /**
  * generate from the test title

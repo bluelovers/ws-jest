@@ -1,6 +1,6 @@
 {
   "name": "@lazy-assert/jest-util",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "keywords": [
     "assert",
@@ -82,11 +82,9 @@
     "tsc:showConfig": "ynpx get-current-tsconfig -p"
   },
   "dependencies": {
-    "@lazy-assert/jest-global-types-extra": "^1.0.0",
+    "@lazy-assert/jest-global-types-extra": "^1.0.1",
     "jest-matcher-utils": ">=29"
   },
-  "devDependencies": {},
-  "peerDependencies": {},
   "packageManager": "yarn@1.22.19",
   "publishConfig": {
     "access": "public"

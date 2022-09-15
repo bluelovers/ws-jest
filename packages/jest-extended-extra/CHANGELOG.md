@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.13](https://github.com/bluelovers/ws-jest/compare/jest-extended-extra@1.0.12...jest-extended-extra@1.0.13) (2022-09-15)
+
+
+
+### 📦　Code Refactoring
+
+* code splitting ([581f868](https://github.com/bluelovers/ws-jest/commit/581f868a5608545fd976d98be726e581b899eda1))
+
+
+### 🛠　Build System
+
+* update build ([cca1941](https://github.com/bluelovers/ws-jest/commit/cca194101122a18c961275ee780f700bf571960b))
+* update build ([7fe3167](https://github.com/bluelovers/ws-jest/commit/7fe316727c1042c27bbc9c100df8f0cee01f9d35))
+* update build ([3fbdda0](https://github.com/bluelovers/ws-jest/commit/3fbdda01bc244eec528502c963befc2d39cac531))
+* **matchers:** update index of matchers ([ba9c243](https://github.com/bluelovers/ws-jest/commit/ba9c2437e1988b5c47d0f7c72a173ca6f8743b6e))
+* **matchers:** update index of matchers ([84856a6](https://github.com/bluelovers/ws-jest/commit/84856a60569c11269e282ca19a92a023765ce4ec))
+* **matchers:** update index of matchers ([d0c44f9](https://github.com/bluelovers/ws-jest/commit/d0c44f9afe38deb53fc0c5227a29d480edb1bdd3))
+
+
+
 ## [1.0.12](https://github.com/bluelovers/ws-jest/compare/jest-extended-extra@1.0.11...jest-extended-extra@1.0.12) (2022-09-10)
 
 

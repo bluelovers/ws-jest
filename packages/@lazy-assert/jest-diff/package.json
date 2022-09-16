@@ -82,7 +82,7 @@
     "tsc:showConfig": "ynpx get-current-tsconfig -p"
   },
   "dependencies": {
-    "crlf-normalize": "^1.0.12",
+    "crlf-normalize": "^1.0.13",
     "jest-matcher-utils": ">=29"
   },
   "packageManager": "yarn@1.22.19",

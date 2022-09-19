@@ -18,14 +18,19 @@ export function isFloat(n: unknown): n is number
 	return isNum(n) && !isInt(n);
 }
 
+export function isFiniteNum(n: unknown): n is number
+{
+	return isNum(n) && isFinite(n);
+}
+
 export function isFiniteInt(n: unknown): n is number
 {
-	return isFinite(n as any) && isInt(n)
+	return isFiniteNum(n) && isInt(n)
 }
 
 export function isFiniteFloat(n: unknown): n is number
 {
-	return isFinite(n as any) && isFloat(n)
+	return isFiniteNum(n) && isFloat(n)
 }
 
 export function isInfinity(n: unknown): n is typeof Infinity
@@ -69,5 +74,5 @@ export function isUnSafeNumString(n: unknown): n is string
  */
 export function isUnSafeNumLike(n: unknown): n is number | string
 {
-	return isNum(n) || isUnSafeNumString(n)
+	return isFiniteNum(n) || isUnSafeNumString(n)
 }

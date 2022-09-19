@@ -14,12 +14,16 @@ function isFloat(i) {
   return isNum(i) && !isInt(i);
 }
 
+function isFiniteNum(i) {
+  return isNum(i) && isFinite(i);
+}
+
 function isFiniteInt(i) {
-  return isFinite(i) && isInt(i);
+  return isFiniteNum(i) && isInt(i);
 }
 
 function isFiniteFloat(i) {
-  return isFinite(i) && isFloat(i);
+  return isFiniteNum(i) && isFloat(i);
 }
 
 function isInfinity(i) {
@@ -43,8 +47,8 @@ function isUnSafeNumString(i) {
 }
 
 function isUnSafeNumLike(i) {
-  return isNum(i) || isUnSafeNumString(i);
+  return isFiniteNum(i) || isUnSafeNumString(i);
 }
 
-export { isFiniteFloat, isFiniteInt, isFloat, isInfinity, isInt, isNaN, isNegative, isNum, isPositive, isUnSafeNumLike, isUnSafeNumString, isZero };
+export { isFiniteFloat, isFiniteInt, isFiniteNum, isFloat, isInfinity, isInt, isNaN, isNegative, isNum, isPositive, isUnSafeNumLike, isUnSafeNumString, isZero };
 //# sourceMappingURL=index.esm.mjs.map

@@ -14,11 +14,14 @@ function isInt(n) {
 function isFloat(n) {
   return isNum(n) && !isInt(n);
 }
+function isFiniteNum(n) {
+  return isNum(n) && isFinite(n);
+}
 function isFiniteInt(n) {
-  return isFinite(n) && isInt(n);
+  return isFiniteNum(n) && isInt(n);
 }
 function isFiniteFloat(n) {
-  return isFinite(n) && isFloat(n);
+  return isFiniteNum(n) && isFloat(n);
 }
 function isInfinity(n) {
   return n === Infinity || n === -Infinity;
@@ -44,11 +47,12 @@ function isUnSafeNumString(n) {
   return false;
 }
 function isUnSafeNumLike(n) {
-  return isNum(n) || isUnSafeNumString(n);
+  return isFiniteNum(n) || isUnSafeNumString(n);
 }
 
 exports.isFiniteFloat = isFiniteFloat;
 exports.isFiniteInt = isFiniteInt;
+exports.isFiniteNum = isFiniteNum;
 exports.isFloat = isFloat;
 exports.isInfinity = isInfinity;
 exports.isInt = isInt;

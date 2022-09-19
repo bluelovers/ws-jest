@@ -3,12 +3,18 @@
 /// <reference types="node" />
 /// <reference types="expect" />
 
-import { isUnSafeNumLike } from '../src/index';
+import { isInfinity, isNum, isFiniteNum, isUnSafeNumLike, isPositive, isNegative, isInt, isFloat } from '../src/index';
+import { inspect } from 'util';
 
-beforeAll(async () =>
-{
+jest
+	.spyOn(global.Math, 'random')
+	.mockReturnValue(0.6928926305075755)
+;
 
-});
+jest
+	.useFakeTimers()
+	.setSystemTime(new Date(1663616015139))
+;
 
 describe('is a number', function ()
 {
@@ -103,9 +109,10 @@ describe('is a number', function ()
 
 	fixtures.forEach(function (num)
 	{
-		it(JSON.stringify(num) + ' should be a number', function ()
+		it(inspect(num), function ()
 		{
 			expect(isUnSafeNumLike(num)).toBeTruthy();
+			_toMatchSnapshot(num);
 		});
 	});
 });
@@ -153,9 +160,28 @@ describe('is not a number', function ()
 
 	fixtures.forEach(function (num)
 	{
-		it(JSON.stringify(num) + ' should not be a number', function ()
+		it(inspect(num), function ()
 		{
 			expect(isUnSafeNumLike(num)).toBeFalsy();
+			_toMatchSnapshot(num);
 		});
 	});
 });
+
+function _toMatchSnapshot(num: unknown)
+{
+	expect({
+		isNum: isNum(num),
+		isFinite: isFinite(num as any),
+		isNumFinite: isFiniteNum(num as any),
+		isInfinity: isInfinity(num as any),
+
+		isPositive: isPositive(num as any),
+		isNegative: isNegative(num as any),
+
+		isInt: isInt(num as any),
+		isFloat: isFloat(num as any),
+
+		isUnSafeNumLike: isUnSafeNumLike(num),
+	}).toMatchSnapshot()
+}

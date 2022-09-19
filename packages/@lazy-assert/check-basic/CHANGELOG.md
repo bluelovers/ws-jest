@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.8](https://github.com/bluelovers/ws-jest/compare/@lazy-assert/check-basic@1.0.7...@lazy-assert/check-basic@1.0.8) (2022-09-19)
+
+
+
+### ✨　Features
+
+* add `isFiniteNum` ([9906469](https://github.com/bluelovers/ws-jest/commit/9906469b4c9bfb33c55b9b2fc6b16de548aae1a0))
+* add `isUnSafeNumLike` ([e8e88b2](https://github.com/bluelovers/ws-jest/commit/e8e88b2a1bc1ac3bb79bf29af7214dec3cdd5e42))
+
+
+
 ## [1.0.7](https://github.com/bluelovers/ws-jest/compare/@lazy-assert/check-basic@1.0.6...@lazy-assert/check-basic@1.0.7) (2022-09-10)
 
 

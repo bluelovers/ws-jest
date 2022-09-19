@@ -1,7 +1,6 @@
-
 export function isNum(n: unknown): n is number
 {
-	return n === +n
+	return typeof n === 'number' && n === +n
 }
 
 export function isNaN(n: unknown): n is typeof NaN
@@ -47,4 +46,28 @@ export function isPositive(n: unknown): n is number
 export function isNegative(n: unknown): n is number
 {
 	return isNum(n) && (n < 0 || n === -Infinity)
+}
+
+/**
+ * @see https://github.com/jonschlinkert/is-number/blob/master/index.js
+ */
+export function isUnSafeNumString(n: unknown): n is string
+{
+	if (typeof n === 'string')
+	{
+		n = n.trim();
+		if (n !== '')
+		{
+			return isFinite(+n)
+		}
+	}
+	return false;
+}
+
+/**
+ * @see https://github.com/jonschlinkert/is-number/blob/master/index.js
+ */
+export function isUnSafeNumLike(n: unknown): n is number | string
+{
+	return isNum(n) || isUnSafeNumString(n)
 }

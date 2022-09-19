@@ -3,7 +3,7 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 function isNum(n) {
-  return n === +n;
+  return typeof n === 'number' && n === +n;
 }
 function isNaN(n) {
   return Number.isNaN(n);
@@ -32,6 +32,20 @@ function isPositive(n) {
 function isNegative(n) {
   return isNum(n) && (n < 0 || n === -Infinity);
 }
+function isUnSafeNumString(n) {
+  if (typeof n === 'string') {
+    n = n.trim();
+
+    if (n !== '') {
+      return isFinite(+n);
+    }
+  }
+
+  return false;
+}
+function isUnSafeNumLike(n) {
+  return isNum(n) || isUnSafeNumString(n);
+}
 
 exports.isFiniteFloat = isFiniteFloat;
 exports.isFiniteInt = isFiniteInt;
@@ -42,5 +56,7 @@ exports.isNaN = isNaN;
 exports.isNegative = isNegative;
 exports.isNum = isNum;
 exports.isPositive = isPositive;
+exports.isUnSafeNumLike = isUnSafeNumLike;
+exports.isUnSafeNumString = isUnSafeNumString;
 exports.isZero = isZero;
 //# sourceMappingURL=index.cjs.development.cjs.map

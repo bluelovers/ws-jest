@@ -1,5 +1,5 @@
 function isNum(i) {
-  return i === +i;
+  return "number" == typeof i && i === +i;
 }
 
 function isNaN(i) {
@@ -38,5 +38,13 @@ function isNegative(i) {
   return isNum(i) && (i < 0 || -Infinity === i);
 }
 
-export { isFiniteFloat, isFiniteInt, isFloat, isInfinity, isInt, isNaN, isNegative, isNum, isPositive, isZero };
+function isUnSafeNumString(i) {
+  return "string" == typeof i && "" !== (i = i.trim()) && isFinite(+i);
+}
+
+function isUnSafeNumLike(i) {
+  return isNum(i) || isUnSafeNumString(i);
+}
+
+export { isFiniteFloat, isFiniteInt, isFloat, isInfinity, isInt, isNaN, isNegative, isNum, isPositive, isUnSafeNumLike, isUnSafeNumString, isZero };
 //# sourceMappingURL=index.esm.mjs.map

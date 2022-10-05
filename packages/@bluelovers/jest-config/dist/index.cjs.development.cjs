@@ -109,7 +109,7 @@ function defaultTransform() {
 }
 
 var name = "@bluelovers/jest-config";
-var version = "1.0.15";
+var version = "1.0.16";
 
 function _newTableBorderless(options) {
   let table$1 = new table.Table({

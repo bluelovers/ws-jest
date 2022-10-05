@@ -17,7 +17,7 @@ export function _requireResolve(name: string)
 		includeGlobal: true,
 		includeCurrentDirectory: true,
 		paths,
-	})
+	});
 
 	console.debug('[require.resolve]', name, '=>', result)
 

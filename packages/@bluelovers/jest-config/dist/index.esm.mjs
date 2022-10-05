@@ -62,16 +62,21 @@ function defaultTestPathIgnorePatterns() {
 }
 
 function defaultTransform() {
-  let e = _requireResolve("ts-jest");
-  const {result: s} = t("jest-tsd-transform");
-  if (null != s && s.length) {
-    const {result: o} = t("jest-chain-transform");
-    null != o && o.length && (e = [ o, {
-      transformers: [ s, e ]
+  const e = {
+    includeGlobal: !0,
+    includeCurrentDirectory: !0,
+    paths: [ t("@bluelovers/jest-config").result ].filter(Boolean)
+  };
+  let s = _requireResolve("ts-jest");
+  const {result: o} = t("jest-tsd-transform", e);
+  if (null != o && o.length) {
+    const {result: r} = t("jest-chain-transform", e);
+    null != r && r.length && (s = [ r, {
+      transformers: [ o, s ]
     } ]);
   }
   return {
-    ".(ts|tsx|mts|cts)$": e
+    ".(ts|tsx|mts|cts)$": s
   };
 }
 
@@ -101,15 +106,15 @@ function _newTableBorderless(t) {
 }
 
 function printJestConfigInfo(t, e) {
-  var s, o, n, i, l, u, f, a;
+  var s, o, n, i, l, u, a, f;
   const c = _newTableBorderless();
   null !== (s = e) && void 0 !== s || (e = {}), null !== (o = t) && void 0 !== o || (t = {}), 
   c.push([ "@bluelovers/jest-config:", "1.0.15" ]), c.push([ "process.versions.node:", process.versions.node ]), 
   c.push([ "cwd:", null !== (n = e.cwd) && void 0 !== n ? n : process.cwd() ]), (null === (i = e.file) || void 0 === i ? void 0 : i.length) && c.push([ "file:", e.file ]), 
   (null === (l = t.cacheDirectory) || void 0 === l ? void 0 : l.length) && c.push([ "cacheDirectory:", t.cacheDirectory ]), 
   (null === (u = t.rootDir) || void 0 === u ? void 0 : u.length) && c.push([ "rootDir:", t.rootDir ]), 
-  (null === (f = t.roots) || void 0 === f ? void 0 : f.length) && c.push([ "roots:", _(t.roots) ]), 
-  (null === (a = t.preset) || void 0 === a ? void 0 : a.length) && c.push([ "preset:", t.preset ]), 
+  (null === (a = t.roots) || void 0 === a ? void 0 : a.length) && c.push([ "roots:", _(t.roots) ]), 
+  (null === (f = t.preset) || void 0 === f ? void 0 : f.length) && c.push([ "preset:", t.preset ]), 
   t.transform && c.push([ "transform:", _(t.transform, {
     depth: 3
   }) ]), r.gray.log("─".repeat(20)), r.log("jest.config"), r.log(c.toString()), r.gray.log("─".repeat(20));

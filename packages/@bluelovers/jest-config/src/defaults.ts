@@ -1,4 +1,4 @@
-import { requireResolveExtra } from '@yarn-tool/require-resolve';
+import { requireResolveExtra, IOptions } from '@yarn-tool/require-resolve';
 import { ITSToWriteableArray } from 'ts-type/lib/helper/array/readonly';
 import { ITSWriteable } from 'ts-type/lib/helper/readonly';
 import { _requireResolve } from './helper';
@@ -72,13 +72,23 @@ export function defaultTestPathIgnorePatterns()
 
 export function defaultTransform()
 {
+	const paths: string[] = [
+		requireResolveExtra('@bluelovers/jest-config').result,
+	].filter(Boolean);
+
+	const opts: IOptions = {
+		includeGlobal: true,
+		includeCurrentDirectory: true,
+		paths,
+	};
+
 	let ts_transform: InitialOptionsTsJest["transform"][string] = _requireResolve('ts-jest') as 'ts-jest'
 
-	const { result: tsd } = requireResolveExtra('jest-tsd-transform');
+	const { result: tsd } = requireResolveExtra('jest-tsd-transform', opts);
 
 	if (tsd?.length)
 	{
-		const { result: chain } = requireResolveExtra('jest-chain-transform');
+		const { result: chain } = requireResolveExtra('jest-chain-transform', opts);
 
 		if (chain?.length)
 		{

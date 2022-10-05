@@ -77,16 +77,23 @@ function defaultTestPathIgnorePatterns() {
   return value;
 }
 function defaultTransform() {
+  const paths = [requireResolve.requireResolveExtra('@bluelovers/jest-config').result].filter(Boolean);
+  const opts = {
+    includeGlobal: true,
+    includeCurrentDirectory: true,
+    paths
+  };
+
   let ts_transform = _requireResolve('ts-jest');
 
   const {
     result: tsd
-  } = requireResolve.requireResolveExtra('jest-tsd-transform');
+  } = requireResolve.requireResolveExtra('jest-tsd-transform', opts);
 
   if (tsd !== null && tsd !== void 0 && tsd.length) {
     const {
       result: chain
-    } = requireResolve.requireResolveExtra('jest-chain-transform');
+    } = requireResolve.requireResolveExtra('jest-chain-transform', opts);
 
     if (chain !== null && chain !== void 0 && chain.length) {
       ts_transform = [chain, {

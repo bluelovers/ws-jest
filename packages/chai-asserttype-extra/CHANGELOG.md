@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.9](https://github.com/bluelovers/ws-jest/compare/chai-asserttype-extra@2.0.8...chai-asserttype-extra@2.0.9) (2022-10-05)
+
+
+
+### 🔖　Miscellaneous
+
+* . ([91b12c6](https://github.com/bluelovers/ws-jest/commit/91b12c6bc04507d895c2b5439798d2b9f86d17aa))
+
+
+
 ## [2.0.8](https://github.com/bluelovers/ws-jest/compare/chai-asserttype-extra@2.0.7...chai-asserttype-extra@2.0.8) (2022-09-19)
 
 **Note:** Version bump only for package chai-asserttype-extra

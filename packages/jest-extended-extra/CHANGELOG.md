@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.15](https://github.com/bluelovers/ws-jest/compare/jest-extended-extra@1.0.14...jest-extended-extra@1.0.15) (2022-10-05)
+
+
+
+### 🔖　Miscellaneous
+
+* . ([91b12c6](https://github.com/bluelovers/ws-jest/commit/91b12c6bc04507d895c2b5439798d2b9f86d17aa))
+
+
+
 ## [1.0.14](https://github.com/bluelovers/ws-jest/compare/jest-extended-extra@1.0.13...jest-extended-extra@1.0.14) (2022-09-19)
 
 **Note:** Version bump only for package jest-extended-extra

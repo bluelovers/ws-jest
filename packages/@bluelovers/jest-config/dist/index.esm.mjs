@@ -61,6 +61,20 @@ function defaultTestPathIgnorePatterns() {
   return [ "/node_modules/", "/__fixtures__/", "/__file_snapshots__/", "/fixtures/", "/__tests__/helpers/", "/__tests__/utils/", "__mocks__", "/dist/" ];
 }
 
+function defaultTransform() {
+  let e = _requireResolve("ts-jest");
+  const {result: s} = t("jest-tsd-transform");
+  if (null != s && s.length) {
+    const {result: o} = t("jest-chain-transform");
+    null != o && o.length && (e = [ o, {
+      transformers: [ s, e ]
+    } ]);
+  }
+  return {
+    ".(ts|tsx|mts|cts)$": e
+  };
+}
+
 function _newTableBorderless(t) {
   let e = new i({
     colAligns: [ "right", "left" ],
@@ -87,16 +101,18 @@ function _newTableBorderless(t) {
 }
 
 function printJestConfigInfo(t, e) {
-  var s, o, n, i, l, u, c, a;
-  const f = _newTableBorderless();
+  var s, o, n, i, l, u, f, a;
+  const c = _newTableBorderless();
   null !== (s = e) && void 0 !== s || (e = {}), null !== (o = t) && void 0 !== o || (t = {}), 
-  f.push([ "@bluelovers/jest-config:", "1.0.15" ]), f.push([ "process.versions.node:", process.versions.node ]), 
-  f.push([ "cwd:", null !== (n = e.cwd) && void 0 !== n ? n : process.cwd() ]), (null === (i = e.file) || void 0 === i ? void 0 : i.length) && f.push([ "file:", e.file ]), 
-  (null === (l = t.cacheDirectory) || void 0 === l ? void 0 : l.length) && f.push([ "cacheDirectory:", t.cacheDirectory ]), 
-  (null === (u = t.rootDir) || void 0 === u ? void 0 : u.length) && f.push([ "rootDir:", t.rootDir ]), 
-  (null === (c = t.roots) || void 0 === c ? void 0 : c.length) && f.push([ "roots:", _(t.roots) ]), 
-  (null === (a = t.preset) || void 0 === a ? void 0 : a.length) && f.push([ "preset:", t.preset ]), 
-  r.gray.log("─".repeat(20)), r.log("jest.config"), r.log(f.toString()), r.gray.log("─".repeat(20));
+  c.push([ "@bluelovers/jest-config:", "1.0.15" ]), c.push([ "process.versions.node:", process.versions.node ]), 
+  c.push([ "cwd:", null !== (n = e.cwd) && void 0 !== n ? n : process.cwd() ]), (null === (i = e.file) || void 0 === i ? void 0 : i.length) && c.push([ "file:", e.file ]), 
+  (null === (l = t.cacheDirectory) || void 0 === l ? void 0 : l.length) && c.push([ "cacheDirectory:", t.cacheDirectory ]), 
+  (null === (u = t.rootDir) || void 0 === u ? void 0 : u.length) && c.push([ "rootDir:", t.rootDir ]), 
+  (null === (f = t.roots) || void 0 === f ? void 0 : f.length) && c.push([ "roots:", _(t.roots) ]), 
+  (null === (a = t.preset) || void 0 === a ? void 0 : a.length) && c.push([ "preset:", t.preset ]), 
+  t.transform && c.push([ "transform:", _(t.transform, {
+    depth: 3
+  }) ]), r.gray.log("─".repeat(20)), r.log("jest.config"), r.log(c.toString()), r.gray.log("─".repeat(20));
 }
 
 const u = getCacheDirectory();
@@ -117,9 +133,7 @@ function mixinJestConfig(t, e, s) {
     ...makeTestRegexConfig([ "ts", "tsx", "mts", "cts" ]),
     testPathIgnorePatterns: [ "/node_modules/", "/__fixtures__/", "/__file_snapshots__/", "/fixtures/", "/__tests__/helpers/", "/__tests__/utils/", "__mocks__", "/dist/" ],
     setupFilesAfterEnv: [],
-    transform: {
-      ".(ts|tsx|mts|cts)$": _requireResolve("ts-jest")
-    },
+    transform: defaultTransform(),
     verbose: !0,
     coverageProvider: "v8",
     collectCoverage: !1,
@@ -129,5 +143,5 @@ function mixinJestConfig(t, e, s) {
   return e && printJestConfigInfo(r, s), r;
 }
 
-export { _newTableBorderless, _requireResolve, u as cacheDirectory, mixinJestConfig as default, defaultCoveragePathIgnorePatterns, defaultModuleFileExtensions, defaultTestFileExtensions, defaultTestPathIgnorePatterns, fixJestConfig, getCacheDirectory, makeTestRegexConfig, mixinJestConfig, printJestConfigInfo };
+export { _newTableBorderless, _requireResolve, u as cacheDirectory, mixinJestConfig as default, defaultCoveragePathIgnorePatterns, defaultModuleFileExtensions, defaultTestFileExtensions, defaultTestPathIgnorePatterns, defaultTransform, fixJestConfig, getCacheDirectory, makeTestRegexConfig, mixinJestConfig, printJestConfigInfo };
 //# sourceMappingURL=index.esm.mjs.map

@@ -76,6 +76,30 @@ function defaultTestPathIgnorePatterns() {
   const value = ['/node_modules/', '/__fixtures__/', '/__file_snapshots__/', '/fixtures/', '/__tests__/helpers/', '/__tests__/utils/', '__mocks__', '/dist/'];
   return value;
 }
+function defaultTransform() {
+  let ts_transform = _requireResolve('ts-jest');
+
+  const {
+    result: tsd
+  } = requireResolve.requireResolveExtra('jest-tsd-transform');
+
+  if (tsd !== null && tsd !== void 0 && tsd.length) {
+    const {
+      result: chain
+    } = requireResolve.requireResolveExtra('jest-chain-transform');
+
+    if (chain !== null && chain !== void 0 && chain.length) {
+      ts_transform = [chain, {
+        transformers: [tsd, ts_transform]
+      }];
+    }
+  }
+
+  const value = {
+    '.(ts|tsx|mts|cts)$': ts_transform
+  };
+  return value;
+}
 
 var name = "@bluelovers/jest-config";
 var version = "1.0.15";
@@ -120,6 +144,9 @@ function printJestConfigInfo(jestConfig, options) {
   ((_jestConfig$rootDir = jestConfig.rootDir) === null || _jestConfig$rootDir === void 0 ? void 0 : _jestConfig$rootDir.length) && table.push(['rootDir:', jestConfig.rootDir]);
   ((_jestConfig$roots = jestConfig.roots) === null || _jestConfig$roots === void 0 ? void 0 : _jestConfig$roots.length) && table.push(['roots:', util.inspect(jestConfig.roots)]);
   ((_jestConfig$preset = jestConfig.preset) === null || _jestConfig$preset === void 0 ? void 0 : _jestConfig$preset.length) && table.push(['preset:', jestConfig.preset]);
+  jestConfig.transform && table.push(['transform:', util.inspect(jestConfig.transform, {
+    depth: 3
+  })]);
   debugColor2.console.gray.log('─'.repeat(20));
   debugColor2.console.log(`jest.config`);
   debugColor2.console.log(table.toString());
@@ -144,9 +171,7 @@ function mixinJestConfig(jestConfig, autoPrint, options) {
     ...makeTestRegexConfig(defaultTestFileExtensions()),
     testPathIgnorePatterns: defaultTestPathIgnorePatterns(),
     setupFilesAfterEnv: [],
-    transform: {
-      '.(ts|tsx|mts|cts)$': _requireResolve('ts-jest')
-    },
+    transform: defaultTransform(),
     verbose: true,
     coverageProvider: 'v8',
     collectCoverage: false,
@@ -165,6 +190,7 @@ exports.defaultCoveragePathIgnorePatterns = defaultCoveragePathIgnorePatterns;
 exports.defaultModuleFileExtensions = defaultModuleFileExtensions;
 exports.defaultTestFileExtensions = defaultTestFileExtensions;
 exports.defaultTestPathIgnorePatterns = defaultTestPathIgnorePatterns;
+exports.defaultTransform = defaultTransform;
 exports.fixJestConfig = fixJestConfig;
 exports.getCacheDirectory = getCacheDirectory;
 exports.makeTestRegexConfig = makeTestRegexConfig;

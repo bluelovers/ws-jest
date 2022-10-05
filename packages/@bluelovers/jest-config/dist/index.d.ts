@@ -1,6 +1,7 @@
 import { Table } from '@yarn-tool/table';
 import { TableConstructorOptions } from 'cli-table3';
 import { InitialOptionsTsJest } from 'ts-jest';
+import { ITSWriteable } from 'ts-type/lib/helper/readonly';
 import { ITSArrayListMaybeReadonly } from 'ts-type/lib/type/base';
 
 export declare function _newTableBorderless(options?: TableConstructorOptions): Table.Table;
@@ -55,6 +56,12 @@ export declare function defaultTestPathIgnorePatterns(): [
 	"__mocks__",
 	"/dist/"
 ];
+export declare function defaultTransform(): ITSWriteable<{
+	readonly ".(ts|tsx|mts|cts)$": string | [
+		string,
+		Record<string, unknown>
+	];
+}>;
 export declare const cacheDirectory: string;
 export declare function mixinJestConfig<T extends InitialOptionsTsJest>(jestConfig?: T, autoPrint?: boolean, options?: IOptionsPrintJestConfigInfo): T;
 

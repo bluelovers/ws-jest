@@ -4,7 +4,7 @@ import {
 	defaultCoveragePathIgnorePatterns,
 	defaultModuleFileExtensions,
 	defaultTestFileExtensions,
-	defaultTestPathIgnorePatterns,
+	defaultTestPathIgnorePatterns, defaultTransform,
 } from './defaults';
 import { IOptionsPrintJestConfigInfo, printJestConfigInfo } from './print';
 
@@ -48,9 +48,7 @@ export function mixinJestConfig<T extends InitialOptionsTsJest>(jestConfig?: T, 
 			 */
 			//'jest-os-detection',
 		],
-		transform: {
-			'.(ts|tsx|mts|cts)$': _requireResolve('ts-jest'),
-		},
+		transform: defaultTransform(),
 		verbose: true,
 		/**
 		 * if didn't set `coverageProvider` to `v8`

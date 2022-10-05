@@ -1,4 +1,8 @@
+import { requireResolveExtra } from '@yarn-tool/require-resolve';
 import { ITSToWriteableArray } from 'ts-type/lib/helper/array/readonly';
+import { ITSWriteable } from 'ts-type/lib/helper/readonly';
+import { _requireResolve } from './helper';
+import { InitialOptionsTsJest } from 'ts-jest';
 
 export function defaultTestFileExtensions()
 {
@@ -64,4 +68,36 @@ export function defaultTestPathIgnorePatterns()
 		'/dist/',
 	] as const
 	return value as ITSToWriteableArray<typeof value>;
+}
+
+export function defaultTransform()
+{
+	let ts_transform: InitialOptionsTsJest["transform"][string] = _requireResolve('ts-jest') as 'ts-jest'
+
+	const { result: tsd } = requireResolveExtra('jest-tsd-transform');
+
+	if (tsd?.length)
+	{
+		const { result: chain } = requireResolveExtra('jest-chain-transform');
+
+		if (chain?.length)
+		{
+			ts_transform = [
+				chain as 'jest-chain-transform', {
+					transformers: [
+						tsd as 'jest-tsd-transform',
+						ts_transform as 'ts-jest',
+					],
+				},
+			] satisfies [
+				string,
+				Record<string, unknown>
+			]
+		}
+	}
+
+	const value = {
+		'.(ts|tsx|mts|cts)$': ts_transform,
+	} as const
+	return value as ITSWriteable<typeof value>;
 }

@@ -62,6 +62,10 @@ export function printJestConfigInfo(jestConfig: InitialOptionsTsJest, options?: 
 
 	jestConfig.preset?.length && table.push(['preset:', jestConfig.preset]);
 
+	jestConfig.transform && table.push(['transform:', inspect(jestConfig.transform, {
+		depth: 3
+	})]);
+
 	console.gray.log('─'.repeat(20));
 	console.log(`jest.config`);
 	console.log(table.toString());

@@ -1,6 +1,6 @@
 {
   "name": "jest-num-close-with",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "check actual number is expected number ± delta",
   "keywords": [
     "jest",
@@ -76,9 +76,9 @@
     "tsc:showConfig": "ynpx get-current-tsconfig -p"
   },
   "dependencies": {
-    "@lazy-assert/jest-util": "^1.0.2",
-    "expect-print-close-to": "^1.0.6",
-    "jest-install-matcher-extends": "^1.0.11",
+    "@lazy-assert/jest-util": "^1.0.3",
+    "expect-print-close-to": "^1.0.7",
+    "jest-install-matcher-extends": "^1.0.12",
     "num-in-delta": "^1.0.7"
   },
   "packageManager": "yarn@^1.22.11"

@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.9](https://github.com/bluelovers/ws-jest/compare/jest-file-snapshot2@0.5.8...jest-file-snapshot2@0.5.9) (2022-10-15)
+
+
+
+### 🛠　Build System
+
+* update build ([80c580a](https://github.com/bluelovers/ws-jest/commit/80c580ac33bab15925a42a87da0793768e48e8e6))
+
+
+
 ## [0.5.8](https://github.com/bluelovers/ws-jest/compare/jest-file-snapshot2@0.5.7...jest-file-snapshot2@0.5.8) (2022-10-05)
 
 

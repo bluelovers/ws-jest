@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.1](https://github.com/bluelovers/ws-jest/compare/@bluelovers/jest-config@1.0.16...@bluelovers/jest-config@1.1.1) (2022-10-15)
+
+
+
+### ✨　Features
+
+* add defaultTsJestTransformerOptions ([a33cb37](https://github.com/bluelovers/ws-jest/commit/a33cb37e4c90a5a3f70163cd330d3c88077ec3f1))
+
+
+### 🛠　Build System
+
+* update build ([80c580a](https://github.com/bluelovers/ws-jest/commit/80c580ac33bab15925a42a87da0793768e48e8e6))
+* **dist:** update build ([7d300b6](https://github.com/bluelovers/ws-jest/commit/7d300b66b157cb0a066e28c031823368806d803c))
+
+
+
 ## [1.0.16](https://github.com/bluelovers/ws-jest/compare/@bluelovers/jest-config@1.0.15...@bluelovers/jest-config@1.0.16) (2022-10-05)
 
 

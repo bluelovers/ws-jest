@@ -5,6 +5,7 @@ import { InitialOptionsTsJest } from 'ts-jest';
 import { ITSArrayListMaybeReadonly } from 'ts-type/lib/type/base';
 import { console } from 'debug-color2';
 import { realpathSync } from 'graceful-fs';
+import { IJestConfig } from './types';
 
 export function _requireResolve(name: string)
 {
@@ -57,7 +58,7 @@ export function makeTestRegexConfig(testExt: string | ITSArrayListMaybeReadonly<
 	}
 }
 
-export function fixJestConfig<T extends InitialOptionsTsJest>(jestConfig: T): T
+export function fixJestConfig<T extends IJestConfig>(jestConfig: T): T
 {
 	if (jestConfig.testMatch)
 	{

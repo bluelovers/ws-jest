@@ -1,8 +1,9 @@
-import { requireResolveExtra, IOptions } from '@yarn-tool/require-resolve';
+import { IOptions, requireResolveExtra } from '@yarn-tool/require-resolve';
 import { ITSToWriteableArray } from 'ts-type/lib/helper/array/readonly';
 import { ITSWriteable } from 'ts-type/lib/helper/readonly';
 import { _requireResolve } from './helper';
 import { InitialOptionsTsJest } from 'ts-jest';
+import { defaultTsJestTransformerOptions } from './plugin/ts-jest';
 
 export function defaultTestFileExtensions()
 {
@@ -82,7 +83,9 @@ export function defaultTransform()
 		paths,
 	};
 
-	let ts_transform: InitialOptionsTsJest["transform"][string] = _requireResolve('ts-jest') as 'ts-jest'
+	let ts_transform: InitialOptionsTsJest["transform"][string] = _requireResolve('ts-jest') as 'ts-jest';
+
+	ts_transform = [ts_transform, defaultTsJestTransformerOptions()];
 
 	const { result: tsd } = requireResolveExtra('jest-tsd-transform', opts);
 
@@ -96,6 +99,7 @@ export function defaultTransform()
 				chain as 'jest-chain-transform', {
 					transformers: [
 						tsd as 'jest-tsd-transform',
+						// @ts-ignore
 						ts_transform as 'ts-jest',
 					],
 				},

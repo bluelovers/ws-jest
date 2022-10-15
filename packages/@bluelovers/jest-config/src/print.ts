@@ -1,9 +1,9 @@
 import { applyStyleBorderless, Table } from '@yarn-tool/table';
 import { TableConstructorOptions } from 'cli-table3';
-import { InitialOptionsTsJest } from 'ts-jest';
 import { console } from 'debug-color2';
 import { inspect } from 'util';
 import { name as jName, version as jVersion } from '../package.json';
+import { IJestConfig } from './types';
 
 export function _newTableBorderless(options?: TableConstructorOptions)
 {
@@ -41,7 +41,7 @@ export interface IOptionsPrintJestConfigInfo
 	file?: string;
 }
 
-export function printJestConfigInfo(jestConfig: InitialOptionsTsJest, options?: IOptionsPrintJestConfigInfo)
+export function printJestConfigInfo(jestConfig: IJestConfig, options?: IOptionsPrintJestConfigInfo)
 {
 	const table = _newTableBorderless();
 

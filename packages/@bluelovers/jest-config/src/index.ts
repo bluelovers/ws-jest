@@ -1,4 +1,3 @@
-import { InitialOptionsTsJest } from 'ts-jest';
 import { _requireResolve, fixJestConfig, getCacheDirectory, makeTestRegexConfig } from './helper';
 import {
 	defaultCoveragePathIgnorePatterns,
@@ -7,6 +6,7 @@ import {
 	defaultTestPathIgnorePatterns, defaultTransform,
 } from './defaults';
 import { IOptionsPrintJestConfigInfo, printJestConfigInfo } from './print';
+import { IJestConfig } from './types';
 
 export * from './helper';
 export * from './defaults';
@@ -16,16 +16,16 @@ const cacheDirectory = getCacheDirectory();
 
 export { cacheDirectory }
 
-export function mixinJestConfig<T extends InitialOptionsTsJest>(jestConfig?: T, autoPrint?: boolean,
+export function mixinJestConfig<T extends IJestConfig>(jestConfig?: T, autoPrint?: boolean,
 	options?: IOptionsPrintJestConfigInfo): T
 {
 	// @ts-ignore
 	jestConfig ??= {};
 	const newJestConfig = fixJestConfig<T>({
 		globals: {
-			'ts-jest': {
-				//tsconfig: 'tsconfig.spec.json',
-			},
+//			'ts-jest': {
+//				//tsconfig: 'tsconfig.spec.json',
+//			},
 		},
 		cacheDirectory,
 		maxWorkers: 1,

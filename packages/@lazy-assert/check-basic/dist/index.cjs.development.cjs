@@ -38,12 +38,10 @@ function isNegative(n) {
 function isUnSafeNumString(n) {
   if (typeof n === 'string') {
     n = n.trim();
-
     if (n !== '') {
       return isFinite(+n);
     }
   }
-
   return false;
 }
 function isUnSafeNumLike(n) {

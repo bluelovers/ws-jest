@@ -1,2 +1,15 @@
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0});var e=require("jest-matcher-utils");function printCloseTo(t,i,r,n){const o=e.stringify(t),s=o.includes("e")?i.toExponential(0):0<=r&&r<20?i.toFixed(r+1):e.stringify(i);return`Expected precision:  ${n?"    ":""}  ${e.stringify(r)}\nExpected difference: ${n?"not ":""}< ${e.EXPECTED_COLOR(s)}\nReceived difference: ${n?"    ":""}  ${e.RECEIVED_COLOR(o)}`}exports.default=printCloseTo,exports.printCloseTo=printCloseTo;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: !0
+});
+
+var e = require("jest-matcher-utils");
+
+function printCloseTo(t, i, r, n) {
+  const o = e.stringify(t), s = o.includes("e") ? i.toExponential(0) : 0 <= r && r < 20 ? i.toFixed(r + 1) : e.stringify(i);
+  return `Expected precision:  ${n ? "    " : ""}  ${e.stringify(r)}\nExpected difference: ${n ? "not " : ""}< ${e.EXPECTED_COLOR(s)}\nReceived difference: ${n ? "    " : ""}  ${e.RECEIVED_COLOR(o)}`;
+}
+
+exports.default = printCloseTo, exports.printCloseTo = printCloseTo;
 //# sourceMappingURL=index.cjs.production.min.cjs.map

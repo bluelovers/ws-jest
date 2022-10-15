@@ -11,7 +11,6 @@ function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'defau
 var typeDetect__default = /*#__PURE__*/_interopDefaultLegacy(typeDetect);
 
 exports.EnumTypeDetect = void 0;
-
 (function (EnumTypeDetect) {
   EnumTypeDetect["array"] = "Array";
   EnumTypeDetect["boolean"] = "boolean";
@@ -22,13 +21,11 @@ exports.EnumTypeDetect = void 0;
   EnumTypeDetect["regexp"] = "RegExp";
   EnumTypeDetect["string"] = "string";
 })(exports.EnumTypeDetect || (exports.EnumTypeDetect = {}));
-
 function ChaiPluginAssertType(chai, utils) {
   Object.entries(exports.EnumTypeDetect).forEach(function ([key, value]) {
     let fn = function () {
       this.an(value);
     };
-
     addToAssertion(chai, key, fn);
   });
   addToAssertionLazy(chai, 'integer', checkBasic.isInt, utils);
@@ -42,7 +39,6 @@ function ChaiPluginAssertType(chai, utils) {
 function addToAssertionLazy(chai, key, fnCheck, utils) {
   return addToAssertion(chai, key, function () {
     let obj = utils.flag(this, 'object');
-
     _assertType(this, key, fnCheck(obj), obj);
   });
 }
@@ -58,7 +54,6 @@ function _assertType(target, typeName, bool, obj) {
 }
 function install(chai) {
   let o = (chai || require('chai')).use(ChaiPluginAssertType);
-
   return o;
 }
 function list() {

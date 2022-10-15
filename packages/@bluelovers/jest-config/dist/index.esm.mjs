@@ -10,7 +10,7 @@ import { realpathSync as n } from "graceful-fs";
 
 import { Table as i, applyStyleBorderless as l } from "@yarn-tool/table";
 
-import { inspect as _ } from "util";
+import { inspect as u } from "util";
 
 function _requireResolve(s) {
   const o = [ t("@bluelovers/tsdx").result, t("tsdx").result ].filter(Boolean), n = e(s, {
@@ -68,6 +68,17 @@ function defaultTransform() {
     paths: [ t("@bluelovers/jest-config").result ].filter(Boolean)
   };
   let s = _requireResolve("ts-jest");
+  s = [ s, {
+    tsconfig: {
+      noEmit: !0,
+      emitDeclarationOnly: !1,
+      noUnusedParameters: !1,
+      allowUnusedLabels: !0,
+      noUnusedLocals: !1,
+      noPropertyAccessFromIndexSignature: !1,
+      noImplicitAny: !1
+    }
+  } ];
   const {result: o} = t("jest-tsd-transform", e);
   if (null != o && o.length) {
     const {result: r} = t("jest-chain-transform", e);
@@ -106,30 +117,28 @@ function _newTableBorderless(t) {
 }
 
 function printJestConfigInfo(t, e) {
-  var s, o, n, i, l, u, a, f;
-  const c = _newTableBorderless();
+  var s, o, n, i, l, _, a, c;
+  const f = _newTableBorderless();
   null !== (s = e) && void 0 !== s || (e = {}), null !== (o = t) && void 0 !== o || (t = {}), 
-  c.push([ "@bluelovers/jest-config:", "1.0.16" ]), c.push([ "process.versions.node:", process.versions.node ]), 
-  c.push([ "cwd:", null !== (n = e.cwd) && void 0 !== n ? n : process.cwd() ]), (null === (i = e.file) || void 0 === i ? void 0 : i.length) && c.push([ "file:", e.file ]), 
-  (null === (l = t.cacheDirectory) || void 0 === l ? void 0 : l.length) && c.push([ "cacheDirectory:", t.cacheDirectory ]), 
-  (null === (u = t.rootDir) || void 0 === u ? void 0 : u.length) && c.push([ "rootDir:", t.rootDir ]), 
-  (null === (a = t.roots) || void 0 === a ? void 0 : a.length) && c.push([ "roots:", _(t.roots) ]), 
-  (null === (f = t.preset) || void 0 === f ? void 0 : f.length) && c.push([ "preset:", t.preset ]), 
-  t.transform && c.push([ "transform:", _(t.transform, {
+  f.push([ "@bluelovers/jest-config:", "1.0.16" ]), f.push([ "process.versions.node:", process.versions.node ]), 
+  f.push([ "cwd:", null !== (n = e.cwd) && void 0 !== n ? n : process.cwd() ]), (null === (i = e.file) || void 0 === i ? void 0 : i.length) && f.push([ "file:", e.file ]), 
+  (null === (l = t.cacheDirectory) || void 0 === l ? void 0 : l.length) && f.push([ "cacheDirectory:", t.cacheDirectory ]), 
+  (null === (_ = t.rootDir) || void 0 === _ ? void 0 : _.length) && f.push([ "rootDir:", t.rootDir ]), 
+  (null === (a = t.roots) || void 0 === a ? void 0 : a.length) && f.push([ "roots:", u(t.roots) ]), 
+  (null === (c = t.preset) || void 0 === c ? void 0 : c.length) && f.push([ "preset:", t.preset ]), 
+  t.transform && f.push([ "transform:", u(t.transform, {
     depth: 3
-  }) ]), r.gray.log("─".repeat(20)), r.log("jest.config"), r.log(c.toString()), r.gray.log("─".repeat(20));
+  }) ]), r.gray.log("─".repeat(20)), r.log("jest.config"), r.log(f.toString()), r.gray.log("─".repeat(20));
 }
 
-const u = getCacheDirectory();
+const _ = getCacheDirectory();
 
 function mixinJestConfig(t, e, s) {
   var o;
   null !== (o = t) && void 0 !== o || (t = {});
   const r = fixJestConfig({
-    globals: {
-      "ts-jest": {}
-    },
-    cacheDirectory: u,
+    globals: {},
+    cacheDirectory: _,
     maxWorkers: 1,
     clearMocks: !0,
     passWithNoTests: !0,
@@ -148,5 +157,5 @@ function mixinJestConfig(t, e, s) {
   return e && printJestConfigInfo(r, s), r;
 }
 
-export { _newTableBorderless, _requireResolve, u as cacheDirectory, mixinJestConfig as default, defaultCoveragePathIgnorePatterns, defaultModuleFileExtensions, defaultTestFileExtensions, defaultTestPathIgnorePatterns, defaultTransform, fixJestConfig, getCacheDirectory, makeTestRegexConfig, mixinJestConfig, printJestConfigInfo };
+export { _newTableBorderless, _requireResolve, _ as cacheDirectory, mixinJestConfig as default, defaultCoveragePathIgnorePatterns, defaultModuleFileExtensions, defaultTestFileExtensions, defaultTestPathIgnorePatterns, defaultTransform, fixJestConfig, getCacheDirectory, makeTestRegexConfig, mixinJestConfig, printJestConfigInfo };
 //# sourceMappingURL=index.esm.mjs.map

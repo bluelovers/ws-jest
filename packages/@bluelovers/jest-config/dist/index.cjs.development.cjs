@@ -25,7 +25,6 @@ function getCacheDirectory() {
     getuid
   } = process;
   const tmpdirPath = process.env['JEST_CACHE_DIRECTORY'] || path.join(tryRealpath(os.tmpdir()), 'jest');
-
   if (getuid == null) {
     return tmpdirPath;
   } else {
@@ -45,7 +44,6 @@ function fixJestConfig(jestConfig) {
   } else if (jestConfig.testRegex) {
     jestConfig.testMatch = void 0;
   }
-
   return jestConfig;
 }
 function tryRealpath(path) {
@@ -56,8 +54,21 @@ function tryRealpath(path) {
       throw error;
     }
   }
-
   return path;
+}
+
+function defaultTsJestTransformerOptions() {
+  return {
+    tsconfig: {
+      noEmit: true,
+      emitDeclarationOnly: false,
+      noUnusedParameters: false,
+      allowUnusedLabels: true,
+      noUnusedLocals: false,
+      noPropertyAccessFromIndexSignature: false,
+      noImplicitAny: false
+    }
+  };
 }
 
 function defaultTestFileExtensions() {
@@ -83,25 +94,21 @@ function defaultTransform() {
     includeCurrentDirectory: true,
     paths
   };
-
   let ts_transform = _requireResolve('ts-jest');
-
+  ts_transform = [ts_transform, defaultTsJestTransformerOptions()];
   const {
     result: tsd
   } = requireResolve.requireResolveExtra('jest-tsd-transform', opts);
-
   if (tsd !== null && tsd !== void 0 && tsd.length) {
     const {
       result: chain
     } = requireResolve.requireResolveExtra('jest-chain-transform', opts);
-
     if (chain !== null && chain !== void 0 && chain.length) {
       ts_transform = [chain, {
         transformers: [tsd, ts_transform]
       }];
     }
   }
-
   const value = {
     '.(ts|tsx|mts|cts)$': ts_transform
   };
@@ -138,9 +145,7 @@ function _newTableBorderless(options) {
 }
 function printJestConfigInfo(jestConfig, options) {
   var _options, _jestConfig, _options$cwd, _options$file, _jestConfig$cacheDire, _jestConfig$rootDir, _jestConfig$roots, _jestConfig$preset;
-
   const table = _newTableBorderless();
-
   (_options = options) !== null && _options !== void 0 ? _options : options = {};
   (_jestConfig = jestConfig) !== null && _jestConfig !== void 0 ? _jestConfig : jestConfig = {};
   table.push([`${name}:`, version]);
@@ -163,12 +168,9 @@ function printJestConfigInfo(jestConfig, options) {
 const cacheDirectory = /*#__PURE__*/getCacheDirectory();
 function mixinJestConfig(jestConfig, autoPrint, options) {
   var _jestConfig;
-
   (_jestConfig = jestConfig) !== null && _jestConfig !== void 0 ? _jestConfig : jestConfig = {};
   const newJestConfig = fixJestConfig({
-    globals: {
-      'ts-jest': {}
-    },
+    globals: {},
     cacheDirectory,
     maxWorkers: 1,
     clearMocks: true,

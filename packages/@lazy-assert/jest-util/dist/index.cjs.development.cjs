@@ -6,7 +6,6 @@ var jestMatcherUtils = require('jest-matcher-utils');
 
 function handleJestMatcherHintOptions(context, options) {
   var _options, _options2, _options2$secondArgum;
-
   (_options = options) !== null && _options !== void 0 ? _options : options = {};
   options.isNot = context.isNot;
   options.promise = context.promise;

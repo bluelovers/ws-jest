@@ -1,2 +1,101 @@
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0});var e=require("fs-extra"),t=require("upath2"),a=require("filenamify"),n=require("jest-matcher-utils"),i=require("path-in-dir"),s=require("@yarn-tool/find-root"),o=require("@lazy-assert/jest-util"),r=require("@lazy-assert/jest-diff");function _interopDefaultLegacy(e){return e&&"object"==typeof e&&"default"in e?e:{default:e}}var l=_interopDefaultLegacy(a);const u={expand:!1,contextLines:5,aAnnotation:"Snapshot"};function getBaseSnapshotDirectory(e){return t.join(t.dirname(e.testPath),"__file_snapshots__")}function getBaseSnapshotFileName(e){return t.join(getBaseSnapshotDirectory(e),`${l.default(e.currentTestName,{replacement:"-"}).replace(/\s/g,"-")}-${e.assertionCalls}`)}function _hintSnapshotFileName(e,a){var n;const o=getBaseSnapshotDirectory(e);let r,l,u;var p,h,f;if(i.pathInsideDirectory(a,o)?(l=t.relative(o,a),u=!0):(r=s.findRootLazy({cwd:e.testPath},!1),r&&(i.pathInsideDirectory(a,r.pkg)?(l=t.relative(r.pkg,a),u=!0):i.pathInsideDirectory(a,r.root)&&(l=t.relative(r.root,a),u=!0)),null!==(p=l)&&void 0!==p&&p.length||null===(h=e.snapshotState)||void 0===h||null===(f=h._rootDir)||void 0===f||!f.length||!i.pathInsideDirectory(a,e.snapshotState._rootDir)||(l=t.relative(e.snapshotState._rootDir,a),u=!0)),null===(n=l)||void 0===n||!n.length){let e=s.findRootLazy({cwd:t.dirname(a)},!1);l=null!=e&&e.pkg?t.relative(t.resolve(e.pkg,".."),a):a}return u=u&&a.includes("/__file_snapshots__/"),{snapshotFileName:a,snapshotDisplayName:l,rootData:r,safeUpdateSnapshot:u}}function toMatchFile(a,i,s={}){const{isNot:r,snapshotState:l}=this,p="toMatchFile",h=t.normalize(null!=i?i:getBaseSnapshotFileName(this)),{snapshotDisplayName:f,safeUpdateSnapshot:c}=_hintSnapshotFileName(this,h);s={diff:Object.assign({},u,s.diff)};const d=o.handleJestMatcherHintOptions(this);if("none"===l._updateSnapshot&&!e.pathExistsSync(h))return l.unmatched++,{pass:r,message:()=>`New output file ${n.EXPECTED_COLOR(f)} was ${n.RECEIVED_COLOR("not written")}.\n\nThe update flag must be explicitly passed to write a new snapshot.\n\nThis is likely because this test is run in a ${n.EXPECTED_COLOR("continuous integration (CI) environment")} in which snapshots are not written by default.\n\n`,actual:a,name:p};let _,m=r,message=()=>n.matcherHint(p,void 0,f,d);if(e.pathExistsSync(h))if(_=e.readFileSync(h,Buffer.isBuffer(a)?null:"utf8"),function isEqual(e,t){return Buffer.isBuffer(e)?e.equals(t):e===t}(a,_)!==r)m=!r;else if(r)l.unmatched++;else if(c&&"all"===l._updateSnapshot)m=!r,e.outputFileSync(h,a),l.updated++;else{l.unmatched++;const e=_diffHint(_,a,s.diff);message=()=>n.matcherHint(p,void 0,f,d)+e}else!c||r||"new"!==l._updateSnapshot&&"all"!==l._updateSnapshot?(l.unmatched++,message=()=>`The output file ${n.EXPECTED_COLOR(f)} ${n.RECEIVED_COLOR("doesn't exist")}.`):(m=!r,e.outputFileSync(h,a),l.added++);return{pass:m,message,actual:a,expected:_,name:p}}function _diffHint(e,t,a){return Buffer.isBuffer(e)||Buffer.isBuffer(t)?"":r._stringDiff(e,t,null!=a?a:u)}var p={toMatchFile};exports._diffHint=_diffHint,exports._hintSnapshotFileName=_hintSnapshotFileName,exports.default=p,exports.getBaseSnapshotDirectory=getBaseSnapshotDirectory,exports.getBaseSnapshotFileName=getBaseSnapshotFileName,exports.toMatchFile=toMatchFile;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: !0
+});
+
+var e = require("fs-extra"), t = require("upath2"), a = require("filenamify"), n = require("jest-matcher-utils"), i = require("path-in-dir"), s = require("@yarn-tool/find-root"), o = require("@lazy-assert/jest-util"), r = require("@lazy-assert/jest-diff");
+
+function _interopDefaultLegacy(e) {
+  return e && "object" == typeof e && "default" in e ? e : {
+    default: e
+  };
+}
+
+var l = _interopDefaultLegacy(a);
+
+const u = {
+  expand: !1,
+  contextLines: 5,
+  aAnnotation: "Snapshot"
+};
+
+function getBaseSnapshotDirectory(e) {
+  return t.join(t.dirname(e.testPath), "__file_snapshots__");
+}
+
+function getBaseSnapshotFileName(e) {
+  return t.join(getBaseSnapshotDirectory(e), `${l.default(e.currentTestName, {
+    replacement: "-"
+  }).replace(/\s/g, "-")}-${e.assertionCalls}`);
+}
+
+function _hintSnapshotFileName(e, a) {
+  var n;
+  const o = getBaseSnapshotDirectory(e);
+  let r, l, u;
+  var p, h, f;
+  if (i.pathInsideDirectory(a, o) ? (l = t.relative(o, a), u = !0) : (r = s.findRootLazy({
+    cwd: e.testPath
+  }, !1), r && (i.pathInsideDirectory(a, r.pkg) ? (l = t.relative(r.pkg, a), u = !0) : i.pathInsideDirectory(a, r.root) && (l = t.relative(r.root, a), 
+  u = !0)), null !== (p = l) && void 0 !== p && p.length || null === (h = e.snapshotState) || void 0 === h || null === (f = h._rootDir) || void 0 === f || !f.length || !i.pathInsideDirectory(a, e.snapshotState._rootDir) || (l = t.relative(e.snapshotState._rootDir, a), 
+  u = !0)), null === (n = l) || void 0 === n || !n.length) {
+    let e = s.findRootLazy({
+      cwd: t.dirname(a)
+    }, !1);
+    l = null != e && e.pkg ? t.relative(t.resolve(e.pkg, ".."), a) : a;
+  }
+  return u = u && a.includes("/__file_snapshots__/"), {
+    snapshotFileName: a,
+    snapshotDisplayName: l,
+    rootData: r,
+    safeUpdateSnapshot: u
+  };
+}
+
+function toMatchFile(a, i, s = {}) {
+  const {isNot: r, snapshotState: l} = this, p = "toMatchFile", h = t.normalize(null != i ? i : getBaseSnapshotFileName(this)), {snapshotDisplayName: f, safeUpdateSnapshot: c} = _hintSnapshotFileName(this, h);
+  s = {
+    diff: Object.assign({}, u, s.diff)
+  };
+  const d = o.handleJestMatcherHintOptions(this);
+  if ("none" === l._updateSnapshot && !e.pathExistsSync(h)) return l.unmatched++, 
+  {
+    pass: r,
+    message: () => `New output file ${n.EXPECTED_COLOR(f)} was ${n.RECEIVED_COLOR("not written")}.\n\nThe update flag must be explicitly passed to write a new snapshot.\n\nThis is likely because this test is run in a ${n.EXPECTED_COLOR("continuous integration (CI) environment")} in which snapshots are not written by default.\n\n`,
+    actual: a,
+    name: p
+  };
+  let _, m = r, message = () => n.matcherHint(p, void 0, f, d);
+  if (e.pathExistsSync(h)) if (_ = e.readFileSync(h, Buffer.isBuffer(a) ? null : "utf8"), 
+  function isEqual(e, t) {
+    return Buffer.isBuffer(e) ? e.equals(t) : e === t;
+  }(a, _) !== r) m = !r; else if (r) l.unmatched++; else if (c && "all" === l._updateSnapshot) m = !r, 
+  e.outputFileSync(h, a), l.updated++; else {
+    l.unmatched++;
+    const e = _diffHint(_, a, s.diff);
+    message = () => n.matcherHint(p, void 0, f, d) + e;
+  } else !c || r || "new" !== l._updateSnapshot && "all" !== l._updateSnapshot ? (l.unmatched++, 
+  message = () => `The output file ${n.EXPECTED_COLOR(f)} ${n.RECEIVED_COLOR("doesn't exist")}.`) : (m = !r, 
+  e.outputFileSync(h, a), l.added++);
+  return {
+    pass: m,
+    message,
+    actual: a,
+    expected: _,
+    name: p
+  };
+}
+
+function _diffHint(e, t, a) {
+  return Buffer.isBuffer(e) || Buffer.isBuffer(t) ? "" : r._stringDiff(e, t, null != a ? a : u);
+}
+
+var p = {
+  toMatchFile
+};
+
+exports._diffHint = _diffHint, exports._hintSnapshotFileName = _hintSnapshotFileName, 
+exports.default = p, exports.getBaseSnapshotDirectory = getBaseSnapshotDirectory, 
+exports.getBaseSnapshotFileName = getBaseSnapshotFileName, exports.toMatchFile = toMatchFile;
 //# sourceMappingURL=index.cjs.production.min.cjs.map

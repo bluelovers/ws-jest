@@ -6,7 +6,7 @@ import { tmpdir as o } from "os";
 
 import { console as r } from "debug-color2";
 
-import { realpathSync as n } from "graceful-fs";
+import { realpathSync as n } from "fs";
 
 import { Table as i, applyStyleBorderless as l } from "@yarn-tool/table";
 

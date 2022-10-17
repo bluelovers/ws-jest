@@ -6,7 +6,7 @@ var requireResolve = require('@yarn-tool/require-resolve');
 var path = require('path');
 var os = require('os');
 var debugColor2 = require('debug-color2');
-var gracefulFs = require('graceful-fs');
+var fs = require('fs');
 var table = require('@yarn-tool/table');
 var util = require('util');
 
@@ -48,7 +48,7 @@ function fixJestConfig(jestConfig) {
 }
 function tryRealpath(path) {
   try {
-    path = gracefulFs.realpathSync.native(path);
+    path = fs.realpathSync.native(path);
   } catch (error) {
     if (error.code !== 'ENOENT') {
       throw error;

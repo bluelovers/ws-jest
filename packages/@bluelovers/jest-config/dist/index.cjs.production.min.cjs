@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: !0
 });
 
-var e = require("@yarn-tool/require-resolve"), t = require("path"), s = require("os"), o = require("debug-color2"), r = require("graceful-fs"), n = require("@yarn-tool/table"), i = require("util");
+var e = require("@yarn-tool/require-resolve"), t = require("path"), s = require("os"), o = require("debug-color2"), r = require("fs"), n = require("@yarn-tool/table"), i = require("util");
 
 function _requireResolve(t) {
   const s = [ e.requireResolveExtra("@bluelovers/tsdx").result, e.requireResolveExtra("tsdx").result ].filter(Boolean), r = e.requireResolveCore(t, {

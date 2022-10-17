@@ -4,7 +4,7 @@ import { tmpdir } from 'os';
 import { InitialOptionsTsJest } from 'ts-jest';
 import { ITSArrayListMaybeReadonly } from 'ts-type/lib/type/base';
 import { console } from 'debug-color2';
-import { realpathSync } from 'graceful-fs';
+import { realpathSync } from 'fs';
 import { IJestConfig } from './types';
 
 export function _requireResolve(name: string)

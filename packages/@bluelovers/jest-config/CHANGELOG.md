@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.2](https://github.com/bluelovers/ws-jest/compare/@bluelovers/jest-config@1.1.1...@bluelovers/jest-config@1.1.2) (2022-10-18)
+
+
+
+### 📦　Code Refactoring
+
+* jest-cache-directory ([f1d3765](https://github.com/bluelovers/ws-jest/commit/f1d376578fba4e41eccc768d6431c94f8cb28c0c))
+
+
+### 🛠　Build System
+
+* update build ([5879a13](https://github.com/bluelovers/ws-jest/commit/5879a13a9b5345369e26e4dfb46974d5edcabb8f))
+* **dist:** update build ([d767249](https://github.com/bluelovers/ws-jest/commit/d7672491422ea0d62bfa480216443475553211ec))
+
+
+### 📌　Dependencies
+
+* { graceful-fs => fs } ([8340029](https://github.com/bluelovers/ws-jest/commit/8340029b699210dc2dbe1cdd60f4bc5ba67d4f11))
+
+
+### 🔖　Miscellaneous
+
+* . ([d0e7e98](https://github.com/bluelovers/ws-jest/commit/d0e7e98d220c5b5b9ad945697a038877560ae1e1))
+* . ([9ed4a0d](https://github.com/bluelovers/ws-jest/commit/9ed4a0d0d8836370c5400be00cddeb1b65cc0ed8))
+
+
+
 ## [1.1.1](https://github.com/bluelovers/ws-jest/compare/@bluelovers/jest-config@1.0.16...@bluelovers/jest-config@1.1.1) (2022-10-15)
 
 

@@ -1,29 +1,22 @@
 {
-  "name": "@bluelovers/jest-config",
-  "version": "1.1.1",
-  "description": "Jest preset configuration",
+  "name": "jest-cache-directory",
+  "version": "1.0.0",
+  "description": "",
   "keywords": [
-    "jest-preset",
     "jest",
-    "preset",
-    "assert",
-    "test",
-    "check",
-    "assertion",
-    "testing",
-    "chai",
-    "expect",
+    "cache",
+    "directory",
     "create-by-yarn-tool",
     "create-by-tsdx"
   ],
-  "homepage": "https://github.com/bluelovers/ws-jest/tree/master/packages/@bluelovers/jest-config#readme",
+  "homepage": "https://github.com/bluelovers/ws-jest/tree/master/packages/jest-cache-directory#readme",
   "bugs": {
     "url": "https://github.com/bluelovers/ws-jest/issues"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bluelovers/ws-jest.git",
-    "directory": "packages/@bluelovers/jest-config"
+    "directory": "packages/jest-cache-directory"
   },
   "license": "ISC",
   "author": "bluelovers",
@@ -34,22 +27,6 @@
       "import": "./dist/index.esm.mjs",
       "require": "./dist/index.cjs"
     },
-    "./dist/jest-preset.cjs": "./jest-preset.cjs",
-    "./dist/jest-preset.js": {
-      "import": "./jest-preset.mjs",
-      "require": "./jest-preset.cjs"
-    },
-    "./dist/jest-preset.mjs": "./jest-preset.mjs",
-    "./jest-preset": {
-      "import": "./jest-preset.mjs",
-      "require": "./jest-preset.cjs"
-    },
-    "./jest-preset.cjs": "./jest-preset.cjs",
-    "./jest-preset.js": {
-      "import": "./jest-preset.mjs",
-      "require": "./jest-preset.cjs"
-    },
-    "./jest-preset.mjs": "./jest-preset.mjs",
     "./package.json": "./package.json",
     "./src/*": "./src/*"
   },
@@ -83,9 +60,9 @@
     "build:tsdx": "ynpx @bluelovers/tsdx build --target node --name index",
     "ci:install": "echo ci:install",
     "ci:build": "echo ci:build",
-    "preversion": "yarn run test",
+    "preversion": "echo preversion && yarn run test",
     "version": "echo version",
-    "postversion": "echo postversion && yarn run test & git commit ./dist -m \"build(dist): update build\" & echo update build",
+    "postversion": "echo postversion",
     "prepublish": "echo prepublish",
     "prepare": "echo prepare",
     "prepublishOnly": "echo prepublishOnly",
@@ -101,15 +78,9 @@
     "tsc:showConfig": "ynpx get-current-tsconfig -p"
   },
   "dependencies": {
-    "@yarn-tool/require-resolve": "^2.0.8",
-    "@yarn-tool/table": "^2.0.11",
-    "debug-color2": "^1.3.2",
-    "jest-cache-directory": "^1.0.0",
-    "jest-chain-transform": "^0.0.4",
-    "ts-type": ">=2"
+    "fs-realpath-native": "^1.0.2"
   },
-  "packageManager": "yarn@1.22.19",
-  "publishConfig": {
-    "access": "public"
-  }
+  "devDependencies": {},
+  "peerDependencies": {},
+  "packageManager": "yarn@1.22.19"
 }

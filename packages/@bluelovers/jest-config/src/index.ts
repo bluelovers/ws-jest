@@ -1,4 +1,4 @@
-import { _requireResolve, fixJestConfig, getCacheDirectory, makeTestRegexConfig } from './helper';
+import { _requireResolve, fixJestConfig, makeTestRegexConfig } from './helper';
 import {
 	defaultCoveragePathIgnorePatterns,
 	defaultModuleFileExtensions,
@@ -7,12 +7,13 @@ import {
 } from './defaults';
 import { IOptionsPrintJestConfigInfo, printJestConfigInfo } from './print';
 import { IJestConfig } from './types';
+import { getJestCacheDirectory } from 'jest-cache-directory';
 
 export * from './helper';
 export * from './defaults';
 export * from './print';
 
-const cacheDirectory = getCacheDirectory();
+const cacheDirectory = getJestCacheDirectory();
 
 export { cacheDirectory }
 

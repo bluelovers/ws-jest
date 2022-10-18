@@ -49,7 +49,7 @@ export function mixinJestConfig<T extends IJestConfig>(jestConfig?: T, autoPrint
 			 */
 			//'jest-os-detection',
 		],
-		transform: defaultTransform(),
+		//transform: defaultTransform(),
 		verbose: true,
 		/**
 		 * if didn't set `coverageProvider` to `v8`
@@ -63,6 +63,13 @@ export function mixinJestConfig<T extends IJestConfig>(jestConfig?: T, autoPrint
 		 */
 		//resolver: 'jest-node-exports-resolver',
 		...jestConfig,
+	});
+
+	newJestConfig.transform ??= defaultTransform({
+		jestConfig,
+		autoPrint,
+		options,
+		newJestConfig,
 	});
 
 	autoPrint && printJestConfigInfo(newJestConfig, options);

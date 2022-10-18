@@ -4,6 +4,7 @@ import { ITSWriteable } from 'ts-type/lib/helper/readonly';
 import { _requireResolve } from './helper';
 import { InitialOptionsTsJest } from 'ts-jest';
 import { defaultTsJestTransformerOptions } from './plugin/ts-jest';
+import { IRuntime } from './types';
 
 export function defaultTestFileExtensions()
 {
@@ -71,7 +72,7 @@ export function defaultTestPathIgnorePatterns()
 	return value as ITSToWriteableArray<typeof value>;
 }
 
-export function defaultTransform()
+export function defaultTransform(runtime: IRuntime)
 {
 	const paths: string[] = [
 		requireResolveExtra('@bluelovers/jest-config').result,
@@ -85,7 +86,7 @@ export function defaultTransform()
 
 	let ts_transform: InitialOptionsTsJest["transform"][string] = _requireResolve('ts-jest') as 'ts-jest';
 
-	ts_transform = [ts_transform, defaultTsJestTransformerOptions()];
+	ts_transform = [ts_transform, defaultTsJestTransformerOptions(runtime)];
 
 	const { result: tsd } = requireResolveExtra('jest-tsd-transform', opts);
 

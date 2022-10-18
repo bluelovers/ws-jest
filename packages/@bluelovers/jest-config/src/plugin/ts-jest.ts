@@ -1,8 +1,14 @@
 import { TsJestTransformerOptions } from 'ts-jest/dist/types';
+import { IRuntime } from '../types';
 
-export function defaultTsJestTransformerOptions()
+export function defaultTsJestTransformerOptions(runtime: IRuntime)
 {
+	const old: TsJestTransformerOptions = runtime.jestConfig.globals?.['ts-jest'] ?? {};
+
+	const tsconfig = typeof old.tsconfig === 'object' ? old.tsconfig : {};
+
 	return {
+		...old,
 		tsconfig: {
 			noEmit: true,
 			emitDeclarationOnly: false,
@@ -11,6 +17,7 @@ export function defaultTsJestTransformerOptions()
 			noUnusedLocals: false,
 			noPropertyAccessFromIndexSignature: false,
 			noImplicitAny: false,
+			...tsconfig,
 		},
 	} satisfies TsJestTransformerOptions
 }

@@ -4,27 +4,15 @@ Object.defineProperty(exports, "__esModule", {
   value: !0
 });
 
-var e = require("@yarn-tool/require-resolve"), t = require("path"), s = require("os"), o = require("debug-color2"), r = require("fs"), n = require("@yarn-tool/table"), i = require("util");
+var e = require("@yarn-tool/require-resolve"), t = require("debug-color2"), s = require("@yarn-tool/table"), o = require("util");
 
-function _requireResolve(t) {
-  const s = [ e.requireResolveExtra("@bluelovers/tsdx").result, e.requireResolveExtra("tsdx").result ].filter(Boolean), r = e.requireResolveCore(t, {
+function _requireResolve(s) {
+  const o = [ e.requireResolveExtra("@bluelovers/tsdx").result, e.requireResolveExtra("tsdx").result ].filter(Boolean), r = e.requireResolveCore(s, {
     includeGlobal: !0,
     includeCurrentDirectory: !0,
-    paths: s
+    paths: o
   });
-  return o.console.debug("[require.resolve]", t, "=>", r), r;
-}
-
-function getCacheDirectory() {
-  const {getuid: e} = process, o = process.env.JEST_CACHE_DIRECTORY || t.join(function tryRealpath(e) {
-    try {
-      e = r.realpathSync.native(e);
-    } catch (e) {
-      if ("ENOENT" !== e.code) throw e;
-    }
-    return e;
-  }(s.tmpdir()), "jest");
-  return null == e ? o : `${o}_${e.call(process).toString(36)}`;
+  return t.console.debug("[require.resolve]", s, "=>", r), r;
 }
 
 function makeTestRegexConfig(e) {
@@ -39,14 +27,11 @@ function fixJestConfig(e) {
   e;
 }
 
-function defaultTransform() {
-  const t = {
-    includeGlobal: !0,
-    includeCurrentDirectory: !0,
-    paths: [ e.requireResolveExtra("@bluelovers/jest-config").result ].filter(Boolean)
-  };
-  let s = _requireResolve("ts-jest");
-  s = [ s, {
+function defaultTsJestTransformerOptions(e) {
+  var t, s;
+  const o = null !== (t = null === (s = e.jestConfig.globals) || void 0 === s ? void 0 : s["ts-jest"]) && void 0 !== t ? t : {}, r = "object" == typeof o.tsconfig ? o.tsconfig : {};
+  return {
+    ...o,
     tsconfig: {
       noEmit: !0,
       emitDeclarationOnly: !1,
@@ -54,23 +39,34 @@ function defaultTransform() {
       allowUnusedLabels: !0,
       noUnusedLocals: !1,
       noPropertyAccessFromIndexSignature: !1,
-      noImplicitAny: !1
+      noImplicitAny: !1,
+      ...r
     }
-  } ];
-  const {result: o} = e.requireResolveExtra("jest-tsd-transform", t);
-  if (null != o && o.length) {
-    const {result: r} = e.requireResolveExtra("jest-chain-transform", t);
-    null != r && r.length && (s = [ r, {
-      transformers: [ o, s ]
+  };
+}
+
+function defaultTransform(t) {
+  const s = {
+    includeGlobal: !0,
+    includeCurrentDirectory: !0,
+    paths: [ e.requireResolveExtra("@bluelovers/jest-config").result ].filter(Boolean)
+  };
+  let o = _requireResolve("ts-jest");
+  o = [ o, defaultTsJestTransformerOptions(t) ];
+  const {result: r} = e.requireResolveExtra("jest-tsd-transform", s);
+  if (null != r && r.length) {
+    const {result: t} = e.requireResolveExtra("jest-chain-transform", s);
+    null != t && t.length && (o = [ t, {
+      transformers: [ r, o ]
     } ]);
   }
   return {
-    ".(ts|tsx|mts|cts)$": s
+    ".(ts|tsx|mts|cts)$": o
   };
 }
 
 function _newTableBorderless(e) {
-  let t = new n.Table({
+  let t = new s.Table({
     colAligns: [ "right", "left" ],
     chars: {
       top: "",
@@ -91,33 +87,33 @@ function _newTableBorderless(e) {
     },
     ...e
   });
-  return t = n.applyStyleBorderless(t), t;
+  return t = s.applyStyleBorderless(t), t;
 }
 
-function printJestConfigInfo(e, t) {
-  var s, r, n, l, u, a, c, _;
-  const f = _newTableBorderless();
-  null !== (s = t) && void 0 !== s || (t = {}), null !== (r = e) && void 0 !== r || (e = {}), 
-  f.push([ "@bluelovers/jest-config:", "1.1.1" ]), f.push([ "process.versions.node:", process.versions.node ]), 
-  f.push([ "cwd:", null !== (n = t.cwd) && void 0 !== n ? n : process.cwd() ]), (null === (l = t.file) || void 0 === l ? void 0 : l.length) && f.push([ "file:", t.file ]), 
-  (null === (u = e.cacheDirectory) || void 0 === u ? void 0 : u.length) && f.push([ "cacheDirectory:", e.cacheDirectory ]), 
-  (null === (a = e.rootDir) || void 0 === a ? void 0 : a.length) && f.push([ "rootDir:", e.rootDir ]), 
-  (null === (c = e.roots) || void 0 === c ? void 0 : c.length) && f.push([ "roots:", i.inspect(e.roots) ]), 
-  (null === (_ = e.preset) || void 0 === _ ? void 0 : _.length) && f.push([ "preset:", e.preset ]), 
-  e.transform && f.push([ "transform:", i.inspect(e.transform, {
+function printJestConfigInfo(e, s) {
+  var r, n, i, l, u, a, _, f;
+  const c = _newTableBorderless();
+  null !== (r = s) && void 0 !== r || (s = {}), null !== (n = e) && void 0 !== n || (e = {}), 
+  c.push([ "@bluelovers/jest-config:", "1.1.1" ]), c.push([ "process.versions.node:", process.versions.node ]), 
+  c.push([ "cwd:", null !== (i = s.cwd) && void 0 !== i ? i : process.cwd() ]), (null === (l = s.file) || void 0 === l ? void 0 : l.length) && c.push([ "file:", s.file ]), 
+  (null === (u = e.cacheDirectory) || void 0 === u ? void 0 : u.length) && c.push([ "cacheDirectory:", e.cacheDirectory ]), 
+  (null === (a = e.rootDir) || void 0 === a ? void 0 : a.length) && c.push([ "rootDir:", e.rootDir ]), 
+  (null === (_ = e.roots) || void 0 === _ ? void 0 : _.length) && c.push([ "roots:", o.inspect(e.roots) ]), 
+  (null === (f = e.preset) || void 0 === f ? void 0 : f.length) && c.push([ "preset:", e.preset ]), 
+  e.transform && c.push([ "transform:", o.inspect(e.transform, {
     depth: 3
-  }) ]), o.console.gray.log("─".repeat(20)), o.console.log("jest.config"), o.console.log(f.toString()), 
-  o.console.gray.log("─".repeat(20));
+  }) ]), t.console.gray.log("─".repeat(20)), t.console.log("jest.config"), t.console.log(c.toString()), 
+  t.console.gray.log("─".repeat(20));
 }
 
-const l = getCacheDirectory();
+const r = require("jest-cache-directory").getJestCacheDirectory();
 
 function mixinJestConfig(e, t, s) {
-  var o;
+  var o, n;
   null !== (o = e) && void 0 !== o || (e = {});
-  const r = fixJestConfig({
+  const i = fixJestConfig({
     globals: {},
-    cacheDirectory: l,
+    cacheDirectory: r,
     maxWorkers: 1,
     clearMocks: !0,
     passWithNoTests: !0,
@@ -126,18 +122,22 @@ function mixinJestConfig(e, t, s) {
     ...makeTestRegexConfig([ "ts", "tsx", "mts", "cts" ]),
     testPathIgnorePatterns: [ "/node_modules/", "/__fixtures__/", "/__file_snapshots__/", "/fixtures/", "/__tests__/helpers/", "/__tests__/utils/", "__mocks__", "/dist/" ],
     setupFilesAfterEnv: [],
-    transform: defaultTransform(),
     verbose: !0,
     coverageProvider: "v8",
     collectCoverage: !1,
     coveragePathIgnorePatterns: [ "/node_modules/", "/__snapshots__/", "/__tests__/", "/__test__/", "/dist/", "/test/", "/fixture/", "/__file_snapshots__/", "/__fixtures__/" ],
     ...e
   });
-  return t && printJestConfigInfo(r, s), r;
+  return null !== (n = i.transform) && void 0 !== n || (i.transform = defaultTransform({
+    jestConfig: e,
+    autoPrint: t,
+    options: s,
+    newJestConfig: i
+  })), t && printJestConfigInfo(i, s), i;
 }
 
 exports._newTableBorderless = _newTableBorderless, exports._requireResolve = _requireResolve, 
-exports.cacheDirectory = l, exports.default = mixinJestConfig, exports.defaultCoveragePathIgnorePatterns = function defaultCoveragePathIgnorePatterns() {
+exports.cacheDirectory = r, exports.default = mixinJestConfig, exports.defaultCoveragePathIgnorePatterns = function defaultCoveragePathIgnorePatterns() {
   return [ "/node_modules/", "/__snapshots__/", "/__tests__/", "/__test__/", "/dist/", "/test/", "/fixture/", "/__file_snapshots__/", "/__fixtures__/" ];
 }, exports.defaultModuleFileExtensions = function defaultModuleFileExtensions() {
   return [ "ts", "tsx", "mts", "cts", "js", "jsx", "mjs", "cjs", "json", "node" ];
@@ -146,6 +146,6 @@ exports.cacheDirectory = l, exports.default = mixinJestConfig, exports.defaultCo
 }, exports.defaultTestPathIgnorePatterns = function defaultTestPathIgnorePatterns() {
   return [ "/node_modules/", "/__fixtures__/", "/__file_snapshots__/", "/fixtures/", "/__tests__/helpers/", "/__tests__/utils/", "__mocks__", "/dist/" ];
 }, exports.defaultTransform = defaultTransform, exports.fixJestConfig = fixJestConfig, 
-exports.getCacheDirectory = getCacheDirectory, exports.makeTestRegexConfig = makeTestRegexConfig, 
-exports.mixinJestConfig = mixinJestConfig, exports.printJestConfigInfo = printJestConfigInfo;
+exports.makeTestRegexConfig = makeTestRegexConfig, exports.mixinJestConfig = mixinJestConfig, 
+exports.printJestConfigInfo = printJestConfigInfo;
 //# sourceMappingURL=index.cjs.production.min.cjs.map

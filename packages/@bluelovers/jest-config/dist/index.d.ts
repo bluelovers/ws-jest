@@ -5,6 +5,12 @@ import { ITSWriteable } from 'ts-type/lib/helper/readonly';
 import { ITSArrayListMaybeReadonly } from 'ts-type/lib/type/base';
 
 export type IJestConfig = InitialOptionsTsJest | JestConfigWithTsJest;
+export interface IRuntime<T extends IJestConfig = IJestConfig> {
+	jestConfig: T;
+	autoPrint: boolean;
+	options: IOptionsPrintJestConfigInfo;
+	newJestConfig?: T;
+}
 export declare function _newTableBorderless(options?: TableConstructorOptions): Table.Table;
 export interface IOptionsPrintJestConfigInfo {
 	cwd?: string;
@@ -12,10 +18,6 @@ export interface IOptionsPrintJestConfigInfo {
 }
 export declare function printJestConfigInfo(jestConfig: IJestConfig, options?: IOptionsPrintJestConfigInfo): void;
 export declare function _requireResolve(name: string): string;
-/**
- * @see https://github.com/facebook/jest/blob/main/packages/jest-config/src/getCacheDirectory.ts
- */
-export declare function getCacheDirectory(): string;
 export declare function makeTestRegexConfig(testExt: string | ITSArrayListMaybeReadonly<string>): Pick<InitialOptionsTsJest, "testMatch" | "testRegex">;
 export declare function fixJestConfig<T extends IJestConfig>(jestConfig: T): T;
 export declare function defaultTestFileExtensions(): [
@@ -57,7 +59,7 @@ export declare function defaultTestPathIgnorePatterns(): [
 	"__mocks__",
 	"/dist/"
 ];
-export declare function defaultTransform(): ITSWriteable<{
+export declare function defaultTransform(runtime: IRuntime): ITSWriteable<{
 	readonly ".(ts|tsx|mts|cts)$": [
 		string,
 		Record<string, unknown>

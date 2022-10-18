@@ -3,12 +3,10 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 var requireResolve = require('@yarn-tool/require-resolve');
-var path = require('path');
-var os = require('os');
 var debugColor2 = require('debug-color2');
-var fs = require('fs');
 var table = require('@yarn-tool/table');
 var util = require('util');
+var jestCacheDirectory = require('jest-cache-directory');
 
 function _requireResolve(name) {
   const paths = [requireResolve.requireResolveExtra('@bluelovers/tsdx').result, requireResolve.requireResolveExtra('tsdx').result].filter(Boolean);
@@ -19,17 +17,6 @@ function _requireResolve(name) {
   });
   debugColor2.console.debug('[require.resolve]', name, '=>', result);
   return result;
-}
-function getCacheDirectory() {
-  const {
-    getuid
-  } = process;
-  const tmpdirPath = process.env['JEST_CACHE_DIRECTORY'] || path.join(tryRealpath(os.tmpdir()), 'jest');
-  if (getuid == null) {
-    return tmpdirPath;
-  } else {
-    return `${tmpdirPath}_${getuid.call(process).toString(36)}`;
-  }
 }
 function makeTestRegexConfig(testExt) {
   testExt = [testExt].flat().join('|');
@@ -46,19 +33,13 @@ function fixJestConfig(jestConfig) {
   }
   return jestConfig;
 }
-function tryRealpath(path) {
-  try {
-    path = fs.realpathSync.native(path);
-  } catch (error) {
-    if (error.code !== 'ENOENT') {
-      throw error;
-    }
-  }
-  return path;
-}
 
-function defaultTsJestTransformerOptions() {
+function defaultTsJestTransformerOptions(runtime) {
+  var _runtime$jestConfig$g, _runtime$jestConfig$g2;
+  const old = (_runtime$jestConfig$g = (_runtime$jestConfig$g2 = runtime.jestConfig.globals) === null || _runtime$jestConfig$g2 === void 0 ? void 0 : _runtime$jestConfig$g2['ts-jest']) !== null && _runtime$jestConfig$g !== void 0 ? _runtime$jestConfig$g : {};
+  const tsconfig = typeof old.tsconfig === 'object' ? old.tsconfig : {};
   return {
+    ...old,
     tsconfig: {
       noEmit: true,
       emitDeclarationOnly: false,
@@ -66,7 +47,8 @@ function defaultTsJestTransformerOptions() {
       allowUnusedLabels: true,
       noUnusedLocals: false,
       noPropertyAccessFromIndexSignature: false,
-      noImplicitAny: false
+      noImplicitAny: false,
+      ...tsconfig
     }
   };
 }
@@ -87,7 +69,7 @@ function defaultTestPathIgnorePatterns() {
   const value = ['/node_modules/', '/__fixtures__/', '/__file_snapshots__/', '/fixtures/', '/__tests__/helpers/', '/__tests__/utils/', '__mocks__', '/dist/'];
   return value;
 }
-function defaultTransform() {
+function defaultTransform(runtime) {
   const paths = [requireResolve.requireResolveExtra('@bluelovers/jest-config').result].filter(Boolean);
   const opts = {
     includeGlobal: true,
@@ -95,7 +77,7 @@ function defaultTransform() {
     paths
   };
   let ts_transform = _requireResolve('ts-jest');
-  ts_transform = [ts_transform, defaultTsJestTransformerOptions()];
+  ts_transform = [ts_transform, defaultTsJestTransformerOptions(runtime)];
   const {
     result: tsd
   } = requireResolve.requireResolveExtra('jest-tsd-transform', opts);
@@ -165,9 +147,9 @@ function printJestConfigInfo(jestConfig, options) {
   debugColor2.console.gray.log('─'.repeat(20));
 }
 
-const cacheDirectory = /*#__PURE__*/getCacheDirectory();
+const cacheDirectory = /*#__PURE__*/jestCacheDirectory.getJestCacheDirectory();
 function mixinJestConfig(jestConfig, autoPrint, options) {
-  var _jestConfig;
+  var _jestConfig, _newJestConfig$transf;
   (_jestConfig = jestConfig) !== null && _jestConfig !== void 0 ? _jestConfig : jestConfig = {};
   const newJestConfig = fixJestConfig({
     globals: {},
@@ -180,12 +162,17 @@ function mixinJestConfig(jestConfig, autoPrint, options) {
     ...makeTestRegexConfig(defaultTestFileExtensions()),
     testPathIgnorePatterns: defaultTestPathIgnorePatterns(),
     setupFilesAfterEnv: [],
-    transform: defaultTransform(),
     verbose: true,
     coverageProvider: 'v8',
     collectCoverage: false,
     coveragePathIgnorePatterns: defaultCoveragePathIgnorePatterns(),
     ...jestConfig
+  });
+  (_newJestConfig$transf = newJestConfig.transform) !== null && _newJestConfig$transf !== void 0 ? _newJestConfig$transf : newJestConfig.transform = defaultTransform({
+    jestConfig,
+    autoPrint,
+    options,
+    newJestConfig
   });
   autoPrint && printJestConfigInfo(newJestConfig, options);
   return newJestConfig;
@@ -201,7 +188,6 @@ exports.defaultTestFileExtensions = defaultTestFileExtensions;
 exports.defaultTestPathIgnorePatterns = defaultTestPathIgnorePatterns;
 exports.defaultTransform = defaultTransform;
 exports.fixJestConfig = fixJestConfig;
-exports.getCacheDirectory = getCacheDirectory;
 exports.makeTestRegexConfig = makeTestRegexConfig;
 exports.mixinJestConfig = mixinJestConfig;
 exports.printJestConfigInfo = printJestConfigInfo;

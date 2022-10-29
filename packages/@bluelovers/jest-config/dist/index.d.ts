@@ -35,11 +35,11 @@ export declare function defaultModuleFileExtensions(): [
 	"cjs",
 	"jsx",
 	"ts",
+	"mts",
+	"cts",
 	"tsx",
 	"json",
-	"node",
-	"mts",
-	"cts"
+	"node"
 ];
 export declare function defaultCoveragePathIgnorePatterns(): [
 	"/node_modules/",

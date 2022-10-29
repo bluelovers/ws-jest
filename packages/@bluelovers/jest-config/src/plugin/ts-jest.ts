@@ -1,4 +1,4 @@
-import { TsJestTransformerOptions } from 'ts-jest/dist/types';
+import { TsJestTransformerOptions } from 'ts-jest';
 import { IRuntime } from '../types';
 
 export function defaultTsJestTransformerOptions(runtime: IRuntime)

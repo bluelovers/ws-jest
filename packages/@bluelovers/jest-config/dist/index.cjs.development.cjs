@@ -4,7 +4,6 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 var requireResolve = require('@yarn-tool/require-resolve');
 var debugColor2 = require('debug-color2');
-var jestConfig = require('jest-config');
 var table = require('@yarn-tool/table');
 var util = require('util');
 var jestCacheDirectory = require('jest-cache-directory');
@@ -59,7 +58,7 @@ function defaultTestFileExtensions() {
   return value;
 }
 function defaultModuleFileExtensions() {
-  const value = [...jestConfig.defaults.moduleFileExtensions, 'mts', 'cts'];
+  const value = ['js', 'mjs', 'cjs', 'jsx', 'ts', 'mts', 'cts', 'tsx', 'json', 'node'];
   return value;
 }
 function defaultCoveragePathIgnorePatterns() {

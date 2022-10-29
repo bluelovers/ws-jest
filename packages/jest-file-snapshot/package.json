@@ -1,6 +1,6 @@
 {
   "name": "jest-file-snapshot2",
-  "version": "0.5.10",
+  "version": "0.5.11",
   "description": "Jest matcher to write snapshots to a separate file instead of the default snapshot file used by Jest",
   "keywords": [
     "test",
@@ -73,7 +73,7 @@
   },
   "dependencies": {
     "@lazy-assert/jest-diff": "^1.0.5",
-    "@lazy-assert/jest-util": "^1.0.3",
+    "@lazy-assert/jest-util": "^1.0.4",
     "@yarn-tool/find-root": "^2.0.12",
     "filenamify": "<5 >=4.3.0",
     "fs-extra": "^10.1.0",

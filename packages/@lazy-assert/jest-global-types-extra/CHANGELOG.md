@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.4](https://github.com/bluelovers/ws-jest/compare/@lazy-assert/jest-global-types-extra@1.0.3...@lazy-assert/jest-global-types-extra@1.0.4) (2022-10-29)
+
+
+
+### 🔖　Miscellaneous
+
+* . ([4588147](https://github.com/bluelovers/ws-jest/commit/4588147d6d7c5097b94f92c719f3aa2c35a32cc1))
+
+
+
 ## [1.0.3](https://github.com/bluelovers/ws-jest/compare/@lazy-assert/jest-global-types-extra@1.0.2...@lazy-assert/jest-global-types-extra@1.0.3) (2022-10-15)
 
 

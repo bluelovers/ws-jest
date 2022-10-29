@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.4](https://github.com/bluelovers/ws-jest/compare/@bluelovers/jest-config@1.1.3...@bluelovers/jest-config@1.1.4) (2022-10-29)
+
+
+
+### 🐛　Bug Fixes
+
+* Cannot find module 'jest-config' ([5b4f5d6](https://github.com/bluelovers/ws-jest/commit/5b4f5d63761e6d612aa1fbd2acb68f2394deadbd))
+
+
+### 🛠　Build System
+
+* **dist:** update build ([cfe306f](https://github.com/bluelovers/ws-jest/commit/cfe306fed943e6130c41737c91fdeff7e89bd4fa))
+
+
+
 ## [1.1.3](https://github.com/bluelovers/ws-jest/compare/@bluelovers/jest-config@1.1.2...@bluelovers/jest-config@1.1.3) (2022-10-29)
 
 

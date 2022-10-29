@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.14](https://github.com/bluelovers/ws-jest/compare/jest-install-matcher-extends@1.0.13...jest-install-matcher-extends@1.0.14) (2022-10-29)
+
+**Note:** Version bump only for package jest-install-matcher-extends
+
+
+
+
+
 ## [1.0.13](https://github.com/bluelovers/ws-jest/compare/jest-install-matcher-extends@1.0.12...jest-install-matcher-extends@1.0.13) (2022-10-29)
 
 

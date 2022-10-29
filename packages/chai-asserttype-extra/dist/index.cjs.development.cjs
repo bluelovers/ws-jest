@@ -6,10 +6,6 @@ var typeDetect = require('type-detect');
 var checkBasic = require('@lazy-assert/check-basic');
 var arrayHyperUnique = require('array-hyper-unique');
 
-function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
-
-var typeDetect__default = /*#__PURE__*/_interopDefaultLegacy(typeDetect);
-
 exports.EnumTypeDetect = void 0;
 (function (EnumTypeDetect) {
   EnumTypeDetect["array"] = "Array";
@@ -62,14 +58,14 @@ function list() {
 const ChaiPlugin = {
   install
 };
-const typeOf = typeDetect__default["default"];
+const typeOf = typeDetect;
 
 exports.ChaiPlugin = ChaiPlugin;
 exports.ChaiPluginAssertType = ChaiPluginAssertType;
 exports._assertType = _assertType;
 exports.addToAssertion = addToAssertion;
 exports.addToAssertionLazy = addToAssertionLazy;
-exports["default"] = ChaiPlugin;
+exports.default = ChaiPlugin;
 exports.install = install;
 exports.list = list;
 exports.typeOf = typeOf;

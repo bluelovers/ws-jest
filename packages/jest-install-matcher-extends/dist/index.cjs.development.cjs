@@ -27,7 +27,7 @@ function jestAutoInstallExpectExtend(matchers, options) {
   }
 }
 
-exports["default"] = jestAutoInstallExpectExtend;
+exports.default = jestAutoInstallExpectExtend;
 exports.getGlobalExpect = getGlobalExpect;
 exports.jestAutoInstallExpectExtend = jestAutoInstallExpectExtend;
 exports.jestInstallExpectExtend = jestInstallExpectExtend;

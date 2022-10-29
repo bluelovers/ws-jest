@@ -49,6 +49,6 @@ jestInstallMatcherExtends.jestAutoInstallExpectExtend({
   toBeCloseWith
 });
 
-exports["default"] = index;
+exports.default = index;
 exports.toBeCloseWith = toBeCloseWith;
 //# sourceMappingURL=index.cjs.development.cjs.map

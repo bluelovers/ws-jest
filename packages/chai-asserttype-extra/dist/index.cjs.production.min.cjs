@@ -4,25 +4,17 @@ Object.defineProperty(exports, "__esModule", {
   value: !0
 });
 
-var e = require("type-detect"), t = require("@lazy-assert/check-basic"), s = require("array-hyper-unique");
+var e, t = require("type-detect"), s = require("@lazy-assert/check-basic"), n = require("array-hyper-unique");
 
-function _interopDefaultLegacy(e) {
-  return e && "object" == typeof e && "default" in e ? e : {
-    default: e
-  };
-}
-
-var n, i = _interopDefaultLegacy(e);
-
-function ChaiPluginAssertType(e, s) {
+function ChaiPluginAssertType(e, t) {
   Object.entries(exports.EnumTypeDetect).forEach((function([t, s]) {
     addToAssertion(e, t, (function() {
       this.an(s);
     }));
-  })), addToAssertionLazy(e, "integer", t.isInt, s), addToAssertionLazy(e, "float", t.isFloat, s), 
-  addToAssertionLazy(e, "infinity", t.isInfinity, s), addToAssertionLazy(e, "nan", t.isNaN, s), 
-  addToAssertionLazy(e, "zero", t.isZero, s), addToAssertionLazy(e, "positive", t.isPositive, s), 
-  addToAssertionLazy(e, "negative", t.isNegative, s);
+  })), addToAssertionLazy(e, "integer", s.isInt, t), addToAssertionLazy(e, "float", s.isFloat, t), 
+  addToAssertionLazy(e, "infinity", s.isInfinity, t), addToAssertionLazy(e, "nan", s.isNaN, t), 
+  addToAssertionLazy(e, "zero", s.isZero, t), addToAssertionLazy(e, "positive", s.isPositive, t), 
+  addToAssertionLazy(e, "negative", s.isNegative, t);
 }
 
 function addToAssertionLazy(e, t, s, n) {
@@ -46,17 +38,17 @@ function install(e) {
   return (e || require("chai")).use(ChaiPluginAssertType);
 }
 
-exports.EnumTypeDetect = void 0, (n = exports.EnumTypeDetect || (exports.EnumTypeDetect = {})).array = "Array", 
-n.boolean = "boolean", n.date = "Date", n.function = "function", n.number = "number", 
-n.object = "Object", n.regexp = "RegExp", n.string = "string";
+exports.EnumTypeDetect = void 0, (e = exports.EnumTypeDetect || (exports.EnumTypeDetect = {})).array = "Array", 
+e.boolean = "boolean", e.date = "Date", e.function = "function", e.number = "number", 
+e.object = "Object", e.regexp = "RegExp", e.string = "string";
 
-const r = {
+const i = {
   install
-}, o = i.default;
+}, r = t;
 
-exports.ChaiPlugin = r, exports.ChaiPluginAssertType = ChaiPluginAssertType, exports._assertType = _assertType, 
+exports.ChaiPlugin = i, exports.ChaiPluginAssertType = ChaiPluginAssertType, exports._assertType = _assertType, 
 exports.addToAssertion = addToAssertion, exports.addToAssertionLazy = addToAssertionLazy, 
-exports.default = r, exports.install = install, exports.list = function list() {
-  return s.array_unique_overwrite(Object.keys(exports.EnumTypeDetect).concat([ "float", "integer", "nan", "zero", "positive", "negative" ])).sort();
-}, exports.typeOf = o;
+exports.default = i, exports.install = install, exports.list = function list() {
+  return n.array_unique_overwrite(Object.keys(exports.EnumTypeDetect).concat([ "float", "integer", "nan", "zero", "positive", "negative" ])).sort();
+}, exports.typeOf = r;
 //# sourceMappingURL=index.cjs.production.min.cjs.map

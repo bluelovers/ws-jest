@@ -11,10 +11,6 @@ var findRoot = require('@yarn-tool/find-root');
 var jestUtil = require('@lazy-assert/jest-util');
 var jestDiff = require('@lazy-assert/jest-diff');
 
-function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
-
-var filenamify__default = /*#__PURE__*/_interopDefaultLegacy(filenamify);
-
 const _defaultDiffOptions = {
   expand: false,
   contextLines: 5,
@@ -27,7 +23,7 @@ function getBaseSnapshotDirectory(context) {
   return upath2.join(upath2.dirname(context.testPath), '__file_snapshots__');
 }
 function getBaseSnapshotFileName(context) {
-  return upath2.join(getBaseSnapshotDirectory(context), `${filenamify__default["default"](context.currentTestName, {
+  return upath2.join(getBaseSnapshotDirectory(context), `${filenamify(context.currentTestName, {
     replacement: '-'
   }).replace(/\s/g, '-')}-${context.assertionCalls}`);
 }
@@ -153,7 +149,7 @@ var index = {
 
 exports._diffHint = _diffHint;
 exports._hintSnapshotFileName = _hintSnapshotFileName;
-exports["default"] = index;
+exports.default = index;
 exports.getBaseSnapshotDirectory = getBaseSnapshotDirectory;
 exports.getBaseSnapshotFileName = getBaseSnapshotFileName;
 exports.toMatchFile = toMatchFile;

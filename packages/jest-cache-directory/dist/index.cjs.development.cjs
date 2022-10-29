@@ -21,7 +21,7 @@ function getJestCacheDirectory() {
   }
 }
 
-exports["default"] = getJestCacheDirectory;
+exports.default = getJestCacheDirectory;
 exports.getJestCacheDirectory = getJestCacheDirectory;
 exports.getJestCacheDirectoryEnvVar = getJestCacheDirectoryEnvVar;
 //# sourceMappingURL=index.cjs.development.cjs.map

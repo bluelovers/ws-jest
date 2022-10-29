@@ -79,7 +79,7 @@
     "@lazy-assert/jest-util": "^1.0.3",
     "expect-print-close-to": "^1.0.7",
     "jest-install-matcher-extends": "^1.0.12",
-    "num-in-delta": "^1.0.7"
+    "num-in-delta": "^1.0.8"
   },
   "packageManager": "yarn@^1.22.11"
 }

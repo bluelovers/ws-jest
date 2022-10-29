@@ -23,6 +23,9 @@ export function defaultTestFileExtensions()
 	return value as ITSToWriteableArray<typeof value>;
 }
 
+/**
+ * @see https://jestjs.io/docs/configuration#options
+ */
 export function defaultModuleFileExtensions()
 {
 	const value = [

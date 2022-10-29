@@ -33,7 +33,7 @@ export function mixinJestConfig<T extends IJestConfig>(jestConfig?: T, autoPrint
 		clearMocks: true,
 		passWithNoTests: true,
 		moduleFileExtensions: defaultModuleFileExtensions(),
-		testEnvironment: 'node',
+		//testEnvironment: 'node',
 		//testMatch: ['**/*.test.ts', '**/*.spec.ts'],
 		...makeTestRegexConfig(defaultTestFileExtensions()),
 		testPathIgnorePatterns: defaultTestPathIgnorePatterns(),

@@ -26,17 +26,20 @@ export declare function defaultTestFileExtensions(): [
 	"mts",
 	"cts"
 ];
+/**
+ * @see https://jestjs.io/docs/configuration#options
+ */
 export declare function defaultModuleFileExtensions(): [
-	"ts",
-	"tsx",
-	"mts",
-	"cts",
 	"js",
-	"jsx",
 	"mjs",
 	"cjs",
+	"jsx",
+	"ts",
+	"tsx",
 	"json",
-	"node"
+	"node",
+	"mts",
+	"cts"
 ];
 export declare function defaultCoveragePathIgnorePatterns(): [
 	"/node_modules/",

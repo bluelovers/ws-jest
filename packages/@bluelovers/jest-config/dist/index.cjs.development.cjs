@@ -4,6 +4,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 var requireResolve = require('@yarn-tool/require-resolve');
 var debugColor2 = require('debug-color2');
+var jestConfig = require('jest-config');
 var table = require('@yarn-tool/table');
 var util = require('util');
 var jestCacheDirectory = require('jest-cache-directory');
@@ -58,7 +59,7 @@ function defaultTestFileExtensions() {
   return value;
 }
 function defaultModuleFileExtensions() {
-  const value = ['ts', 'tsx', 'mts', 'cts', 'js', 'jsx', 'mjs', 'cjs', 'json', 'node'];
+  const value = [...jestConfig.defaults.moduleFileExtensions, 'mts', 'cts'];
   return value;
 }
 function defaultCoveragePathIgnorePatterns() {
@@ -158,7 +159,6 @@ function mixinJestConfig(jestConfig, autoPrint, options) {
     clearMocks: true,
     passWithNoTests: true,
     moduleFileExtensions: defaultModuleFileExtensions(),
-    testEnvironment: 'node',
     ...makeTestRegexConfig(defaultTestFileExtensions()),
     testPathIgnorePatterns: defaultTestPathIgnorePatterns(),
     setupFilesAfterEnv: [],
@@ -181,7 +181,7 @@ function mixinJestConfig(jestConfig, autoPrint, options) {
 exports._newTableBorderless = _newTableBorderless;
 exports._requireResolve = _requireResolve;
 exports.cacheDirectory = cacheDirectory;
-exports["default"] = mixinJestConfig;
+exports.default = mixinJestConfig;
 exports.defaultCoveragePathIgnorePatterns = defaultCoveragePathIgnorePatterns;
 exports.defaultModuleFileExtensions = defaultModuleFileExtensions;
 exports.defaultTestFileExtensions = defaultTestFileExtensions;

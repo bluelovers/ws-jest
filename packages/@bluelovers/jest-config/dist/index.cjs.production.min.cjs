@@ -94,7 +94,7 @@ function printJestConfigInfo(e, s) {
   var r, n, i, l, u, a, _, f;
   const c = _newTableBorderless();
   null !== (r = s) && void 0 !== r || (s = {}), null !== (n = e) && void 0 !== n || (e = {}), 
-  c.push([ "@bluelovers/jest-config:", "1.1.3" ]), c.push([ "process.versions.node:", process.versions.node ]), 
+  c.push([ "@bluelovers/jest-config:", "1.1.4" ]), c.push([ "process.versions.node:", process.versions.node ]), 
   c.push([ "cwd:", null !== (i = s.cwd) && void 0 !== i ? i : process.cwd() ]), (null === (l = s.file) || void 0 === l ? void 0 : l.length) && c.push([ "file:", s.file ]), 
   (null === (u = e.cacheDirectory) || void 0 === u ? void 0 : u.length) && c.push([ "cacheDirectory:", e.cacheDirectory ]), 
   (null === (a = e.rootDir) || void 0 === a ? void 0 : a.length) && c.push([ "rootDir:", e.rootDir ]), 

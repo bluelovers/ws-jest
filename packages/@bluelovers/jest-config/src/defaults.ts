@@ -6,6 +6,8 @@ import { InitialOptionsTsJest } from 'ts-jest';
 import { defaultTsJestTransformerOptions } from './plugin/ts-jest';
 import { IRuntime } from './types';
 
+import { defaults } from 'jest-config';
+
 export function defaultTestFileExtensions()
 {
 	const value = [
@@ -24,16 +26,9 @@ export function defaultTestFileExtensions()
 export function defaultModuleFileExtensions()
 {
 	const value = [
-		'ts',
-		'tsx',
+		...defaults.moduleFileExtensions as ["js", "mjs", "cjs", "jsx", "ts", "tsx", "json", "node"],
 		'mts',
 		'cts',
-		'js',
-		'jsx',
-		'mjs',
-		'cjs',
-		'json',
-		'node',
 	] as const
 	return value as ITSToWriteableArray<typeof value>;
 }

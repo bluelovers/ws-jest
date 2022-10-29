@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.13](https://github.com/bluelovers/ws-jest/compare/jest-num-close-with@1.0.12...jest-num-close-with@1.0.13) (2022-10-29)
+
+
+
+### 🔖　Miscellaneous
+
+* . ([7d83876](https://github.com/bluelovers/ws-jest/commit/7d838766d8839f166f1312cb5c181de747ab36ce))
+
+
+
 ## [1.0.12](https://github.com/bluelovers/ws-jest/compare/jest-num-close-with@1.0.11...jest-num-close-with@1.0.12) (2022-10-15)
 
 

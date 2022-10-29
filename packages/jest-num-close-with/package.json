@@ -1,6 +1,6 @@
 {
   "name": "jest-num-close-with",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "check actual number is expected number ± delta",
   "keywords": [
     "jest",
@@ -77,8 +77,8 @@
   },
   "dependencies": {
     "@lazy-assert/jest-util": "^1.0.3",
-    "expect-print-close-to": "^1.0.7",
-    "jest-install-matcher-extends": "^1.0.12",
+    "expect-print-close-to": "^1.0.8",
+    "jest-install-matcher-extends": "^1.0.13",
     "num-in-delta": "^1.0.8"
   },
   "packageManager": "yarn@^1.22.11"

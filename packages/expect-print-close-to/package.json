@@ -1,6 +1,6 @@
 {
   "name": "expect-print-close-to",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "export `printCloseTo` from `expect`",
   "keywords": [
     "assert",

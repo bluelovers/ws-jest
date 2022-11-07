@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.3](https://github.com/bluelovers/ws-jest/compare/jest-cache-directory@1.0.2...jest-cache-directory@1.0.3) (2022-11-07)
+
+
+
+### 🔖　Miscellaneous
+
+* . ([34327ff](https://github.com/bluelovers/ws-jest/commit/34327ffdbbd027d2f901390f6111e2af844d985e))
+
+
+
 ## [1.0.2](https://github.com/bluelovers/ws-jest/compare/jest-cache-directory@1.0.1...jest-cache-directory@1.0.2) (2022-10-29)
 
 

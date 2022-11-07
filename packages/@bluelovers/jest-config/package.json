@@ -1,6 +1,6 @@
 {
   "name": "@bluelovers/jest-config",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "Jest preset configuration",
   "keywords": [
     "jest-preset",
@@ -104,7 +104,7 @@
     "@yarn-tool/require-resolve": "^2.0.9",
     "@yarn-tool/table": "^2.0.12",
     "debug-color2": "^1.3.2",
-    "jest-cache-directory": "^1.0.2",
+    "jest-cache-directory": "^1.0.3",
     "jest-chain-transform": "^0.0.4",
     "ts-type": ">=2"
   },

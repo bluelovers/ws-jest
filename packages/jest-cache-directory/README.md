@@ -1,6 +1,6 @@
 # README.md
 
-    
+    get jest cache directory ftom JEST_CACHE_DIRECTORY , tmpdir/jest
 
 ## install
 

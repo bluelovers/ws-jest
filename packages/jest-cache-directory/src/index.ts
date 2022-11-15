@@ -18,7 +18,7 @@ declare global
  */
 export function getJestCacheDirectoryEnvVar(): string
 {
-	return process.env['JEST_CACHE_DIRECTORY']
+	return process.env['JEST_CACHE_DIRECTORY']!
 }
 
 /**

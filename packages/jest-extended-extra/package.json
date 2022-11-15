@@ -1,6 +1,6 @@
 {
   "name": "jest-extended-extra",
-  "version": "1.0.18",
+  "version": "1.0.19",
   "description": "",
   "keywords": [
     "assert",
@@ -64,10 +64,10 @@
     "tsc:showConfig": "ynpx get-current-tsconfig -p"
   },
   "dependencies": {
-    "@lazy-assert/check-basic": "^1.0.11",
-    "@lazy-assert/jest-util": "^1.0.4",
+    "@lazy-assert/check-basic": "^1.0.12",
+    "@lazy-assert/jest-util": "^1.0.5",
     "check-types": "^11.1.2",
-    "jest-install-matcher-extends": "^1.0.14"
+    "jest-install-matcher-extends": "^1.0.15"
   },
   "packageManager": "yarn@1.22.19"
 }

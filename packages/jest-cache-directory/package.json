@@ -1,6 +1,6 @@
 {
   "name": "jest-cache-directory",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "get jest cache directory ftom JEST_CACHE_DIRECTORY , tmpdir/jest",
   "keywords": [
     "jest",

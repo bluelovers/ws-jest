@@ -1,6 +1,6 @@
 {
   "name": "jest-install-matcher-extends",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "",
   "keywords": [
     "jest",
@@ -78,7 +78,7 @@
     "tsc:showConfig": "ynpx get-current-tsconfig -p"
   },
   "dependencies": {
-    "@lazy-assert/jest-global-types-extra": "^1.0.4"
+    "@lazy-assert/jest-global-types-extra": "^1.0.5"
   },
   "packageManager": "yarn@^1.22.11"
 }

@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.7](https://github.com/bluelovers/ws-jest/compare/@lazy-assert/jest-diff@1.0.6...@lazy-assert/jest-diff@1.0.7) (2022-11-15)
+
+
+
+### 📌　Dependencies
+
+* update deps ([801a4d4](https://github.com/bluelovers/ws-jest/commit/801a4d4c566797e33683e61014a79d6ff2d866a2))
+
+
+
 ## [1.0.6](https://github.com/bluelovers/ws-jest/compare/@lazy-assert/jest-diff@1.0.5...@lazy-assert/jest-diff@1.0.6) (2022-11-07)
 
 

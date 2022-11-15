@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.13](https://github.com/bluelovers/ws-jest/compare/jest-file-snapshot2@0.5.12...jest-file-snapshot2@0.5.13) (2022-11-15)
+
+
+
+### 📌　Dependencies
+
+* update deps ([801a4d4](https://github.com/bluelovers/ws-jest/commit/801a4d4c566797e33683e61014a79d6ff2d866a2))
+
+
+
 ## [0.5.12](https://github.com/bluelovers/ws-jest/compare/jest-file-snapshot2@0.5.11...jest-file-snapshot2@0.5.12) (2022-11-07)
 
 **Note:** Version bump only for package jest-file-snapshot2

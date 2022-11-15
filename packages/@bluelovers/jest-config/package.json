@@ -1,7 +1,7 @@
 {
   "name": "@bluelovers/jest-config",
   "version": "1.1.5",
-  "description": "Jest preset configuration",
+  "description": "Jest preset configuration with ts-jest typescript",
   "keywords": [
     "jest-preset",
     "jest",
@@ -13,6 +13,8 @@
     "testing",
     "chai",
     "expect",
+    "ts-jest",
+    "typescript",
     "create-by-yarn-tool",
     "create-by-tsdx"
   ],

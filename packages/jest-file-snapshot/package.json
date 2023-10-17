@@ -76,7 +76,7 @@
     "@lazy-assert/jest-util": "^1.0.5",
     "@yarn-tool/find-root": "^2.0.13",
     "filenamify": "<5 >=4.3.0",
-    "fs-extra": "^10.1.0",
+    "fs-extra": "^11.1.1",
     "path-in-dir": "^1.0.9",
     "upath2": "^3.1.19"
   },

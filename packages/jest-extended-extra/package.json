@@ -66,7 +66,7 @@
   "dependencies": {
     "@lazy-assert/check-basic": "^1.0.12",
     "@lazy-assert/jest-util": "^1.0.5",
-    "check-types": "^11.1.2",
+    "check-types": "^11.2.3",
     "jest-install-matcher-extends": "^1.0.15"
   },
   "packageManager": "yarn@1.22.19"

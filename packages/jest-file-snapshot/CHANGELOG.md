@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.14](https://github.com/bluelovers/ws-jest/compare/jest-file-snapshot2@0.5.13...jest-file-snapshot2@0.5.14) (2023-10-18)
+
+
+
+### 📚　Documentation
+
+* update tags ([a82fc73](https://github.com/bluelovers/ws-jest/commit/a82fc7310b4009c25e11c5c4e780ca5a7047f323))
+
+
+### 🔖　Miscellaneous
+
+* . ([4b9aba9](https://github.com/bluelovers/ws-jest/commit/4b9aba99a184584cc035986423891fe7b61ad5c7))
+
+
+
 ## [0.5.13](https://github.com/bluelovers/ws-jest/compare/jest-file-snapshot2@0.5.12...jest-file-snapshot2@0.5.13) (2022-11-15)
 
 

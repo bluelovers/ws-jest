@@ -54,15 +54,28 @@ function defaultTsJestTransformerOptions(runtime) {
 }
 
 function defaultTestFileExtensions() {
-  const value = ['ts', 'tsx', 'mts', 'cts'];
+  const value = ['ts', 'tsx', 'mts', 'cts'
+  //	'js',
+  //	'jsx',
+  //	'mjs',
+  //	'cjs',
+  ];
+
   return value;
 }
+/**
+ * @see https://jestjs.io/docs/configuration#options
+ */
 function defaultModuleFileExtensions() {
   const value = ['js', 'mjs', 'cjs', 'jsx', 'ts', 'mts', 'cts', 'tsx', 'json', 'node'];
   return value;
 }
 function defaultCoveragePathIgnorePatterns() {
-  const value = ['/node_modules/', '/__snapshots__/', '/__tests__/', '/__test__/', '/dist/', '/test/', '/fixture/', '/__file_snapshots__/', '/__fixtures__/'];
+  const value = ['/node_modules/', '/__snapshots__/', '/__tests__/', '/__test__/',
+  //'**/node_modules/',
+  //'**/__snapshots__/',
+  //'**/__tests__/',
+  '/dist/', '/test/', '/fixture/', '/__file_snapshots__/', '/__fixtures__/'];
   return value;
 }
 function defaultTestPathIgnorePatterns() {
@@ -87,7 +100,9 @@ function defaultTransform(runtime) {
     } = requireResolve.requireResolveExtra('jest-chain-transform', opts);
     if (chain !== null && chain !== void 0 && chain.length) {
       ts_transform = [chain, {
-        transformers: [tsd, ts_transform]
+        transformers: [tsd,
+        // @ts-ignore
+        ts_transform]
       }];
     }
   }
@@ -98,11 +113,12 @@ function defaultTransform(runtime) {
 }
 
 var name = "@bluelovers/jest-config";
-var version = "1.1.6";
+var version = "1.1.7";
 
 function _newTableBorderless(options) {
   let table$1 = new table.Table({
     colAligns: ['right', 'left'],
+    //colAligns: ['left', 'center', 'center', 'center'],
     chars: {
       top: '',
       'top-mid': '',
@@ -129,6 +145,7 @@ function printJestConfigInfo(jestConfig, options) {
   var _options, _jestConfig, _options$cwd, _options$file, _jestConfig$cacheDire, _jestConfig$rootDir, _jestConfig$roots, _jestConfig$preset;
   const table = _newTableBorderless();
   (_options = options) !== null && _options !== void 0 ? _options : options = {};
+  // @ts-ignore
   (_jestConfig = jestConfig) !== null && _jestConfig !== void 0 ? _jestConfig : jestConfig = {};
   table.push([`${name}:`, version]);
   table.push([`process.versions.node:`, process.versions.node]);
@@ -150,21 +167,48 @@ function printJestConfigInfo(jestConfig, options) {
 const cacheDirectory = /*#__PURE__*/jestCacheDirectory.getJestCacheDirectory();
 function mixinJestConfig(jestConfig, autoPrint, options) {
   var _jestConfig, _newJestConfig$transf;
+  // @ts-ignore
   (_jestConfig = jestConfig) !== null && _jestConfig !== void 0 ? _jestConfig : jestConfig = {};
   const newJestConfig = fixJestConfig({
-    globals: {},
+    globals: {
+      //			'ts-jest': {
+      //				//tsconfig: 'tsconfig.spec.json',
+      //			},
+    },
     cacheDirectory,
     maxWorkers: 1,
     clearMocks: true,
     passWithNoTests: true,
     moduleFileExtensions: defaultModuleFileExtensions(),
+    //testEnvironment: 'node',
+    //testMatch: ['**/*.test.ts', '**/*.spec.ts'],
     ...makeTestRegexConfig(defaultTestFileExtensions()),
     testPathIgnorePatterns: defaultTestPathIgnorePatterns(),
-    setupFilesAfterEnv: [],
+    //testRunner: 'jest-circus/runner',
+    setupFilesAfterEnv: [
+      //"jest-chain",
+      //"jest-extended/all",
+      //"jest-extended-extra",
+      //"jest-num-close-with",
+      /**
+       * https://medium.com/doctolib/how-to-run-the-same-jest-test-suite-across-several-platforms-jest-os-detection-plugin-included-f8113832482b
+       * https://github.com/doctolib/jest-os-detection
+       */
+      //'jest-os-detection',
+    ],
+    //transform: defaultTransform(),
     verbose: true,
+    /**
+     * if didn't set `coverageProvider` to `v8`
+     * with `collectCoverage` `true`, nodejs debug point maybe will fail
+     */
     coverageProvider: 'v8',
     collectCoverage: false,
     coveragePathIgnorePatterns: defaultCoveragePathIgnorePatterns(),
+    /**
+     * https://github.com/facebook/jest/issues/9771#issuecomment-872764344
+     */
+    //resolver: 'jest-node-exports-resolver',
     ...jestConfig
   });
   (_newJestConfig$transf = newJestConfig.transform) !== null && _newJestConfig$transf !== void 0 ? _newJestConfig$transf : newJestConfig.transform = defaultTransform({

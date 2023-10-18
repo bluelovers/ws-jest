@@ -11,17 +11,27 @@ var findRoot = require('@yarn-tool/find-root');
 var jestUtil = require('@lazy-assert/jest-util');
 var jestDiff = require('@lazy-assert/jest-diff');
 
+/// <reference types="jest" />
+/// <reference types="node" />
+/// <reference types="expect" />
 const _defaultDiffOptions = {
   expand: false,
   contextLines: 5,
   aAnnotation: `Snapshot`
 };
+/**
+ * Check if 2 strings or buffer are equal
+ */
 function isEqual(a, b) {
+  // @ts-ignore: TypeScript gives error if we pass string to buffer.equals
   return Buffer.isBuffer(a) ? a.equals(b) : a === b;
 }
 function getBaseSnapshotDirectory(context) {
   return upath2.join(upath2.dirname(context.testPath), '__file_snapshots__');
 }
+/**
+ * generate from the test title
+ */
 function getBaseSnapshotFileName(context) {
   return upath2.join(getBaseSnapshotDirectory(context), `${filenamify(context.currentTestName, {
     replacement: '-'
@@ -37,7 +47,7 @@ function _hintSnapshotFileName(context, snapshotFileName) {
     snapshotDisplayName = upath2.relative(snapshotDirectory, snapshotFileName);
     safeUpdateSnapshot = true;
   } else {
-    var _snapshotDisplayName, _context$snapshotStat, _context$snapshotStat2;
+    var _snapshotDisplayName, _context$snapshotStat;
     rootData = findRoot.findRootLazy({
       cwd: context.testPath
     }, false);
@@ -50,7 +60,7 @@ function _hintSnapshotFileName(context, snapshotFileName) {
         safeUpdateSnapshot = true;
       }
     }
-    if (!((_snapshotDisplayName = snapshotDisplayName) !== null && _snapshotDisplayName !== void 0 && _snapshotDisplayName.length) && (_context$snapshotStat = context.snapshotState) !== null && _context$snapshotStat !== void 0 && (_context$snapshotStat2 = _context$snapshotStat._rootDir) !== null && _context$snapshotStat2 !== void 0 && _context$snapshotStat2.length && pathInDir.pathInsideDirectory(snapshotFileName, context.snapshotState._rootDir)) {
+    if (!((_snapshotDisplayName = snapshotDisplayName) !== null && _snapshotDisplayName !== void 0 && _snapshotDisplayName.length) && (_context$snapshotStat = context.snapshotState) !== null && _context$snapshotStat !== void 0 && (_context$snapshotStat = _context$snapshotStat._rootDir) !== null && _context$snapshotStat !== void 0 && _context$snapshotStat.length && pathInDir.pathInsideDirectory(snapshotFileName, context.snapshotState._rootDir)) {
       snapshotDisplayName = upath2.relative(context.snapshotState._rootDir, snapshotFileName);
       safeUpdateSnapshot = true;
     }
@@ -73,22 +83,40 @@ function _hintSnapshotFileName(context, snapshotFileName) {
     safeUpdateSnapshot
   };
 }
+/**
+ * Match given content against content of the specified file.
+ *
+ * @param {string | Buffer} received Output content to match
+ * @param {string} [filepath] Path to the file to match against
+ * @param {{ diff?: import('jest-diff').DiffOptions }} options Additional options for matching
+ */
 function toMatchFile(received, filepath, options = {}) {
+  // @ts-ignore
   const {
     isNot,
     snapshotState
   } = this;
   const matcherName = 'toMatchFile';
+  /**
+   * If file name is not specified, generate one from the test title
+   */
+  // @ts-ignore
   const snapshotFileName = upath2.normalize(filepath !== null && filepath !== void 0 ? filepath : getBaseSnapshotFileName(this));
   const {
     snapshotDisplayName,
     safeUpdateSnapshot
+    // @ts-ignore
   } = _hintSnapshotFileName(this, snapshotFileName);
   options = {
-    diff: Object.assign({}, _defaultDiffOptions, options.diff)
+    // Options for jest-diff
+    diff: Object.assign({}, _defaultDiffOptions,
+    // @ts-ignore
+    options.diff)
   };
+  // @ts-ignore
   const optsMatcherHint = jestUtil.handleJestMatcherHintOptions(this);
-  if (snapshotState._updateSnapshot === "none" && !fsExtra.pathExistsSync(snapshotFileName)) {
+  if (snapshotState._updateSnapshot === "none" /* EnumUpdateSnapshot.none */ && !fsExtra.pathExistsSync(snapshotFileName)) {
+    // We're probably running in CI environment
     snapshotState.unmatched++;
     return {
       pass: isNot,
@@ -107,20 +135,63 @@ function toMatchFile(received, filepath, options = {}) {
     } else if (isNot) {
       snapshotState.unmatched++;
     } else {
-      if (safeUpdateSnapshot && snapshotState._updateSnapshot === "all") {
+      if (safeUpdateSnapshot && snapshotState._updateSnapshot === "all" /* EnumUpdateSnapshot.all */) {
         pass = !isNot;
         fsExtra.outputFileSync(snapshotFileName, received);
         snapshotState.updated++;
       } else {
         snapshotState.unmatched++;
+        // @ts-ignore
         const difference = _diffHint(expected, received, options.diff);
         message = () => {
           return jestMatcherUtils.matcherHint(matcherName, undefined, snapshotDisplayName, optsMatcherHint) + difference;
         };
       }
     }
+    //		if (isNot)
+    //		{
+    //			// The matcher is being used with `.not`
+    //
+    //			if (!isEqual(received, expected))
+    //			{
+    //				pass = false;
+    //			}
+    //			else
+    //			{
+    //				snapshotState.unmatched++;
+    //				pass = true;
+    //			}
+    //		}
+    //		else
+    //		{
+    //			if (isEqual(received, expected))
+    //			{
+    //				pass = true;
+    //			}
+    //			else
+    //			{
+    //				if (safeUpdateSnapshot && snapshotState._updateSnapshot === EnumUpdateSnapshot.all)
+    //				{
+    //					pass = true;
+    //					outputFileSync(snapshotFileName, received);
+    //
+    //					snapshotState.updated++;
+    //				}
+    //				else
+    //				{
+    //					snapshotState.unmatched++;
+    //
+    //					const difference = _diffHint(expected, received, options.diff);
+    //
+    //					message = () =>
+    //					{
+    //						return matcherHint(matcherName, undefined, snapshotDisplayName, optsMatcherHint) + difference
+    //					};
+    //				}
+    //			}
+    //		}
   } else {
-    if (safeUpdateSnapshot && !isNot && (snapshotState._updateSnapshot === "new" || snapshotState._updateSnapshot === "all")) {
+    if (safeUpdateSnapshot && !isNot && (snapshotState._updateSnapshot === "new" /* EnumUpdateSnapshot.new */ || snapshotState._updateSnapshot === "all" /* EnumUpdateSnapshot.all */)) {
       pass = !isNot;
       fsExtra.outputFileSync(snapshotFileName, received);
       snapshotState.added++;

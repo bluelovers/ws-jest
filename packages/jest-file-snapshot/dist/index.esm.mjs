@@ -34,11 +34,11 @@ function _hintSnapshotFileName(t, e) {
   var a;
   const n = getBaseSnapshotDirectory(t);
   let r, l, f;
-  var p, u, d;
+  var p, u;
   if (h(e, n) ? (l = i(n, e), f = !0) : (r = c({
     cwd: t.testPath
   }, !1), r && (h(e, r.pkg) ? (l = i(r.pkg, e), f = !0) : h(e, r.root) && (l = i(r.root, e), 
-  f = !0)), null !== (p = l) && void 0 !== p && p.length || null === (u = t.snapshotState) || void 0 === u || null === (d = u._rootDir) || void 0 === d || !d.length || !h(e, t.snapshotState._rootDir) || (l = i(t.snapshotState._rootDir, e), 
+  f = !0)), null !== (p = l) && void 0 !== p && p.length || null === (u = t.snapshotState) || void 0 === u || null === (u = u._rootDir) || void 0 === u || !u.length || !h(e, t.snapshotState._rootDir) || (l = i(t.snapshotState._rootDir, e), 
   f = !0)), null === (a = l) || void 0 === a || !a.length) {
     let t = c({
       cwd: s(e)

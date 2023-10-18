@@ -12,7 +12,7 @@ exports.EnumDiffMessage = void 0;
 function _stringDiffCore(received, expected, options) {
   const difference = [''];
   if (crlfNormalize.crlf(expected) === crlfNormalize.crlf(received)) {
-    difference.push("Contents have differences only in line separators");
+    difference.push("Contents have differences only in line separators" /* EnumDiffMessage.LINE_SEPARATORS */);
     difference.push(jestMatcherUtils.diff(crlfNormalize.chkcrlf(expected), crlfNormalize.chkcrlf(received)));
   } else {
     difference.push(jestMatcherUtils.diff(expected, received, options));
@@ -20,7 +20,7 @@ function _stringDiffCore(received, expected, options) {
   return difference;
 }
 function _stringDiff(received, expected, options) {
-  return _stringDiffCore(received, expected, options).join("\n" + "\n");
+  return _stringDiffCore(received, expected, options).join("\n" /* EnumLineBreak.LF */ + "\n" /* EnumLineBreak.LF */);
 }
 
 exports._stringDiff = _stringDiff;

@@ -1,12 +1,12 @@
 import { toMatchFile } from '../src/index';
 import { readFileSync } from 'fs';
-import path from 'path';
+import { join } from 'path';
 
 expect.extend({ toMatchFile });
 
 it('matches content of file on disk with specified filename', () => {
   expect(`# this is a test`).toMatchFile(
-    path.join(__dirname, '..', '__fixtures__', 'output.md')
+    join(__dirname, '..', '__fixtures__', 'output.md')
   );
 });
 
@@ -16,7 +16,7 @@ it('matches content of file on disk without filename', () => {
 
 it('matches binary content of file on disk', () => {
   expect(
-    readFileSync(path.join(__dirname, 'minimal.pdf'), 'binary')
+    readFileSync(join(__dirname, 'minimal.pdf'), 'binary')
   ).toMatchFile();
 });
 
@@ -30,6 +30,6 @@ it('works with .not', () => {
 
 it('works with .not for binary files', () => {
   expect(
-    readFileSync(path.join(__dirname, 'minimal.pdf'), 'binary')
+    readFileSync(join(__dirname, 'minimal.pdf'), 'binary')
   ).not.toMatchFile();
 });

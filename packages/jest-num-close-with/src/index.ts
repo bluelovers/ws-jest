@@ -59,8 +59,10 @@ export function toBeCloseWith(
 ): ICustomMatcherResult
 {
 	const matcherName = 'toBeCloseWith' as const;
+	// @ts-ignore
 	const isNot = this.isNot;
 
+	// @ts-ignore
 	const options = handleJestMatcherHintOptions(this, {
 		secondArgument: arguments.length === 3 ? 'precision' : undefined,
 	});

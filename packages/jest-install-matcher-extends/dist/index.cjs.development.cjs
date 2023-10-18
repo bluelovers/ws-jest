@@ -2,12 +2,23 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
+/// <reference types="jest" />
+/// <reference types="node" />
+/// <reference types="expect" />
 function getGlobalExpect() {
+  // @ts-ignore
   if (typeof global !== 'undefined' && global.expect) {
+    // @ts-ignore
     return global.expect;
-  } else if (typeof globalThis !== 'undefined' && globalThis.expect) {
+  }
+  // @ts-ignore
+  else if (typeof globalThis !== 'undefined' && globalThis.expect) {
+    // @ts-ignore
     return globalThis.expect;
-  } else if (typeof window !== 'undefined' && window.expect) {
+  }
+  // @ts-ignore
+  else if (typeof window !== 'undefined' && window.expect) {
+    // @ts-ignore
     return window.expect;
   }
 }
@@ -20,10 +31,10 @@ function jestAutoInstallExpectExtend(matchers, options) {
   if (typeof expect !== 'undefined') {
     var _options$cbExists;
     expect.extend(matchers);
-    options === null || options === void 0 ? void 0 : (_options$cbExists = options.cbExists) === null || _options$cbExists === void 0 ? void 0 : _options$cbExists.call(options, matchers, options);
+    options === null || options === void 0 || (_options$cbExists = options.cbExists) === null || _options$cbExists === void 0 || _options$cbExists.call(options, matchers, options);
   } else {
     var _options$cbNotExists;
-    options === null || options === void 0 ? void 0 : (_options$cbNotExists = options.cbNotExists) === null || _options$cbNotExists === void 0 ? void 0 : _options$cbNotExists.call(options, matchers, options);
+    options === null || options === void 0 || (_options$cbNotExists = options.cbNotExists) === null || _options$cbNotExists === void 0 || _options$cbNotExists.call(options, matchers, options);
   }
 }
 

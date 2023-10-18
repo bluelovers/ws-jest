@@ -35,6 +35,9 @@ function isPositive(n) {
 function isNegative(n) {
   return isNum(n) && (n < 0 || n === -Infinity);
 }
+/**
+ * @see https://github.com/jonschlinkert/is-number/blob/master/index.js
+ */
 function isUnSafeNumString(n) {
   if (typeof n === 'string') {
     n = n.trim();
@@ -44,6 +47,9 @@ function isUnSafeNumString(n) {
   }
   return false;
 }
+/**
+ * @see https://github.com/jonschlinkert/is-number/blob/master/index.js
+ */
 function isUnSafeNumLike(n) {
   return isFiniteNum(n) || isUnSafeNumString(n);
 }

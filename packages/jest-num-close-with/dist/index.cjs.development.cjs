@@ -9,9 +9,17 @@ var jestInstallMatcherExtends = require('jest-install-matcher-extends');
 var util = require('num-in-delta/lib/util');
 var jestUtil = require('@lazy-assert/jest-util');
 
+/// <reference types="jest" />
+/// <reference types="node" />
+/// <reference types="expect" />
+/**
+ * check actual number is expected number ± delta
+ */
 function toBeCloseWith(received, expected, delta, precision = 4) {
   const matcherName = 'toBeCloseWith';
+  // @ts-ignore
   const isNot = this.isNot;
+  // @ts-ignore
   const options = jestUtil.handleJestMatcherHintOptions(this, {
     secondArgument: arguments.length === 3 ? 'precision' : undefined
   });
@@ -25,9 +33,9 @@ function toBeCloseWith(received, expected, delta, precision = 4) {
   let expectedDiff = 0;
   let receivedDiff = 0;
   if (received === Infinity && expected === Infinity) {
-    pass = true;
+    pass = true; // Infinity - Infinity is NaN
   } else if (received === -Infinity && expected === -Infinity) {
-    pass = true;
+    pass = true; // -Infinity - -Infinity is NaN
   } else {
     expectedDiff = Math.pow(10, -precision) / 2;
     receivedDiff = Number(util.subAbs(received, expected));
@@ -43,6 +51,9 @@ function toBeCloseWith(received, expected, delta, precision = 4) {
   };
 }
 var index = {
+  /**
+   * check actual number is expected number ± delta
+   */
   toBeCloseWith
 };
 jestInstallMatcherExtends.jestAutoInstallExpectExtend({

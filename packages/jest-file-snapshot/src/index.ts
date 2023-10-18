@@ -169,28 +169,33 @@ export function toMatchFile(this: IMatcherContext,
 	options: IFileMatcherOptions = {},
 ): ICustomMatcherResult
 {
-	const { isNot, snapshotState } = this;
+	// @ts-ignore
+	const { isNot, snapshotState } = this as IMatcherContext;
 	const matcherName = 'toMatchFile' as const;
 
 	/**
 	 * If file name is not specified, generate one from the test title
 	 */
-	const snapshotFileName = normalize(filepath ?? getBaseSnapshotFileName(this));
+	// @ts-ignore
+	const snapshotFileName = normalize(filepath ?? getBaseSnapshotFileName(this as any));
 	const {
 		snapshotDisplayName,
 		safeUpdateSnapshot,
-	} = _hintSnapshotFileName(this, snapshotFileName);
+		// @ts-ignore
+	} = _hintSnapshotFileName(this as any, snapshotFileName);
 
 	options = {
 		// Options for jest-diff
 		diff: Object.assign(
 			{},
 			_defaultDiffOptions,
+			// @ts-ignore
 			options.diff,
 		),
 	};
 
-	const optsMatcherHint = handleJestMatcherHintOptions(this);
+	// @ts-ignore
+	const optsMatcherHint = handleJestMatcherHintOptions(this as any);
 
 	if (snapshotState._updateSnapshot === EnumUpdateSnapshot.none && !pathExistsSync(snapshotFileName))
 	{
@@ -246,6 +251,7 @@ export function toMatchFile(this: IMatcherContext,
 			{
 				snapshotState.unmatched++;
 
+				// @ts-ignore
 				const difference = _diffHint(expected, received, options.diff);
 
 				message = () =>

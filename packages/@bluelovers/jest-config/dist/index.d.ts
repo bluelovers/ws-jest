@@ -63,10 +63,7 @@ export declare function defaultTestPathIgnorePatterns(): [
 	"/dist/"
 ];
 export declare function defaultTransform(runtime: IRuntime): ITSWriteable<{
-	readonly ".(ts|tsx|mts|cts)$": [
-		string,
-		Record<string, unknown>
-	];
+	readonly ".(ts|tsx|mts|cts)$": import("@jest/types/build/Config").TransformerConfig;
 }>;
 export declare const cacheDirectory: string;
 export declare function mixinJestConfig<T extends IJestConfig>(jestConfig?: T, autoPrint?: boolean, options?: IOptionsPrintJestConfigInfo): T;

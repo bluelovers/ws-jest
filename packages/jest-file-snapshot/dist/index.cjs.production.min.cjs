@@ -26,11 +26,11 @@ function _hintSnapshotFileName(e, a) {
   var i;
   const o = getBaseSnapshotDirectory(e);
   let r, l, u;
-  var p, h, f;
+  var p, h;
   if (n.pathInsideDirectory(a, o) ? (l = t.relative(o, a), u = !0) : (r = s.findRootLazy({
     cwd: e.testPath
   }, !1), r && (n.pathInsideDirectory(a, r.pkg) ? (l = t.relative(r.pkg, a), u = !0) : n.pathInsideDirectory(a, r.root) && (l = t.relative(r.root, a), 
-  u = !0)), null !== (p = l) && void 0 !== p && p.length || null === (h = e.snapshotState) || void 0 === h || null === (f = h._rootDir) || void 0 === f || !f.length || !n.pathInsideDirectory(a, e.snapshotState._rootDir) || (l = t.relative(e.snapshotState._rootDir, a), 
+  u = !0)), null !== (p = l) && void 0 !== p && p.length || null === (h = e.snapshotState) || void 0 === h || null === (h = h._rootDir) || void 0 === h || !h.length || !n.pathInsideDirectory(a, e.snapshotState._rootDir) || (l = t.relative(e.snapshotState._rootDir, a), 
   u = !0)), null === (i = l) || void 0 === i || !i.length) {
     let e = s.findRootLazy({
       cwd: t.dirname(a)

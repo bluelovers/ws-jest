@@ -1,5 +1,5 @@
 
-import { isFloat, isInt, isNum } from '../src/index';
+import { isFloat, isInt, isNum } from '../src/number';
 
 //const TEST_BIG_NUMBER = 14206147658;
 const TEST_BIG_NUMBER = Number.MAX_SAFE_INTEGER;

@@ -83,6 +83,8 @@ function defaultTransform(e) {
   };
 }
 
+var l = "@bluelovers/jest-config", u = "1.1.7";
+
 function _newTableBorderless(t) {
   let e = new o({
     colAligns: [ "right", "left" ],
@@ -109,28 +111,28 @@ function _newTableBorderless(t) {
 }
 
 function printJestConfigInfo(t, e) {
-  var o, r, i, l, u, a, _, f;
-  const d = _newTableBorderless();
+  var o, r, i, a, _, f, d, c;
+  const g = _newTableBorderless();
   null !== (o = e) && void 0 !== o || (e = {}), null !== (r = t) && void 0 !== r || (t = {}), 
-  d.push([ "@bluelovers/jest-config:", "1.1.6" ]), d.push([ "process.versions.node:", process.versions.node ]), 
-  d.push([ "cwd:", null !== (i = e.cwd) && void 0 !== i ? i : process.cwd() ]), (null === (l = e.file) || void 0 === l ? void 0 : l.length) && d.push([ "file:", e.file ]), 
-  (null === (u = t.cacheDirectory) || void 0 === u ? void 0 : u.length) && d.push([ "cacheDirectory:", t.cacheDirectory ]), 
-  (null === (a = t.rootDir) || void 0 === a ? void 0 : a.length) && d.push([ "rootDir:", t.rootDir ]), 
-  (null === (_ = t.roots) || void 0 === _ ? void 0 : _.length) && d.push([ "roots:", n(t.roots) ]), 
-  (null === (f = t.preset) || void 0 === f ? void 0 : f.length) && d.push([ "preset:", t.preset ]), 
-  t.transform && d.push([ "transform:", n(t.transform, {
+  g.push([ `${l}:`, u ]), g.push([ "process.versions.node:", process.versions.node ]), 
+  g.push([ "cwd:", null !== (i = e.cwd) && void 0 !== i ? i : process.cwd() ]), (null === (a = e.file) || void 0 === a ? void 0 : a.length) && g.push([ "file:", e.file ]), 
+  (null === (_ = t.cacheDirectory) || void 0 === _ ? void 0 : _.length) && g.push([ "cacheDirectory:", t.cacheDirectory ]), 
+  (null === (f = t.rootDir) || void 0 === f ? void 0 : f.length) && g.push([ "rootDir:", t.rootDir ]), 
+  (null === (d = t.roots) || void 0 === d ? void 0 : d.length) && g.push([ "roots:", n(t.roots) ]), 
+  (null === (c = t.preset) || void 0 === c ? void 0 : c.length) && g.push([ "preset:", t.preset ]), 
+  t.transform && g.push([ "transform:", n(t.transform, {
     depth: 3
-  }) ]), s.gray.log("─".repeat(20)), s.log("jest.config"), s.log(d.toString()), s.gray.log("─".repeat(20));
+  }) ]), s.gray.log("─".repeat(20)), s.log("jest.config"), s.log(g.toString()), s.gray.log("─".repeat(20));
 }
 
-const l = i();
+const a = i();
 
 function mixinJestConfig(t, e, s) {
   var o, r;
   null !== (o = t) && void 0 !== o || (t = {});
   const n = fixJestConfig({
     globals: {},
-    cacheDirectory: l,
+    cacheDirectory: a,
     maxWorkers: 1,
     clearMocks: !0,
     passWithNoTests: !0,
@@ -152,5 +154,5 @@ function mixinJestConfig(t, e, s) {
   })), e && printJestConfigInfo(n, s), n;
 }
 
-export { _newTableBorderless, _requireResolve, l as cacheDirectory, mixinJestConfig as default, defaultCoveragePathIgnorePatterns, defaultModuleFileExtensions, defaultTestFileExtensions, defaultTestPathIgnorePatterns, defaultTransform, fixJestConfig, makeTestRegexConfig, mixinJestConfig, printJestConfigInfo };
+export { _newTableBorderless, _requireResolve, a as cacheDirectory, mixinJestConfig as default, defaultCoveragePathIgnorePatterns, defaultModuleFileExtensions, defaultTestFileExtensions, defaultTestPathIgnorePatterns, defaultTransform, fixJestConfig, makeTestRegexConfig, mixinJestConfig, printJestConfigInfo };
 //# sourceMappingURL=index.esm.mjs.map

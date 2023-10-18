@@ -4,7 +4,7 @@
 
 import { ITSTypeAndStringLiteral } from 'ts-type/lib/helper/string';
 import { ITSOverwrite } from 'ts-type/lib/type/record';
-import { SnapshotState } from 'jest-snapshot';
+import { SnapshotStateType } from 'jest-snapshot';
 import { Config } from '@jest/types';
 
 export const enum EnumUpdateSnapshot
@@ -24,7 +24,7 @@ interface I_SnapshotStateCore
 	readonly _rootDir: string;
 }
 
-export interface ISnapshotState extends ITSOverwrite<SnapshotState, I_SnapshotStateCore>
+export interface ISnapshotState extends ITSOverwrite<SnapshotStateType, I_SnapshotStateCore>
 {
 
 }
@@ -49,6 +49,7 @@ declare global
 
 declare module 'expect'
 {
+	// @ts-ignore
 	interface MatcherState
 	{
 		snapshotState?: ISnapshotState

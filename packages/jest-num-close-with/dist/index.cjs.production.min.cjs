@@ -13,11 +13,9 @@ function toBeCloseWith(r, s, c, a = 4) {
   if ("number" != typeof s) throw new Error(e.matcherErrorMessage(e.matcherHint(d, void 0, void 0, l), `${e.EXPECTED_COLOR("expected")} value must be a number`, e.printWithType("Expected", s, e.printExpected)));
   if ("number" != typeof r) throw new Error(e.matcherErrorMessage(e.matcherHint(d, void 0, void 0, l), `${e.RECEIVED_COLOR("received")} value must be a number`, e.printWithType("Received", r, e.printReceived)));
   let u = !1, h = 0, m = 0;
-  Infinity === r && Infinity === s || -Infinity === r && -Infinity === s ? u = !0 : (h = Math.pow(10, -a) / 2, 
-  m = Number(n.subAbs(r, s)), u = t.numberInDelta(r, s, c));
-  const v = u ? () => e.matcherHint(d, void 0, void 0, l) + "\n\n" + `Expected: not ${e.printExpected(s)}\n` + (0 === m ? "" : `Received:     ${e.printReceived(r)}\n\n` + i.printCloseTo(m, h, a, p)) : () => e.matcherHint(d, void 0, void 0, l) + "\n\n" + `Expected: ${e.printExpected(s)}\n` + `Received: ${e.printReceived(r)}\n\n` + i.printCloseTo(m, h, a, p);
-  return {
-    message: v,
+  return Infinity === r && Infinity === s || -Infinity === r && -Infinity === s ? u = !0 : (h = Math.pow(10, -a) / 2, 
+  m = Number(n.subAbs(r, s)), u = t.numberInDelta(r, s, c)), {
+    message: u ? () => e.matcherHint(d, void 0, void 0, l) + "\n\n" + `Expected: not ${e.printExpected(s)}\n` + (0 === m ? "" : `Received:     ${e.printReceived(r)}\n\n` + i.printCloseTo(m, h, a, p)) : () => e.matcherHint(d, void 0, void 0, l) + "\n\n" + `Expected: ${e.printExpected(s)}\n` + `Received: ${e.printReceived(r)}\n\n` + i.printCloseTo(m, h, a, p),
     pass: u,
     actual: r,
     expected: s,

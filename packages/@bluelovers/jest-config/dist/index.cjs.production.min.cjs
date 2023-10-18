@@ -65,7 +65,7 @@ function defaultTransform(t) {
   };
 }
 
-var n = "@bluelovers/jest-config", i = "1.1.7";
+var n = "@bluelovers/jest-config", i = "1.1.8";
 
 function _newTableBorderless(e) {
   let t = new s.Table({

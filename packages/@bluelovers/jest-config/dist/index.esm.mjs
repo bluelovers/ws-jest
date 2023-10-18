@@ -83,7 +83,7 @@ function defaultTransform(e) {
   };
 }
 
-var l = "@bluelovers/jest-config", u = "1.1.7";
+var l = "@bluelovers/jest-config", u = "1.1.8";
 
 function _newTableBorderless(t) {
   let e = new o({

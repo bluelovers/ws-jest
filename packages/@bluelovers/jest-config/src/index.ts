@@ -18,11 +18,11 @@ const cacheDirectory = getJestCacheDirectory();
 export { cacheDirectory }
 
 export function mixinJestConfig<T extends IJestConfig>(jestConfig?: T, autoPrint?: boolean,
-	options?: IOptionsPrintJestConfigInfo): T
+	options?: IOptionsPrintJestConfigInfo)
 {
 	// @ts-ignore
 	jestConfig ??= {};
-	const newJestConfig = fixJestConfig<T>({
+	const newJestConfig = fixJestConfig({
 		globals: {
 //			'ts-jest': {
 //				//tsconfig: 'tsconfig.spec.json',

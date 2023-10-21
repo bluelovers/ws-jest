@@ -1,7 +1,7 @@
 import { IOptions, requireResolveExtra } from '@yarn-tool/require-resolve';
 import { ITSToWriteableArray } from 'ts-type/lib/helper/array/readonly';
 import { ITSWriteable } from 'ts-type/lib/helper/readonly';
-import { _requireResolve } from './helper';
+import { _handleFileExtensions, _requireResolve } from './helper';
 import { InitialOptionsTsJest } from 'ts-jest';
 import { defaultTsJestTransformerOptions } from './plugin/ts-jest';
 import { IRuntime } from './types';
@@ -37,6 +37,34 @@ export function defaultModuleFileExtensions()
 		'tsx',
 		'json',
 		'node',
+	] as const
+	return value as ITSToWriteableArray<typeof value>;
+}
+
+export function defaultCoverageFileExtensions()
+{
+	const value = [
+		'js',
+		'mjs',
+		'cjs',
+		'jsx',
+		'ts',
+		'mts',
+		'cts',
+		'tsx',
+		//'json',
+		//'node',
+	] as const
+	return value as ITSToWriteableArray<typeof value>;
+}
+
+export function defaultTransformFileExtensions()
+{
+	const value = [
+		'ts',
+		'tsx',
+		'mts',
+		'cts',
 	] as const
 	return value as ITSToWriteableArray<typeof value>;
 }
@@ -115,7 +143,7 @@ export function defaultTransform(runtime: IRuntime)
 	}
 
 	const value = {
-		'.(ts|tsx|mts|cts)$': ts_transform,
+		[`.(${_handleFileExtensions(defaultTransformFileExtensions(), '|')})$`]: ts_transform,
 	} as const
 	return value as ITSWriteable<typeof value>;
 }

@@ -4,35 +4,10 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 var requireResolve = require('@yarn-tool/require-resolve');
 var debugColor2 = require('debug-color2');
+var arrayHyperUnique = require('array-hyper-unique');
 var table = require('@yarn-tool/table');
 var util = require('util');
 var jestCacheDirectory = require('jest-cache-directory');
-
-function _requireResolve(name) {
-  const paths = [requireResolve.requireResolveExtra('@bluelovers/tsdx').result, requireResolve.requireResolveExtra('tsdx').result].filter(Boolean);
-  const result = requireResolve.requireResolveCore(name, {
-    includeGlobal: true,
-    includeCurrentDirectory: true,
-    paths
-  });
-  debugColor2.console.debug('[require.resolve]', name, '=>', result);
-  return result;
-}
-function makeTestRegexConfig(testExt) {
-  testExt = [testExt].flat().join('|');
-  return {
-    testMatch: void 0,
-    testRegex: [`\\.(tests?|spec)\\.(${testExt})$`, `__tests__\/\.*\\.(tests?|spec)\\.(${testExt})$`]
-  };
-}
-function fixJestConfig(jestConfig) {
-  if (jestConfig.testMatch) {
-    jestConfig.testRegex = void 0;
-  } else if (jestConfig.testRegex) {
-    jestConfig.testMatch = void 0;
-  }
-  return jestConfig;
-}
 
 function defaultTsJestTransformerOptions(runtime) {
   var _runtime$jestConfig$g, _runtime$jestConfig$g2;
@@ -68,6 +43,18 @@ function defaultTestFileExtensions() {
  */
 function defaultModuleFileExtensions() {
   const value = ['js', 'mjs', 'cjs', 'jsx', 'ts', 'mts', 'cts', 'tsx', 'json', 'node'];
+  return value;
+}
+function defaultCoverageFileExtensions() {
+  const value = ['js', 'mjs', 'cjs', 'jsx', 'ts', 'mts', 'cts', 'tsx'
+  //'json',
+  //'node',
+  ];
+
+  return value;
+}
+function defaultTransformFileExtensions() {
+  const value = ['ts', 'tsx', 'mts', 'cts'];
   return value;
 }
 function defaultCoveragePathIgnorePatterns() {
@@ -107,9 +94,43 @@ function defaultTransform(runtime) {
     }
   }
   const value = {
-    '.(ts|tsx|mts|cts)$': ts_transform
+    [`.(${_handleFileExtensions(defaultTransformFileExtensions(), '|')})$`]: ts_transform
   };
   return value;
+}
+
+function _requireResolve(name) {
+  const paths = [requireResolve.requireResolveExtra('@bluelovers/tsdx').result, requireResolve.requireResolveExtra('tsdx').result].filter(Boolean);
+  const result = requireResolve.requireResolveCore(name, {
+    includeGlobal: true,
+    includeCurrentDirectory: true,
+    paths
+  });
+  debugColor2.console.debug('[require.resolve]', name, '=>', result);
+  return result;
+}
+function makeTestRegexConfig(testExt) {
+  var _testExt2;
+  (_testExt2 = testExt) !== null && _testExt2 !== void 0 ? _testExt2 : testExt = defaultTestFileExtensions();
+  const _testExt = _handleFileExtensions(testExt, '|');
+  return {
+    testMatch: null,
+    testRegex: [`\\.(tests?|spec)\\.(${_testExt})$`, `__tests__\/\.*\\.(tests?|spec)\\.(${_testExt})$`]
+  };
+}
+function _handleFileExtensionsCore(testExt) {
+  return arrayHyperUnique.array_unique([testExt].flat());
+}
+function _handleFileExtensions(testExt, sep) {
+  return _handleFileExtensionsCore(testExt).join(sep);
+}
+function fixJestConfig(jestConfig) {
+  if (jestConfig.testMatch) {
+    jestConfig.testRegex = null;
+  } else if (jestConfig.testRegex) {
+    jestConfig.testMatch = null;
+  }
+  return jestConfig;
 }
 
 var name = "@bluelovers/jest-config";
@@ -221,15 +242,19 @@ function mixinJestConfig(jestConfig, autoPrint, options) {
   return newJestConfig;
 }
 
+exports._handleFileExtensions = _handleFileExtensions;
+exports._handleFileExtensionsCore = _handleFileExtensionsCore;
 exports._newTableBorderless = _newTableBorderless;
 exports._requireResolve = _requireResolve;
 exports.cacheDirectory = cacheDirectory;
 exports.default = mixinJestConfig;
+exports.defaultCoverageFileExtensions = defaultCoverageFileExtensions;
 exports.defaultCoveragePathIgnorePatterns = defaultCoveragePathIgnorePatterns;
 exports.defaultModuleFileExtensions = defaultModuleFileExtensions;
 exports.defaultTestFileExtensions = defaultTestFileExtensions;
 exports.defaultTestPathIgnorePatterns = defaultTestPathIgnorePatterns;
 exports.defaultTransform = defaultTransform;
+exports.defaultTransformFileExtensions = defaultTransformFileExtensions;
 exports.fixJestConfig = fixJestConfig;
 exports.makeTestRegexConfig = makeTestRegexConfig;
 exports.mixinJestConfig = mixinJestConfig;

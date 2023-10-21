@@ -1,6 +1,6 @@
 {
   "name": "@bluelovers/jest-config",
-  "version": "1.1.8",
+  "version": "1.1.9",
   "description": "Jest preset configuration with ts-jest typescript",
   "keywords": [
     "jest-preset",

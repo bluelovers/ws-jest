@@ -103,7 +103,7 @@ function fixJestConfig(e) {
   return e.testMatch ? e.testRegex = null : e.testRegex && (e.testMatch = null), e;
 }
 
-var u = "@bluelovers/jest-config", a = "1.1.8";
+var u = "@bluelovers/jest-config", a = "1.1.9";
 
 function _newTableBorderless(e) {
   let t = new n({

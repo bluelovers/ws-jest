@@ -59,5 +59,15 @@ export function fixJestConfig<T extends IJestConfig>(jestConfig: T): T
 		jestConfig.testMatch = null;
 	}
 
+	/**
+	 * Option "testURL" was replaced by passing the URL via "testEnvironmentOptions.url".
+	 */
+	if (jestConfig.testURL)
+	{
+		jestConfig.testEnvironmentOptions ??= {};
+
+		jestConfig.testURL = (jestConfig.testEnvironmentOptions['url'] ??= jestConfig.testURL) as string
+	}
+
 	return jestConfig
 }

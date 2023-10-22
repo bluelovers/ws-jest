@@ -130,11 +130,19 @@ function fixJestConfig(jestConfig) {
   } else if (jestConfig.testRegex) {
     jestConfig.testMatch = null;
   }
+  /**
+   * Option "testURL" was replaced by passing the URL via "testEnvironmentOptions.url".
+   */
+  if (jestConfig.testURL) {
+    var _jestConfig$testEnvir, _jestConfig$testEnvir2, _url, _jestConfig$testEnvir3;
+    (_jestConfig$testEnvir = jestConfig.testEnvironmentOptions) !== null && _jestConfig$testEnvir !== void 0 ? _jestConfig$testEnvir : jestConfig.testEnvironmentOptions = {};
+    jestConfig.testURL = (_jestConfig$testEnvir3 = (_jestConfig$testEnvir2 = jestConfig.testEnvironmentOptions)[_url = 'url']) !== null && _jestConfig$testEnvir3 !== void 0 ? _jestConfig$testEnvir3 : _jestConfig$testEnvir2[_url] = jestConfig.testURL;
+  }
   return jestConfig;
 }
 
 var name = "@bluelovers/jest-config";
-var version = "1.1.9";
+var version = "1.1.10";
 
 function _newTableBorderless(options) {
   let table$1 = new table.Table({

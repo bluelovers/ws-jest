@@ -72,10 +72,13 @@ function _handleFileExtensions(e, t) {
 }
 
 function fixJestConfig(e) {
-  return e.testMatch ? e.testRegex = null : e.testRegex && (e.testMatch = null), e;
+  var t, s, o;
+  return e.testMatch ? e.testRegex = null : e.testRegex && (e.testMatch = null), e.testURL && (null !== (t = e.testEnvironmentOptions) && void 0 !== t || (e.testEnvironmentOptions = {}), 
+  e.testURL = null !== (o = (s = e.testEnvironmentOptions).url) && void 0 !== o ? o : s.url = e.testURL), 
+  e;
 }
 
-var i = "@bluelovers/jest-config", l = "1.1.9";
+var i = "@bluelovers/jest-config", l = "1.1.10";
 
 function _newTableBorderless(e) {
   let t = new o.Table({

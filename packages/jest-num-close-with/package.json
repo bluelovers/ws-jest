@@ -1,6 +1,6 @@
 {
   "name": "jest-num-close-with",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "description": "check actual number is expected number ± delta",
   "keywords": [
     "jest",

@@ -142,7 +142,7 @@ function fixJestConfig(jestConfig) {
 }
 
 var name = "@bluelovers/jest-config";
-var version = "1.1.10";
+var version = "1.1.11";
 
 function _newTableBorderless(options) {
   let table$1 = new table.Table({

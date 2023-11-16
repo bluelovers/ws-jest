@@ -78,7 +78,7 @@ function fixJestConfig(e) {
   e;
 }
 
-var i = "@bluelovers/jest-config", l = "1.1.10";
+var i = "@bluelovers/jest-config", l = "1.1.11";
 
 function _newTableBorderless(e) {
   let t = new o.Table({

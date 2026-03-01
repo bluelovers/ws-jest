@@ -82,6 +82,5 @@
     "expect-print-close-to": "^1.0.11",
     "jest-install-matcher-extends": "^1.0.16",
     "num-in-delta": "^1.0.8"
-  },
-  "packageManager": "yarn@^1.22.11"
+  }
 }

@@ -33,23 +33,23 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.esm.mjs",
-      "require": "./dist/index.cjs"
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.esm.mjs"
     },
     "./dist/jest-preset.cjs": "./jest-preset.cjs",
     "./dist/jest-preset.js": {
-      "import": "./jest-preset.mjs",
-      "require": "./jest-preset.cjs"
+      "require": "./jest-preset.cjs",
+      "import": "./jest-preset.mjs"
     },
     "./dist/jest-preset.mjs": "./jest-preset.mjs",
     "./jest-preset": {
-      "import": "./jest-preset.mjs",
-      "require": "./jest-preset.cjs"
+      "require": "./jest-preset.cjs",
+      "import": "./jest-preset.mjs"
     },
     "./jest-preset.cjs": "./jest-preset.cjs",
     "./jest-preset.js": {
-      "import": "./jest-preset.mjs",
-      "require": "./jest-preset.cjs"
+      "require": "./jest-preset.cjs",
+      "import": "./jest-preset.mjs"
     },
     "./jest-preset.mjs": "./jest-preset.mjs",
     "./package.json": "./package.json",
@@ -70,6 +70,7 @@
     "pretest": "echo pretest",
     "test": "jest --passWithNoTests",
     "test:jest": "jest --passWithNoTests",
+    "test:jest:coverage": "yarn run test:jest -- --coverage",
     "test:jest:snapshot": "yarn run test:jest -- -u",
     "test:mocha": "ynpx --quiet -p ts-node -p mocha mocha -- --require ts-node/register \"!(node_modules)/**/*.{test,spec}.{ts,tsx}\"",
     "test:snapshot": "yarn run test -- -u",
@@ -111,7 +112,6 @@
     "jest-chain-transform": "^0.0.5",
     "ts-type": ">=2"
   },
-  "packageManager": "yarn@1.22.19",
   "publishConfig": {
     "access": "public"
   }

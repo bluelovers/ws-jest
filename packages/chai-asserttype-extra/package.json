@@ -73,6 +73,5 @@
     "@types/type-detect": "^4",
     "ts-type": "^3.0.1",
     "type-detect": "^4.0.8"
-  },
-  "packageManager": "yarn@^1.22.11"
+  }
 }

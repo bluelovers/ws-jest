@@ -87,7 +87,6 @@
     "@lazy-assert/jest-global-types-extra": "^1.0.6",
     "jest-matcher-utils": ">=29"
   },
-  "packageManager": "yarn@1.22.19",
   "publishConfig": {
     "access": "public"
   }

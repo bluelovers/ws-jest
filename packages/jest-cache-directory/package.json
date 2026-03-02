@@ -79,6 +79,6 @@
     "tsc:showConfig": "ynpx get-current-tsconfig -p"
   },
   "dependencies": {
-    "fs-realpath-native": "^1.0.2"
+    "fs-realpath-native": "^1.0.5"
   }
 }

@@ -72,6 +72,6 @@
     "@lazy-assert/check-basic": "^1.0.13",
     "@types/type-detect": "^4",
     "ts-type": "^3.0.1",
-    "type-detect": "^4.0.8"
+    "type-detect": "^4.1.0"
   }
 }

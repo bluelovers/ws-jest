@@ -160,7 +160,7 @@ __fixtures__
 !jest-preset.cjs
 !jest-preset.mjs
 !jest.config.*
-!jest.config.js
+jest.config.js
 
 /global.tsdx.d.ts
 /next-env.d.ts

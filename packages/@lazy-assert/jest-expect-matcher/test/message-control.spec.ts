@@ -3,10 +3,10 @@
  * Testing control of Jest test failure messages
  */
 
-import { allOf, anyOf } from "../src";
-import { 
-	myTestAsymmetricMatcherMessage001, 
-	myTestAsymmetricMatcherMessage002, 
+import { allOf } from "../src";
+import {
+	myTestAsymmetricMatcherMessage001,
+	myTestAsymmetricMatcherMessage002,
 	myTestAsymmetricMatcherMessage003,
 	MyTestAsymmetricMatcherMessage004,
 	myTestAsymmetricMatcherMessage005,

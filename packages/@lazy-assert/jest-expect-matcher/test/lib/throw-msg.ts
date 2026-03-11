@@ -22,7 +22,7 @@ export const myTestAsymmetricMatcherMessage001 = (predicate: unknown | ((val: an
 			return false;
 		},
 		// 當測試失敗時，Jest 顯示在 "Expected" 欄位的文字
-		toString: () => `myTestAsymmetricMatcherMessage001(${predicate})`,
+		toString: () => `myTestAsymmetricMatcherMessage001:toString(${predicate})`,
 	} satisfies IAsymmetricMatcher
 };
 
@@ -36,8 +36,8 @@ export const myTestAsymmetricMatcherMessage002 = (predicate: unknown | ((val: an
 			return false;
 		},
 		// 當測試失敗時，Jest 顯示在 "Expected" 欄位的文字
-		toString: () => `myTestAsymmetricMatcherMessage002(${predicate})`,
-		jasmineToString: () => `myTestAsymmetricMatcherMessage002(${predicate})`,
+		toString: () => `myTestAsymmetricMatcherMessage002:toString(${predicate})`,
+		jasmineToString: () => `myTestAsymmetricMatcherMessage002:toAsymmetricMatcher(${predicate})`,
 	} satisfies IAsymmetricMatcher
 };
 
@@ -51,8 +51,8 @@ export const myTestAsymmetricMatcherMessage003 = (predicate: unknown | ((val: an
 			return false;
 		},
 		// 當測試失敗時，Jest 顯示在 "Expected" 欄位的文字
-		toString: () => `myTestAsymmetricMatcherMessage003(${predicate})`,
-		jasmineToString: () => `myTestAsymmetricMatcherMessage003(${predicate})`,
+		toString: () => `myTestAsymmetricMatcherMessage003:toString(${predicate})`,
+		jasmineToString: () => `myTestAsymmetricMatcherMessage003:toAsymmetricMatcher(${predicate})`,
 		// @ts-ignore
 		$$typeof: SymbolTypeofAsymmetricMatcher,
 	} satisfies IAsymmetricMatcher
@@ -87,12 +87,12 @@ export class MyTestAsymmetricMatcherMessage004 {
 
 	toString() {
 		// @ts-ignore
-		return `MyTestAsymmetricMatcherMessage004(${this.predicate})`;
+		return `MyTestAsymmetricMatcherMessage004:toString(${this.predicate})`;
 	}
 
 	toAsymmetricMatcher() {
 		// @ts-ignore
-		return `MyTestAsymmetricMatcherMessage004(${this.predicate})`;
+		return `MyTestAsymmetricMatcherMessage004:toAsymmetricMatcher(${this.predicate})`;
 	}
 }
 
@@ -110,8 +110,8 @@ export const myTestAsymmetricMatcherMessage005 = (predicate: unknown | ((val: an
 			// make this always fail
 			return false;
 		},
-		toString: () => `myTestAsymmetricMatcherMessage005(${predicate})`,
-		toAsymmetricMatcher: () => `myTestAsymmetricMatcherMessage005(${predicate})`,
+		toString: () => `myTestAsymmetricMatcherMessage005:toString(${predicate})`,
+		toAsymmetricMatcher: () => `myTestAsymmetricMatcherMessage005:toAsymmetricMatcher(${predicate})`,
 	} satisfies IAsymmetricMatcher
 };
 
@@ -129,7 +129,7 @@ export const myTestAsymmetricMatcherMessage006 = (predicate: unknown | ((val: an
 			// make this always fail
 			return false;
 		},
-		toString: () => `myTestAsymmetricMatcherMessage006(${predicate})`,
-		toAsymmetricMatcher: () => `myTestAsymmetricMatcherMessage006(${predicate})`,
+		toString: () => `myTestAsymmetricMatcherMessage006:toString(${predicate})`,
+		toAsymmetricMatcher: () => `myTestAsymmetricMatcherMessage006:toAsymmetricMatcher(${predicate})`,
 	} satisfies IAsymmetricMatcher
 };

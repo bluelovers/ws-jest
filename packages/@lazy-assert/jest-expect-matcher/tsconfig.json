@@ -1,6 +1,9 @@
 {
   "extends": "@bluelovers/tsconfig/tsdx/index.json",
-  "compilerOptions": {},
+  "compilerOptions": {
+    "noUnusedLocals": false,
+    "noUnusedParameters": false
+  },
   "exclude": [
     "dist",
     "test"

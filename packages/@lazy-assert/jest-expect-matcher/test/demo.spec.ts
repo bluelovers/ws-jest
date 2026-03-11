@@ -1,4 +1,4 @@
-import { allOf, anyOf } from "../src";
+import { allOf, anyOf } from "../src/index";
 import { anyStringNullOrUndefined, satisfy } from './lib/demo';
 
 describe(`示範自定義 Asymmetric Matcher`, () =>

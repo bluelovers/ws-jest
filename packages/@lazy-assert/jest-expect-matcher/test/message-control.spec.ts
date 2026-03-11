@@ -10,7 +10,14 @@ import {
 	myTestAsymmetricMatcherMessage003,
 	MyTestAsymmetricMatcherMessage004,
 	myTestAsymmetricMatcherMessage005,
-	myTestAsymmetricMatcherMessage006
+	myTestAsymmetricMatcherMessage006,
+	myTestAsymmetricMatcherMessage007,
+	myTestAsymmetricMatcherMessage008,
+	myTestAsymmetricMatcherMessage009,
+	myTestAsymmetricMatcherMessage010,
+	myTestAsymmetricMatcherMessage011,
+	myTestAsymmetricMatcherMessage012,
+	myTestAsymmetricMatcherMessageSimplified
 } from './lib/throw-msg';
 
 describe(`測試訊息控制`, () =>
@@ -88,6 +95,48 @@ describe(`測試訊息控制`, () =>
 		test('測試 myTestAsymmetricMatcherMessage006', () => {
 			expect(() => expect(actual).toMatchObject({
 				versionNew: myTestAsymmetricMatcherMessage006('test-predicate'),
+			})).toThrowErrorMatchingSnapshot();
+		});
+
+		test('測試 myTestAsymmetricMatcherMessage007 (僅 toAsymmetricMatcher + $$typeof)', () => {
+			expect(() => expect(actual).toMatchObject({
+				versionNew: myTestAsymmetricMatcherMessage007('test-predicate'),
+			})).toThrowErrorMatchingSnapshot();
+		});
+
+		test('測試 myTestAsymmetricMatcherMessage008 (僅 toString + $$typeof)', () => {
+			expect(() => expect(actual).toMatchObject({
+				versionNew: myTestAsymmetricMatcherMessage008('test-predicate'),
+			})).toThrowErrorMatchingSnapshot();
+		});
+
+		test('測試 myTestAsymmetricMatcherMessage009 (toString + toAsymmetricMatcher + $$typeof)', () => {
+			expect(() => expect(actual).toMatchObject({
+				versionNew: myTestAsymmetricMatcherMessage009('test-predicate'),
+			})).toThrowErrorMatchingSnapshot();
+		});
+
+		test('測試 myTestAsymmetricMatcherMessage010 (僅 toAsymmetricMatcher, 無 $$typeof)', () => {
+			expect(() => expect(actual).toMatchObject({
+				versionNew: myTestAsymmetricMatcherMessage010('test-predicate'),
+			})).toThrowErrorMatchingSnapshot();
+		});
+
+		test('測試 myTestAsymmetricMatcherMessage011 (僅 jasmineToString + $$typeof)', () => {
+			expect(() => expect(actual).toMatchObject({
+				versionNew: myTestAsymmetricMatcherMessage011('test-predicate'),
+			})).toThrowErrorMatchingSnapshot();
+		});
+
+		test('測試 myTestAsymmetricMatcherMessage012 (inverse=true)', () => {
+			expect(() => expect(actual).toMatchObject({
+				versionNew: myTestAsymmetricMatcherMessage012('test-predicate', true),
+			})).toThrowErrorMatchingSnapshot();
+		});
+
+		test('測試 myTestAsymmetricMatcherMessageSimplified (最終最簡版本)', () => {
+			expect(() => expect(actual).toMatchObject({
+				versionNew: myTestAsymmetricMatcherMessageSimplified('FINAL'),
 			})).toThrowErrorMatchingSnapshot();
 		});
 

@@ -1,7 +1,7 @@
 {
   "name": "jest-num-close-with",
   "version": "1.0.18",
-  "description": "check actual number is expected number ± delta",
+  "description": "Check if actual number is within expected number ± delta / 檢查實際數值是否在預期數值的 ± delta 範圍內",
   "keywords": [
     "jest",
     "matchers",

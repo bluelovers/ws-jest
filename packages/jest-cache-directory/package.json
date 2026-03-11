@@ -1,7 +1,7 @@
 {
   "name": "jest-cache-directory",
   "version": "1.0.6",
-  "description": "get jest cache directory ftom JEST_CACHE_DIRECTORY , tmpdir/jest",
+  "description": "Get Jest cache directory from environment variable or temp dir / 從環境變數或暫存目錄取得 Jest 快取目錄",
   "keywords": [
     "jest",
     "cache",
@@ -79,6 +79,6 @@
     "tsc:showConfig": "ynpx get-current-tsconfig -p"
   },
   "dependencies": {
-    "fs-realpath-native": "^1.0.5"
+    "fs-realpath-native": "^1.0.6"
   }
 }

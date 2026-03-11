@@ -1,7 +1,7 @@
 {
   "name": "@lazy-assert/jest-diff",
   "version": "1.0.10",
-  "description": "",
+  "description": "Jest diff utility with CRLF/LF line separator detection / Jest 差異比較工具，支援 CRLF/LF 行分隔符號檢測",
   "keywords": [
     "assert",
     "test",

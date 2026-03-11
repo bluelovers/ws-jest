@@ -1,7 +1,7 @@
 {
   "name": "@lazy-assert/jest-global-types-extra",
   "version": "1.0.6",
-  "description": "",
+  "description": "Jest global type extensions for custom matchers and snapshot states / Jest 全域類型擴展，支援自定義匹配器和 Snapshot 狀態",
   "keywords": [
     "assert",
     "test",
@@ -87,7 +87,7 @@
     "tsc:showConfig": "ynpx get-current-tsconfig -p"
   },
   "dependencies": {
-    "ts-type": "^3.0.1"
+    "ts-type": "^3.0.8"
   },
   "publishConfig": {
     "access": "public"

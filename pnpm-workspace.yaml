@@ -20,6 +20,7 @@ publicHoistPattern:
 
 linkWorkspacePackages: true
 saveWorkspaceProtocol: false
+preferWorkspacePackages: true
 
 # ignoreWorkspaceRootCheck: true
 

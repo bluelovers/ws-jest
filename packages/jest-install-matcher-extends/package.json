@@ -1,7 +1,7 @@
 {
   "name": "jest-install-matcher-extends",
   "version": "1.0.16",
-  "description": "",
+  "description": "Auto-install Jest extended matchers utility / 自動安裝 Jest 擴展匹配器工具函式庫",
   "keywords": [
     "jest",
     "matchers",

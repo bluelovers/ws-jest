@@ -1,7 +1,7 @@
 {
   "name": "jest-extended-extra",
   "version": "1.0.21",
-  "description": "",
+  "description": "Jest extended matchers collection for numeric types / Jest 擴展數字型別匹配器集合",
   "keywords": [
     "assert",
     "test",
@@ -35,7 +35,7 @@
   "scripts": {
     "coverage": "yarn run test -- --coverage",
     "pretest": "yarn run build",
-    "test": "echo \"Error: no test specified\"",
+    "test": "node --run test:jest --",
     "test:jest": "jest --passWithNoTests",
     "test:jest:coverage": "yarn run test:jest -- --coverage",
     "test:jest:snapshot": "yarn run test:jest -- -u",

@@ -1,7 +1,7 @@
 {
   "name": "expect-print-close-to",
   "version": "1.0.11",
-  "description": "export `printCloseTo` from `expect`",
+  "description": "Export Jest's printCloseTo function for toBeCloseTo assertions / 匯出 Jest 的 printCloseTo 函式，用於 toBeCloseTo 斷言",
   "keywords": [
     "assert",
     "test",
@@ -84,6 +84,6 @@
     "tsc:showConfig": "ynpx get-current-tsconfig -p"
   },
   "dependencies": {
-    "jest-matcher-utils": "^30"
+    "jest-matcher-utils": "^30.0.0"
   }
 }

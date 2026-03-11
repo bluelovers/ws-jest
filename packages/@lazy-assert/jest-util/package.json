@@ -1,7 +1,7 @@
 {
   "name": "@lazy-assert/jest-util",
   "version": "1.0.6",
-  "description": "",
+  "description": "Jest matcher utilities for message generation and option handling / Jest 匹配器工具函式庫，提供訊息產生和選項處理",
   "keywords": [
     "assert",
     "test",

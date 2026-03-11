@@ -4108,11 +4108,6 @@ typedarray-to-buffer@^3.1.5:
   resolved "https://registry.npmjs.org/typescript/-/typescript-4.9.5.tgz#095979f9bcc0d09da324d58d03ce8f8374cbe65a"
   integrity sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g==
 
-typescript@next:
-  version "5.4.0-dev.20231116"
-  resolved "https://registry.npmjs.org/typescript/-/typescript-5.4.0-dev.20231116.tgz#540e12c5cd5bea457adf2c19edb0fa396fb757c5"
-  integrity sha512-arT/MwHnosyqo1MQ2xN9VzwvWo1jxrhUpa1iQX1yZACfBRJb1dQ1D2MU/Ijotjr6eXw8BZ3RFdj9X/9O56iOgw==
-
 undici-types@~5.25.1:
   version "5.25.3"
   resolved "https://registry.npmjs.org/undici-types/-/undici-types-5.25.3.tgz#e044115914c85f0bcbb229f346ab739f064998c3"

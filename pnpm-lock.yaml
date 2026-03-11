@@ -24,19 +24,19 @@ importers:
         specifier: ^2.0.4
         version: 2.0.4(@types/bluebird@3.5.42)(@types/node@25.4.0)(debug@4.4.3)(ts-toolbelt@9.6.0)
       chai:
-        specifier: ^6.0.0
+        specifier: ^6
         version: 6.2.2
       fs-extra:
-        specifier: ^11.3.4
+        specifier: ^11.3.3
         version: 11.3.4
       jest:
-        specifier: ^30.3.0
+        specifier: ^30.2.0
         version: 30.3.0(@types/node@25.4.0)
       jest-chain-transform:
         specifier: ^0.0.8
         version: 0.0.8(@jest/transform@30.3.0)
       jest-matcher-utils:
-        specifier: ^30.3.0
+        specifier: ^30.2.0
         version: 30.3.0
       jest-store-log:
         specifier: ^1.3.0
@@ -51,7 +51,7 @@ importers:
         specifier: ^29.4.6
         version: 29.4.6(@babel/core@7.29.0)(@jest/transform@30.3.0)(@jest/types@30.3.0)(jest-util@30.3.0)(jest@30.3.0(@types/node@25.4.0))(typescript@5.9.3)
       ts-type:
-        specifier: ^3.0.8
+        specifier: ^3.0.1
         version: 3.0.8(ts-toolbelt@9.6.0)
       typescript:
         specifier: ^5.9.3
@@ -67,7 +67,7 @@ importers:
         specifier: ^3.5.42
         version: 3.5.42
       '@types/chai':
-        specifier: ^5.0.0
+        specifier: ^5
         version: 5.2.3
       '@types/check-types':
         specifier: ^11.2.2
@@ -85,8 +85,11 @@ importers:
         specifier: ^1.0.2
         version: 1.0.2
       '@types/node':
-        specifier: ^25.4.0
+        specifier: ^25.3.3
         version: 25.4.0
+      '@yarn-tool/require-resolve':
+        specifier: '*'
+        version: 4.0.5(ts-toolbelt@9.6.0)
       '@yarn-tool/ws-find-up-paths':
         specifier: '*'
         version: 1.0.14(ts-toolbelt@9.6.0)
@@ -129,7 +132,11 @@ importers:
         specifier: '>=29'
         version: 29.7.0
 
-  packages/@lazy-assert/jest-expect-matcher: {}
+  packages/@lazy-assert/jest-expect-matcher:
+    dependencies:
+      expect:
+        specifier: ^30.3.0
+        version: 30.3.0
 
   packages/@lazy-assert/jest-global-types-extra:
     dependencies:
@@ -634,10 +641,6 @@ packages:
     resolution: {integrity: sha512-SlLSF4Be735yQXyh2+mctBOzNDx5s5uLv88/j8Qn1wH679PDcwy67+YdADn8NJnGjzlXtN62asGH/T4vWOkfaw==}
     engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
 
-  '@jest/expect-utils@30.2.0':
-    resolution: {integrity: sha512-1JnRfhqpD8HGpOmQp180Fo9Zt69zNtC+9lR+kT7NVL05tNXIi+QC8Csz7lfidMoVLPD3FnOtcmp0CEFnxExGEA==}
-    engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
-
   '@jest/expect-utils@30.3.0':
     resolution: {integrity: sha512-j0+W5iQQ8hBh7tHZkTQv3q2Fh/M7Je72cIsYqC4OaktgtO7v1So9UTjp6uPBHIaB6beoF/RRsCgMJKvti0wADA==}
     engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
@@ -735,10 +738,6 @@ packages:
   '@jest/types@27.5.1':
     resolution: {integrity: sha512-Cx46iJ9QpwQTjIdq5VJu2QTMMs3QlEjI0x1QbBP5W1+nMzyc2XmimiRR/CbX9TO0cPTeUlxWMOu8mslYsJ8DEw==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
-
-  '@jest/types@30.2.0':
-    resolution: {integrity: sha512-H9xg1/sfVvyfU7o3zMfBEjQ1gcsdeTMgqHoYdN79tuLqfTtuu7WckRA1R5whDwOzxaZAeMKTYWqP+WCAi0CHsg==}
-    engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
 
   '@jest/types@30.3.0':
     resolution: {integrity: sha512-JHm87k7bA33hpBngtU8h6UBub/fqqA9uXfw+21j5Hmk7ooPHlboRNxHq0JcMtC+n8VJGP1mcfnD3Mk+XKe1oSw==}
@@ -2034,10 +2033,6 @@ packages:
     resolution: {integrity: sha512-E1q5hSUG2AmYQwQJ041nvgpkODHQvB+RKlB4IYdru6uJsyFTRyZAP463M+1lINorwbqAmUggi6+WwkD8lCS/Dw==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
 
-  expect@30.2.0:
-    resolution: {integrity: sha512-u/feCi0GPsI+988gU2FLcsHyAHTU0MX1Wg68NhAnN7z/+C5wqG+CY8J53N9ioe8RXgaoz0nBR/TYMf3AycUuPw==}
-    engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
-
   expect@30.3.0:
     resolution: {integrity: sha512-1zQrciTiQfRdo7qJM1uG4navm8DayFa2TgCSRlzUyNkhcJ6XUZF3hjnpkyr3VhAqPH7i/9GkG7Tv5abz6fqz0Q==}
     engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
@@ -2211,6 +2206,7 @@ packages:
   git-raw-commits@3.0.0:
     resolution: {integrity: sha512-b5OHmZ3vAgGrDn/X0kS+9qCfNKWe4K/jFnhwzVWWg0/k5eLa3060tZShrRg8Dja5kPc+YjS0Gc6y7cRr44Lpjw==}
     engines: {node: '>=14'}
+    deprecated: This package is no longer maintained. For the JavaScript API, please use @conventional-changelog/git-client instead.
     hasBin: true
 
   git-remote-origin-url@2.0.0:
@@ -2220,6 +2216,7 @@ packages:
   git-semver-tags@5.0.1:
     resolution: {integrity: sha512-hIvOeZwRbQ+7YEUmCkHqo8FOLQZCEn18yevLHADlFPZY02KJGsu5FZt9YW/lybfK2uhWFI7Qg/07LekJiTv7iA==}
     engines: {node: '>=14'}
+    deprecated: This package is no longer maintained. For the JavaScript API, please use @conventional-changelog/git-client instead.
     hasBin: true
 
   git-up@7.0.0:
@@ -2718,10 +2715,6 @@ packages:
     resolution: {integrity: sha512-sBkD+Xi9DtcChsI3L3u0+N0opgPYnCRPtGcQYrgXmR+hmt/fYfWAL0xRXYU8eWOdfuLgBe0YCW3AFtnRLagq/g==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
 
-  jest-matcher-utils@30.2.0:
-    resolution: {integrity: sha512-dQ94Nq4dbzmUWkQ0ANAWS9tBRfqCrn0bV9AMYdOi/MHW726xn7eQmMeRTpX2ViC00bpNaWXq+7o4lIQ3AX13Hg==}
-    engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
-
   jest-matcher-utils@30.3.0:
     resolution: {integrity: sha512-HEtc9uFQgaUHkC7nLSlQL3Tph4Pjxt/yiPvkIrrDCt9jhoLIgxaubo1G+CFOnmHYMxHwwdaSN7mkIFs6ZK8OhA==}
     engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
@@ -2730,10 +2723,6 @@ packages:
     resolution: {integrity: sha512-rMyFe1+jnyAAf+NHwTclDz0eAaLkVDdKVHHBFWsBWHnnh5YeJMNWWsv7AbFYXfK3oTqvL7VTWkhNLu1jX24D+g==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
 
-  jest-message-util@30.2.0:
-    resolution: {integrity: sha512-y4DKFLZ2y6DxTWD4cDe07RglV88ZiNEdlRfGtqahfbIjfsw1nMCPx49Uev4IA/hWn3sDKyAnSPwoYSsAEdcimw==}
-    engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
-
   jest-message-util@30.3.0:
     resolution: {integrity: sha512-Z/j4Bo+4ySJ+JPJN3b2Qbl9hDq3VrXmnjjGEWD/x0BCXeOXPTV1iZYYzl2X8c1MaCOL+ewMyNBcm88sboE6YWw==}
     engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
@@ -2741,10 +2730,6 @@ packages:
   jest-mock@27.5.1:
     resolution: {integrity: sha512-K4jKbY1d4ENhbrG2zuPWaQBvDly+iZ2yAW+T1fATN78hc0sInwn7wZB8XtlNnvHug5RMwV897Xm4LqmPM4e2Og==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
-
-  jest-mock@30.2.0:
-    resolution: {integrity: sha512-JNNNl2rj4b5ICpmAcq+WbLH83XswjPbjH4T7yvGzfAGCPh1rw+xVNbtk+FnRslvt9lkCcdn9i1oAoKUuFsOxRw==}
-    engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
 
   jest-mock@30.3.0:
     resolution: {integrity: sha512-OTzICK8CpE+t4ndhKrwlIdbM6Pn8j00lvmSmq5ejiO+KxukbLjgOflKWMn3KE34EZdQm5RqTuKj+5RIEniYhog==}
@@ -2823,10 +2808,6 @@ packages:
   jest-util@27.5.1:
     resolution: {integrity: sha512-Kv2o/8jNvX1MQ0KGtw480E/w4fBCDOnH6+6DmeKi6LZUIlKA5kwY0YNdlzaWTiVgxqAqik11QyxDOKk543aKXw==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
-
-  jest-util@30.2.0:
-    resolution: {integrity: sha512-QKNsM0o3Xe6ISQU869e+DhG+4CK/48aHYdJZGlFQVTjnbvgpcKyxpzk29fGiO7i/J8VENZ+d2iGnSsvmuHywlA==}
-    engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
 
   jest-util@30.3.0:
     resolution: {integrity: sha512-/jZDa00a3Sz7rdyu55NLrQCIrbyIkbBxareejQI315f/i8HjYN+ZWsDLLpoQSiUIEIyZF/R8fDg3BmB8AtHttg==}
@@ -4860,10 +4841,6 @@ snapshots:
       '@types/node': 25.4.0
       jest-mock: 30.3.0
 
-  '@jest/expect-utils@30.2.0':
-    dependencies:
-      '@jest/get-type': 30.1.0
-
   '@jest/expect-utils@30.3.0':
     dependencies:
       '@jest/get-type': 30.1.0
@@ -5075,16 +5052,6 @@ snapshots:
       '@types/istanbul-reports': 3.0.4
       '@types/node': 25.4.0
       '@types/yargs': 16.0.11
-      chalk: 4.1.2
-
-  '@jest/types@30.2.0':
-    dependencies:
-      '@jest/pattern': 30.0.1
-      '@jest/schemas': 30.0.5
-      '@types/istanbul-lib-coverage': 2.0.6
-      '@types/istanbul-reports': 3.0.4
-      '@types/node': 25.4.0
-      '@types/yargs': 17.0.35
       chalk: 4.1.2
 
   '@jest/types@30.3.0':
@@ -5652,7 +5619,7 @@ snapshots:
 
   '@types/jest@30.0.0':
     dependencies:
-      expect: 30.2.0
+      expect: 30.3.0
       pretty-format: 30.2.0
 
   '@types/json-schema@7.0.15': {}
@@ -6593,15 +6560,6 @@ snapshots:
       jest-matcher-utils: 27.5.1
       jest-message-util: 27.5.1
 
-  expect@30.2.0:
-    dependencies:
-      '@jest/expect-utils': 30.2.0
-      '@jest/get-type': 30.1.0
-      jest-matcher-utils: 30.2.0
-      jest-message-util: 30.2.0
-      jest-mock: 30.2.0
-      jest-util: 30.2.0
-
   expect@30.3.0:
     dependencies:
       '@jest/expect-utils': 30.3.0
@@ -7520,13 +7478,6 @@ snapshots:
       jest-get-type: 29.6.3
       pretty-format: 29.7.0
 
-  jest-matcher-utils@30.2.0:
-    dependencies:
-      '@jest/get-type': 30.1.0
-      chalk: 4.1.2
-      jest-diff: 30.2.0
-      pretty-format: 30.2.0
-
   jest-matcher-utils@30.3.0:
     dependencies:
       '@jest/get-type': 30.1.0
@@ -7546,18 +7497,6 @@ snapshots:
       slash: 3.0.0
       stack-utils: 2.0.6
 
-  jest-message-util@30.2.0:
-    dependencies:
-      '@babel/code-frame': 7.29.0
-      '@jest/types': 30.2.0
-      '@types/stack-utils': 2.0.3
-      chalk: 4.1.2
-      graceful-fs: 4.2.11
-      micromatch: 4.0.8
-      pretty-format: 30.2.0
-      slash: 3.0.0
-      stack-utils: 2.0.6
-
   jest-message-util@30.3.0:
     dependencies:
       '@babel/code-frame': 7.29.0
@@ -7574,12 +7513,6 @@ snapshots:
     dependencies:
       '@jest/types': 27.5.1
       '@types/node': 25.4.0
-
-  jest-mock@30.2.0:
-    dependencies:
-      '@jest/types': 30.2.0
-      '@types/node': 25.4.0
-      jest-util: 30.2.0
 
   jest-mock@30.3.0:
     dependencies:
@@ -7835,15 +7768,6 @@ snapshots:
       ci-info: 3.9.0
       graceful-fs: 4.2.11
       picomatch: 2.3.1
-
-  jest-util@30.2.0:
-    dependencies:
-      '@jest/types': 30.2.0
-      '@types/node': 25.4.0
-      chalk: 4.1.2
-      ci-info: 4.4.0
-      graceful-fs: 4.2.11
-      picomatch: 4.0.3
 
   jest-util@30.3.0:
     dependencies:

@@ -2,9 +2,6 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-/// <reference types="jest" />
-/// <reference types="node" />
-/// <reference types="expect" />
 exports.EnumUpdateSnapshot = void 0;
 (function (EnumUpdateSnapshot) {
   EnumUpdateSnapshot["none"] = "none";

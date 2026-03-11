@@ -89,6 +89,11 @@
   "dependencies": {
     "ts-type": "^3.0.8"
   },
+  "devDependencies": {
+    "@jest/types": "^30.3.0",
+    "expect": "^30.3.0",
+    "jest-snapshot": "^30.3.0"
+  },
   "publishConfig": {
     "access": "public"
   }

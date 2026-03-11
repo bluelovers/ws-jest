@@ -143,6 +143,16 @@ importers:
       ts-type:
         specifier: ^3.0.8
         version: 3.0.8(ts-toolbelt@9.6.0)
+    devDependencies:
+      '@jest/types':
+        specifier: ^30.3.0
+        version: 30.3.0
+      expect:
+        specifier: ^30.3.0
+        version: 30.3.0
+      jest-snapshot:
+        specifier: ^30.3.0
+        version: 30.3.0
 
   packages/@lazy-assert/jest-util:
     dependencies:

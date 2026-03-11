@@ -1,6 +1,8 @@
 import { createNewCheckTypes } from '../util/lazy-check-types';
 
+/** 匹配器名稱 / Matcher name */
 const matcherName = 'toBeInteger' as const;
+/** 類型名稱 / Type name */
 const type = 'integer' as const;
 
 declare global
@@ -11,6 +13,10 @@ declare global
 
 		interface Matchers<R>
 		{
+			/**
+			 * 檢查值是否為整數
+			 * Check if value is an integer
+			 */
 			[matcherName](): R;
 		}
 
@@ -31,6 +37,13 @@ declare module 'expect'
 	}
 }
 
+/**
+ * 檢查值是否為整數
+ * Check if value is an integer
+ *
+ * 使用 check-types 函式庫進行驗證
+ * Uses check-types library for validation
+ */
 export const toBeInteger = createNewCheckTypes(matcherName, type)
 
 export default {

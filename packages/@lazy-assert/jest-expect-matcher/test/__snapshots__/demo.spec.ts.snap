@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`示範自定義 Asymmetric Matcher 「可傳參」的工廠函式 allOf(...) 1`] = `
+"expect(received).toMatchObject(expected)
+
+- Expected  - 4
++ Received  + 1
+
+  Object {
+-   "versionNew": Object {
+-     "asymmetricMatch": [Function asymmetricMatch],
+-     "toString": [Function toString],
+-   },
++   "versionNew": "2.0.0",
+  }"
+`;
+
+exports[`示範自定義 Asymmetric Matcher 「可傳參」的工廠函式 anyOf(...) 1`] = `
+"expect(received).toMatchObject(expected)
+
+- Expected  - 4
++ Received  + 1
+
+  Object {
+-   "versionNew": Object {
+-     "asymmetricMatch": [Function asymmetricMatch],
+-     "toString": [Function toString],
+-   },
++   "versionNew": "2.0.0",
+  }"
+`;
+
+exports[`示範自定義 Asymmetric Matcher 「可傳參」的工廠函式 satisfy(fn) 1`] = `
+"expect(received).toMatchObject(expected)
+
+- Expected  - 4
++ Received  + 1
+
+  Object {
+-   "versionNew": Object {
+-     "asymmetricMatch": [Function asymmetricMatch],
+-     "toString": [Function toString],
+-   },
++   "versionNew": "2.0.0",
+  }"
+`;
+
+exports[`示範自定義 Asymmetric Matcher 無需呼叫 anyStringNullOrUndefined 1`] = `
+"expect(received).toMatchObject(expected)
+
+- Expected  - 4
++ Received  + 1
+
+  Object {
+-   "id": Object {
+-     "asymmetricMatch": [Function asymmetricMatch],
+-     "toString": [Function toString],
+-   },
++   "id": 0,
+  }"
+`;

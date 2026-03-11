@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`throw 1`] = `
 "[2mexpect([22m[31mreceived[39m[2m).not.toBeZero()[22m

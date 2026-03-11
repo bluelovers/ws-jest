@@ -1,0 +1,164 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`測試參考用的訊息顯示 測試 allOf 失敗訊息 1`] = `
+"expect(received).toMatchObject(expected)
+
+- Expected  - 4
++ Received  + 1
+
+  Object {
+-   "versionNew": Object {
+-     "asymmetricMatch": [Function asymmetricMatch],
+-     "toString": [Function toString],
+-   },
++   "versionNew": "2.0.0",
+  }"
+`;
+
+exports[`測試參考用的訊息顯示 測試 jest.any 失敗訊息 1`] = `
+"expect(received).toMatchObject(expected)
+
+- Expected  - 1
++ Received  + 1
+
+  Object {
+-   "id": Any<String>,
++   "id": 0,
+  }"
+`;
+
+exports[`測試訊息控制 測試 myTestAsymmetricMatcherMessage001 測試失敗訊息 1`] = `
+"expect(received).toMatchObject(expected)
+
+- Expected  - 4
++ Received  + 1
+
+  Object {
+-   "versionNew": Object {
+-     "asymmetricMatch": [Function asymmetricMatch],
+-     "toString": [Function toString],
+-   },
++   "versionNew": "2.0.0",
+  }"
+`;
+
+exports[`測試訊息控制 測試 myTestAsymmetricMatcherMessage002 測試失敗訊息 1`] = `
+"expect(received).toMatchObject(expected)
+
+- Expected  - 5
++ Received  + 1
+
+  Object {
+-   "versionNew": Object {
+-     "asymmetricMatch": [Function asymmetricMatch],
+-     "jasmineToString": [Function jasmineToString],
+-     "toString": [Function toString],
+-   },
++   "versionNew": "2.0.0",
+  }"
+`;
+
+exports[`測試訊息控制 測試 myTestAsymmetricMatcherMessage003 測試失敗訊息 1`] = `"Asymmetric matcher Object does not implement toAsymmetricMatcher()"`;
+
+exports[`測試訊息控制 測試改進版本的訊息控制 測試 MyTestAsymmetricMatcherMessage004 1`] = `
+"expect(received).toMatchObject(expected)
+
+- Expected  - 1
++ Received  + 1
+
+  Object {
+-   "versionNew": MyTestAsymmetricMatcherMessage004:toAsymmetricMatcher(test-predicate),
++   "versionNew": "2.0.0",
+  }"
+`;
+
+exports[`測試訊息控制 測試改進版本的訊息控制 測試 myTestAsymmetricMatcherMessage005 1`] = `
+"expect(received).toMatchObject(expected)
+
+- Expected  - 1
++ Received  + 1
+
+  Object {
+-   "versionNew": myTestAsymmetricMatcherMessage005:toAsymmetricMatcher(test-predicate),
++   "versionNew": "2.0.0",
+  }"
+`;
+
+exports[`測試訊息控制 測試改進版本的訊息控制 測試 myTestAsymmetricMatcherMessage006 1`] = `
+"expect(received).toMatchObject(expected)
+
+- Expected  - 1
++ Received  + 1
+
+  Object {
+-   "versionNew": myTestAsymmetricMatcherMessage006:toAsymmetricMatcher(test-predicate),
++   "versionNew": "2.0.0",
+  }"
+`;
+
+exports[`測試訊息控制 測試改進版本的訊息控制 測試 myTestAsymmetricMatcherMessage007 (僅 toAsymmetricMatcher + $$typeof) 1`] = `
+"expect(received).toMatchObject(expected)
+
+- Expected  - 1
++ Received  + 1
+
+  Object {
+-   "versionNew": Matcher007(test-predicate),
++   "versionNew": "2.0.0",
+  }"
+`;
+
+exports[`測試訊息控制 測試改進版本的訊息控制 測試 myTestAsymmetricMatcherMessage008 (僅 toString + $$typeof) 1`] = `"Asymmetric matcher Object does not implement toAsymmetricMatcher()"`;
+
+exports[`測試訊息控制 測試改進版本的訊息控制 測試 myTestAsymmetricMatcherMessage009 (toString + toAsymmetricMatcher + $$typeof) 1`] = `
+"expect(received).toMatchObject(expected)
+
+- Expected  - 1
++ Received  + 1
+
+  Object {
+-   "versionNew": Matcher009:toAsymmetricMatcher(test-predicate),
++   "versionNew": "2.0.0",
+  }"
+`;
+
+exports[`測試訊息控制 測試改進版本的訊息控制 測試 myTestAsymmetricMatcherMessage010 (僅 toAsymmetricMatcher, 無 $$typeof) 1`] = `
+"expect(received).toMatchObject(expected)
+
+- Expected  - 4
++ Received  + 1
+
+  Object {
+-   "versionNew": Object {
+-     "asymmetricMatch": [Function asymmetricMatch],
+-     "toAsymmetricMatcher": [Function toAsymmetricMatcher],
+-   },
++   "versionNew": "2.0.0",
+  }"
+`;
+
+exports[`測試訊息控制 測試改進版本的訊息控制 測試 myTestAsymmetricMatcherMessage011 (僅 jasmineToString + $$typeof) 1`] = `"Asymmetric matcher Object does not implement toAsymmetricMatcher()"`;
+
+exports[`測試訊息控制 測試改進版本的訊息控制 測試 myTestAsymmetricMatcherMessage012 (inverse=true) 1`] = `
+"expect(received).toMatchObject(expected)
+
+- Expected  - 1
++ Received  + 1
+
+  Object {
+-   "versionNew": Matcher012(inverse=true),
++   "versionNew": "2.0.0",
+  }"
+`;
+
+exports[`測試訊息控制 測試改進版本的訊息控制 測試 myTestAsymmetricMatcherMessageSimplified (最終最簡版本) 1`] = `
+"expect(received).toMatchObject(expected)
+
+- Expected  - 1
++ Received  + 1
+
+  Object {
+-   "versionNew": SimplifiedMatcher(FINAL),
++   "versionNew": "2.0.0",
+  }"
+`;

@@ -20,15 +20,37 @@ import {
 	myTestAsymmetricMatcherMessageSimplified
 } from './lib/throw-msg';
 
-describe(`測試訊息控制`, () =>
+const actual = {
+	versionOld: '1.2.3',
+	versionNew: '2.0.0',
+	other: 'data',
+	id: 0,
+};
+
+describe(`測試參考用的訊息顯示`, () =>
 {
 
-	const actual = {
-		versionOld: '1.2.3',
-		versionNew: '2.0.0',
-		other: 'data',
-		id: 0,
-	};
+	test('測試 allOf 失敗訊息', () =>
+	{
+		expect(() => expect(actual).toMatchObject({
+			versionNew: allOf(
+				expect.any(String),
+				expect.stringMatching(/^3\./)
+			),
+		})).toThrowErrorMatchingSnapshot();
+	});
+
+	test('測試 jest.any 失敗訊息', () =>
+	{
+		expect(() => expect(actual).toMatchObject({
+			id: expect.any(String),
+		})).toThrowErrorMatchingSnapshot();
+	});
+
+});
+
+describe(`測試訊息控制`, () =>
+{
 
 	describe(`測試 myTestAsymmetricMatcherMessage001`, () =>
 	{
@@ -58,20 +80,6 @@ describe(`測試訊息控制`, () =>
 		test('測試失敗訊息', () => {
 			expect(() => expect(actual).toMatchObject({
 				versionNew: myTestAsymmetricMatcherMessage003('test-predicate'),
-			})).toThrowErrorMatchingSnapshot();
-		});
-
-	});
-
-	describe(`測試 allOf 的訊息控制`, () =>
-	{
-
-		test('測試 allOf 失敗訊息', () => {
-			expect(() => expect(actual).toMatchObject({
-				versionNew: allOf(
-					expect.any(String),
-					expect.stringMatching(/^3\./)
-				),
 			})).toThrowErrorMatchingSnapshot();
 		});
 

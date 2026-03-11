@@ -3,7 +3,7 @@
  * Default Configuration Module - Provides default settings for Jest
  */
 
-import { IOptions, requireResolveExtra } from '@yarn-tool/require-resolve';
+import { IOptionsRequireResolve as IOptions, requireResolveExtra } from '@yarn-tool/require-resolve';
 import { ITSToWriteableArray } from 'ts-type/lib/helper/array/readonly';
 import { ITSWriteable } from 'ts-type/lib/helper/readonly';
 import { _handleFileExtensions, _requireResolve } from './helper';
@@ -24,7 +24,7 @@ export function defaultTestFileExtensions()
 {
 	const value = [
 		// TypeScript 相關副檔名 / TypeScript related extensions
-		
+
 		'ts',
 		'tsx',
 		'mts',

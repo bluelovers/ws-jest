@@ -1,6 +1,6 @@
 # README.md
 
-    
+
 
 ## 安裝 (Installation)
 
@@ -18,5 +18,40 @@ pnpm add @lazy-assert/jest-expect-matcher
 
 # 使用 npm / Using npm
 npm install @lazy-assert/jest-expect-matcher
+```
+
+## API Usage
+
+### anyOf
+
+Matches if any of the given matchers matches (OR logic).
+
+```typescript
+import { anyOf } from '@lazy-assert/jest-expect-matcher';
+
+// Nullable String
+expect(value).toMatchObject({
+  name: anyOf([expect.any(String), null])
+});
+
+// Optional Number
+expect(value).toMatchObject({
+  count: anyOf([expect.any(Number), undefined])
+});
+```
+
+### allOf
+
+Matches if all of the given matchers match (AND logic).
+
+```typescript
+import { allOf } from '@lazy-assert/jest-expect-matcher';
+
+expect(value).toMatchObject({
+  version: allOf([
+    expect.any(String),
+    expect.stringMatching(/^3\./)
+  ])
+});
 ```
 

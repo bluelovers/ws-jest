@@ -42,31 +42,31 @@ describe(`示範自定義 Asymmetric Matcher`, () =>
 			})).toThrowErrorMatchingSnapshot();
 		});
 
-		test('anyOf(...)', () => {
+		test('anyOf([...])', () => {
 			expect(actual).toMatchObject({
 				// 串接了原生 Matcher 與常數
-				versionOld: anyOf(expect.any(String), null, undefined),
+				versionOld: anyOf([expect.any(String), null, undefined]),
 				versionNew: '2.0.0'
 			});
 
 			expect(() => expect(actual).toMatchObject({
-				versionNew: anyOf(null, undefined),
+				versionNew: anyOf([null, undefined]),
 			})).toThrowErrorMatchingSnapshot();
 		});
 
-		test('allOf(...)', () => {
+		test('allOf([...])', () => {
 			expect(actual).toMatchObject({
-				versionNew: allOf(
+				versionNew: allOf([
 					expect.any(String),
 					expect.stringMatching(/^2\./)
-				)
+				])
 			});
 
 			expect(() => expect(actual).toMatchObject({
-				versionNew: allOf(
+				versionNew: allOf([
 					expect.any(String),
 					expect.stringMatching(/^3\./)
-				),
+				]),
 			})).toThrowErrorMatchingSnapshot();
 		});
 

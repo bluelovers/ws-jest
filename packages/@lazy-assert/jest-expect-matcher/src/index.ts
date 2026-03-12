@@ -61,15 +61,15 @@ export function _isAsymmetricMatcher<T>(matcher: unknown | IAsymmetricMatcher<T>
  *
  * @example
  * // Nullable String:
- * anyOf(expect.any(String), null)
+ * anyOf([expect.any(String), null])
 
  * // Optional Number:
- * anyOf(expect.any(Number), undefined)
+ * anyOf([expect.any(Number), undefined])
 
  * // 特定範圍或 Null:
- * anyOf(expect.stringMatching(/v1/), null)
+ * anyOf([expect.stringMatching(/v1/), null])
  */
-export const anyOf = ((...matchers: (unknown | IAsymmetricMatcher)[]) => ({
+export const anyOf = ((matchers: (unknown | IAsymmetricMatcher)[]) => ({
 	asymmetricMatch: (actual) =>
 		matchers.some((matcher) => {
 			// 如果傳入的是原生的 Matcher (有 asymmetricMatch 方法)
@@ -88,7 +88,7 @@ export const anyOf = ((...matchers: (unknown | IAsymmetricMatcher)[]) => ({
  *
  * 如果你希望一個值同時符合多個條件（例如：必須是字串，且長度大於 5）
  */
-export const allOf = ((...matchers: (unknown | IAsymmetricMatcher)[]) => ({
+export const allOf = ((matchers: (unknown | IAsymmetricMatcher)[]) => ({
 	asymmetricMatch: (actual: any) =>
 		matchers.every(matcher => {
 			if (_isAsymmetricMatcher(matcher))

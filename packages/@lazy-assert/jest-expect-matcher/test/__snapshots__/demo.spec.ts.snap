@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`示範自定義 Asymmetric Matcher 「可傳參」的工廠函式 allOf(...) 1`] = `
+exports[`示範自定義 Asymmetric Matcher 「可傳參」的工廠函式 allOf([...]) 1`] = `
 "expect(received).toMatchObject(expected)
 
 - Expected  - 4
@@ -15,7 +15,7 @@ exports[`示範自定義 Asymmetric Matcher 「可傳參」的工廠函式 allOf
   }"
 `;
 
-exports[`示範自定義 Asymmetric Matcher 「可傳參」的工廠函式 anyOf(...) 1`] = `
+exports[`示範自定義 Asymmetric Matcher 「可傳參」的工廠函式 anyOf([...]) 1`] = `
 "expect(received).toMatchObject(expected)
 
 - Expected  - 4

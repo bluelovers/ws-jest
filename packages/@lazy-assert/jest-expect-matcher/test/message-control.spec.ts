@@ -33,10 +33,10 @@ describe(`測試參考用的訊息顯示`, () =>
 	test('測試 allOf 失敗訊息', () =>
 	{
 		expect(() => expect(actual).toMatchObject({
-			versionNew: allOf(
+			versionNew: allOf([
 				expect.any(String),
 				expect.stringMatching(/^3\./)
-			),
+			]),
 		})).toThrowErrorMatchingSnapshot();
 	});
 

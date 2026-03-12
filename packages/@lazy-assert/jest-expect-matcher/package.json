@@ -89,5 +89,10 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "devDependencies": {
+    "@jest/expect-utils": "^30.3.0",
+    "jest-matcher-utils": "^30.3.0",
+    "jest-util": "^30.3.0"
   }
 }

@@ -243,3 +243,4 @@ test/fixtures/.gitkeep
 !.aiassistant
 
 .nx
+!/test/temp/jest/

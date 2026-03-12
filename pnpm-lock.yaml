@@ -137,6 +137,16 @@ importers:
       expect:
         specifier: ^30.3.0
         version: 30.3.0
+    devDependencies:
+      '@jest/expect-utils':
+        specifier: ^30.3.0
+        version: 30.3.0
+      jest-matcher-utils:
+        specifier: ^30.3.0
+        version: 30.3.0
+      jest-util:
+        specifier: ^30.3.0
+        version: 30.3.0
 
   packages/@lazy-assert/jest-global-types-extra:
     dependencies:
@@ -8414,7 +8424,7 @@ snapshots:
       flat: 5.0.2
       front-matter: 4.0.2
       ignore: 7.0.5
-      jest-diff: 30.2.0
+      jest-diff: 30.3.0
       jsonc-parser: 3.2.0
       lines-and-columns: 2.0.3
       minimatch: 10.2.1

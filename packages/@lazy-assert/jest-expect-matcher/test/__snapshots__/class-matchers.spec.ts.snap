@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`測試 Class 版本的 Matchers AllOf (AND Logic) AllOf - 匹配失敗 1`] = `
+"expect(received).toMatchObject(expected)
+
+- Expected  - 1
++ Received  + 1
+
+  Object {
+-   "versionNew": AllOf(Any, StringMatching),
++   "versionNew": "2.0.0",
+  }"
+`;
+
+exports[`測試 Class 版本的 Matchers AnyOf (OR Logic) AnyOf - 匹配失敗 1`] = `
+"expect(received).toMatchObject(expected)
+
+- Expected  - 1
++ Received  + 1
+
+  Object {
+-   "versionNew": AnyOf(null, undefined),
++   "versionNew": "2.0.0",
+  }"
+`;
+
+exports[`測試 Class 版本的 Matchers NotAllOf NotAllOf - 匹配失敗 (所有都成功) 1`] = `
+"expect(received).toEqual(expected) // deep equality
+
+Expected: NotAllOf(StringContaining, StringContaining)
+Received: "hello""
+`;
+
+exports[`測試 Class 版本的 Matchers NotAnyOf NotAnyOf - 匹配失敗 (其中一個成功) 1`] = `
+"expect(received).toEqual(expected) // deep equality
+
+Expected: NotAnyOf(StringContaining, StringContaining)
+Received: "hello""
+`;

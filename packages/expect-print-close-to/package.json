@@ -84,6 +84,6 @@
     "tsc:showConfig": "ynpx get-current-tsconfig -p"
   },
   "dependencies": {
-    "jest-matcher-utils": "^30.0.0"
+    "jest-matcher-utils": "^30.3.0"
   }
 }

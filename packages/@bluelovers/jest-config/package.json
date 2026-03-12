@@ -104,7 +104,7 @@
     "tsc:showConfig": "ynpx get-current-tsconfig -p"
   },
   "dependencies": {
-    "@yarn-tool/require-resolve": "^4.0.5",
+    "@yarn-tool/require-resolve": "^4.0.6",
     "@yarn-tool/table": "^2.0.19",
     "array-hyper-unique": "^2.1.6",
     "cli-table3": "^0.6.5",

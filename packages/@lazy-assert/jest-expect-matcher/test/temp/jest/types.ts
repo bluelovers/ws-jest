@@ -4,6 +4,8 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
+ * @see TEST_ANALYSIS.md - 測試分析文檔 / Test analysis document
+ * @see README.md - Asymmetric Matchers 原始碼分析 / Source code analysis
  */
 
 import type {EqualsFunction, Tester} from '@jest/expect-utils';

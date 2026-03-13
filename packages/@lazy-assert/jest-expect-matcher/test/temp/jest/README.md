@@ -546,9 +546,34 @@ expect(-Infinity).toEqual(expect.closeTo(-Infinity));
 
 | 模組 / Module | 來源 / Source | 用途 / Purpose |
 |-------------|---------------|----------------|
-| `@jest/expect-utils` | jest 內部 | 深度相等性、類型檢查 / Deep equality, type checking |
-| `jest-matcher-utils` | jest 內部 | 匹配器工具函數 / Matcher utility functions |
-| `jest-util` | jest 內部 | 通用工具 (如 pluralize) / Common utilities |
+| "@jest/expect-utils" | jest 內部 | 深度相等性、類型檢查 / Deep equality, type checking |
+| "jest-matcher-utils" | jest 內部 | 匹配器工具函數 / Matcher utility functions |
+| "jest-util" | jest 內部 | 通用工具 (如 pluralize) / Common utilities |
+
+---
+
+## 7. 相關測試分析 / Related Test Analysis
+
+詳細的測試分析與源代碼對應關係，請參閱 [TEST_ANALYSIS.md](./TEST_ANALYSIS.md)
+
+### 7.1 測試檔案對應 / Test Files Correspondence
+
+| 測試檔案 | 描述 | 對應測試分析章節 |
+|---------|------|-----------------|
+| `message-control.spec.ts` | 測試斷言失敗訊息顯示 | 第四章 / Chapter 4 |
+| `class-matchers.spec.ts` | 測試 Class 版本 anyOf/allOf | 第三章 / Chapter 3 |
+| `demo.spec.ts` | 示範自定義 Matcher | - |
+
+### 7.2 throw-msg.ts 版本分析 / throw-msg.ts Version Analysis
+
+| 版本 | 特性組合 | 測試章節 |
+|------|---------|---------|
+| 001 | asymmetricMatch + toString | 2.2.1 |
+| 002 | + jasmineToString | 2.2.1 |
+| 003 | + $$typeof | 2.2.1 |
+| 004 | Class 版本 | 2.2.2 |
+| 009 | toString + toAsymmetricMatcher + $$typeof | 2.2.3 |
+| Simplifed | 最簡版本 | 2.2.3 |
 
 ---
 

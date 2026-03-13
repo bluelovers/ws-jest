@@ -1,6 +1,5 @@
 /// <reference types="jest" />
 /// <reference types="node" />
-/// <reference types="expect" />
 
 import { IExpectExtendMap } from '@lazy-assert/jest-global-types-extra';
 

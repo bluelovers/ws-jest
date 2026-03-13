@@ -141,7 +141,13 @@ importers:
       '@jest/expect-utils':
         specifier: ^30.3.0
         version: 30.3.0
+      '@jest/get-type':
+        specifier: ^30.1.0
+        version: 30.1.0
       jest-matcher-utils:
+        specifier: ^30.3.0
+        version: 30.3.0
+      jest-mock:
         specifier: ^30.3.0
         version: 30.3.0
       jest-util:

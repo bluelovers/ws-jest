@@ -17,9 +17,8 @@ function failMessage(s, t, n) {
 exports.autoMessage = function autoMessage(e, s, t, n) {
   return e ? passMessage(s, t, n) : failMessage(s, t, n);
 }, exports.failMessage = failMessage, exports.handleJestMatcherHintOptions = function handleJestMatcherHintOptions(e, s) {
-  var t, n, r;
-  return null !== (t = s) && void 0 !== t || (s = {}), s.isNot = e.isNot, s.promise = e.promise, 
-  null !== (r = (n = s).secondArgumentColor) && void 0 !== r || (n.secondArgumentColor = e => e), 
+  var t, n;
+  return null != s || (s = {}), s.isNot = e.isNot, s.promise = e.promise, null !== (n = (t = s).secondArgumentColor) && void 0 !== n || (t.secondArgumentColor = e => e), 
   s;
 }, exports.passMessage = passMessage;
 //# sourceMappingURL=index.cjs.production.min.cjs.map

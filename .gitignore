@@ -243,3 +243,4 @@ test/fixtures/.gitkeep
 !.aiassistant
 
 .nx
+!/packages/@lazy-assert/jest-expect-matcher/test/temp/jest/

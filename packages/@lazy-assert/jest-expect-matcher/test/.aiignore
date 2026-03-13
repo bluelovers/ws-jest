@@ -1,0 +1,5 @@
+!temp/
+!temp/*
+!temp/jest
+!temp/jest/README.md
+!temp/jest/*

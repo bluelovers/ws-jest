@@ -178,6 +178,46 @@ export const getMatchers = (): MatchersObject =>
  * @param matchers - 要註冊的 matchers 物件 / Matchers object to register
  * @param isInternal - 是否為內部 matcher / Whether it's an internal matcher
  * @param expect - expect 函數 / expect function
+ *
+ * @example
+ * // 註冊自定義 matcher
+ * const myMatchers = {
+ *   toBeDivisibleBy(actual, expected) {
+ *     const pass = actual % expected === 0;
+ *     return {
+ *       pass,
+ *       message: () => pass ? 'OK' : `${actual} is not divisible by ${expected}`
+ *     };
+ *   }
+ * };
+ * setMatchers(myMatchers, false, expect);
+ *
+ * @example
+ * // 使用自定義 matcher
+ * expect(10).toBeDivisibleBy(5);  // 通過
+ * expect(10).not.toBeDivisibleBy(3);  // 通過
+ *
+ * @example
+ * // 註冊多個 matchers
+ * const customMatchers = {
+ *   toBeWithinRange(actual, min, max) {
+ *     const pass = actual >= min && actual <= max;
+ *     return { pass, message: () => pass ? 'OK' : 'Out of range' };
+ *   },
+ *   toBePrime(actual) {
+ *     const isPrime = n => n > 1 && [...Array(Math.sqrt(n))].every((_, i) => n % (i + 2));
+ *     const pass = isPrime(actual);
+ *     return { pass, message: () => pass ? 'OK' : `${actual} is not prime` };
+ *   }
+ * };
+ * setMatchers(customMatchers, false, expect);
+ *
+ * @example
+ * // 內部 matcher 註冊（不創建 AsymmetricMatcher 包裝類）
+ * const internalMatchers = {
+ *   toBe: (actual, expected) => ({ pass: actual === expected, message: () => '...' })
+ * };
+ * setMatchers(internalMatchers, true, expect);
  */
 export const setMatchers = (
   matchers: MatchersObject,

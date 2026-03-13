@@ -7,8 +7,10 @@ import { _requireResolve, fixJestConfig, makeTestRegexConfig } from './helper';
 import {
 	defaultCoveragePathIgnorePatterns,
 	defaultModuleFileExtensions,
+	defaultSetupFiles,
 	defaultTestFileExtensions,
-	defaultTestPathIgnorePatterns, defaultTransform,
+	defaultTestPathIgnorePatterns,
+	defaultTransform,
 } from './defaults';
 import { IOptionsPrintJestConfigInfo, printJestConfigInfo } from './print';
 import { IJestConfig } from './types';
@@ -84,6 +86,7 @@ export function mixinJestConfig<T extends IJestConfig>(jestConfig?: T, autoPrint
 		// 測試執行器設定 / Test runner setting
 		//testRunner: 'jest-circus/runner',
 		/** 環境設置後載入的檔案 / Files to load after environment setup */
+		setupFiles: defaultSetupFiles(),
 		setupFilesAfterEnv: [
 			// 可選擇性啟用的 Jest 擴充套件 / Optional Jest extensions
 			//"jest-chain",

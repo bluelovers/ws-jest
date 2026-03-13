@@ -6,10 +6,9 @@
 import { IOptionsRequireResolve as IOptions, requireResolveExtra } from '@yarn-tool/require-resolve';
 import { ITSToWriteableArray } from 'ts-type/lib/helper/array/readonly';
 import { ITSWriteable } from 'ts-type/lib/helper/readonly';
-import { _handleFileExtensions, _requireResolve } from './helper';
-import { InitialOptionsTsJest } from 'ts-jest';
+import { _handleFileExtensions, _requireResolve, _requireResolve2 } from './helper';
 import { defaultTsJestTransformerOptions } from './plugin/ts-jest';
-import { IRuntime } from './types';
+import { IJestConfig, IRuntime } from './types';
 
 /**
  * 取得預設的測試檔案副檔名列表
@@ -198,7 +197,7 @@ export function defaultTransform(runtime: IRuntime)
 	 * ts-jest 轉換器配置
 	 * ts-jest transformer configuration
 	 */
-	let ts_transform: InitialOptionsTsJest["transform"][string] = _requireResolve('ts-jest') as 'ts-jest';
+	let ts_transform: IJestConfig["transform"][string] = _requireResolve('ts-jest') as 'ts-jest';
 
 	/**
 	 * 將 ts-jest 與其選項合併
@@ -253,4 +252,17 @@ export function defaultTransform(runtime: IRuntime)
 		[`.(${_handleFileExtensions(defaultTransformFileExtensions(), '|')})$`]: ts_transform,
 	} as const
 	return value as ITSWriteable<typeof value>;
+}
+
+// @ts-ignore
+export function defaultSetupFiles()
+{
+	const setupFiles: IJestConfig['setupFiles'] = [
+		/**
+		 * @see https://lusbuab.medium.com/using-dotenv-with-jest-7e735b34e55f
+		 */
+		_requireResolve2('dotenv/config').result,
+	].filter(Boolean);
+
+	return setupFiles
 }

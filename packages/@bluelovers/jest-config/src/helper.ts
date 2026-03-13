@@ -47,6 +47,14 @@ export function _requireResolve(name: string)
 	return result
 }
 
+export function _requireResolve2(name: string)
+{
+	return requireResolveExtra(name, {
+		includeGlobal: true,
+		includeCurrentDirectory: true,
+	})
+}
+
 /**
  * 建立測試正則表達式配置
  * Create test regex configuration

@@ -560,8 +560,9 @@ expect(-Infinity).toEqual(expect.closeTo(-Infinity));
 
 | 測試檔案 | 描述 | 對應測試分析章節 |
 |---------|------|-----------------|
-| `message-control.spec.ts` | 測試斷言失敗訊息顯示 | 第四章 / Chapter 4 |
-| `class-matchers.spec.ts` | 測試 Class 版本 anyOf/allOf | 第三章 / Chapter 3 |
+| `throw-msg.spec.ts` | 測試斷言失敗訊息顯示 | 第四章 / Chapter 4 |
+| `throw-msg-class.spec.ts` | 測試 Class 版本 anyOf/allOf | 第三章 / Chapter 3 |
+| `throw-msg-jest.spec.ts` | 測試 Jest AsymmetricMatcher 版本 | 第三章 / Chapter 3 |
 | `demo.spec.ts` | 示範自定義 Matcher | - |
 
 ### 7.2 throw-msg.ts 版本分析 / throw-msg.ts Version Analysis
@@ -574,6 +575,49 @@ expect(-Infinity).toEqual(expect.closeTo(-Infinity));
 | 004 | Class 版本 | 2.2.2 |
 | 009 | toString + toAsymmetricMatcher + $$typeof | 2.2.3 |
 | Simplifed | 最簡版本 | 2.2.3 |
+
+---
+
+## 8. toString 與 toAsymmetricMatcher 的設計邏輯 / toString vs toAsymmetricMatcher Design
+
+### 8.1 設計原則 / Design Principle
+
+在 AsymmetricMatcher 的設計中，`toString` 和 `toAsymmetricMatcher` 扮演不同的角色：
+
+| 方法 | 用途 | 範例輸出 |
+|------|------|---------|
+| `toString()` | 返回 Matcher 的名稱（類似 name） | `AllOf` |
+| `toAsymmetricMatcher()` | 返回完整的表示（名稱 + 參數） | `AllOf(1, 2, 3)` |
+
+### 8.2 實作範例 / Implementation Example
+
+```typescript
+class AllOf extends AsymmetricMatcher<(unknown | AsymmetricMatcher<any>)[]> {
+  // toString: 只返回名稱
+  override toString(): string {
+    return `AllOf`;
+  }
+
+  // toAsymmetricMatcher: 返回完整表示 (名稱 + sample)
+  override toAsymmetricMatcher(): string {
+    return `${this.toString()}(${this.sample.map(m => m?.toString?.() ?? String(m)).join(', ')})`;
+  }
+}
+```
+
+### 8.3 設計理由 / Design Rationale
+
+- **`toString` 作為 name**：提供一個簡潔的身份標識，用於類型識別或日誌記錄
+- **`toAsymmetricMatcher` 作為完整表示**：在斷言失敗時，顯示完整的匹配器資訊，包含其預期的 sample 值
+
+### 8.4 各 Matcher 的輸出示例 / Output Examples by Matcher
+
+| Matcher | toString() | toAsymmetricMatcher() |
+|---------|------------|----------------------|
+| AnyOf([1, 2]) | `AnyOf` | `AnyOf(1, 2)` |
+| AllOf([1, 2]) | `AllOf` | `AllOf(1, 2)` |
+| NotAnyOf([1, 2]) | `NotAnyOf` | `NotAnyOf(1, 2)` |
+| NotAllOf([1, 2]) | `NotAllOf` | `NotAllOf(1, 2)` |
 
 ---
 

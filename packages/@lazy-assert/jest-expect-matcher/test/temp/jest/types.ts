@@ -13,13 +13,45 @@ import type * as jestMatcherUtils from 'jest-matcher-utils';
 import type {MockInstance} from 'jest-mock';
 import type {INTERNAL_MATCHER_FLAG} from './jestMatchersObject';
 
+/**
+ * 同步斷言結果類型
+ * Sync assertion result type
+ *
+ * @example
+ * const result: SyncExpectationResult = {
+ *   pass: true,
+ *   message: () => 'Expected value to be truthy'
+ * };
+ */
 export type SyncExpectationResult = {
   pass: boolean;
   message(): string;
 };
 
+/**
+ * 異步斷言結果類型
+ * Async assertion result type
+ *
+ * @example
+ * const result: AsyncExpectationResult = Promise.resolve({
+ *   pass: true,
+ *   message: () => 'Async check passed'
+ * });
+ */
 export type AsyncExpectationResult = Promise<SyncExpectationResult>;
 
+/**
+ * 斷言結果類型（同步或異步）
+ * Expectation result type (sync or async)
+ *
+ * @example
+ * // 同步
+ * const syncResult: ExpectationResult = { pass: true, message: () => 'OK' };
+ *
+ * @example
+ * // 異步
+ * const asyncResult: ExpectationResult = Promise.resolve({ pass: true, message: () => 'OK' });
+ */
 export type ExpectationResult = SyncExpectationResult | AsyncExpectationResult;
 
 export type MatcherFunctionWithContext<
@@ -59,6 +91,22 @@ export interface MatcherUtils {
   };
 }
 
+/**
+ * Matcher 狀態介面
+ * Matcher state interface
+ *
+ * 儲存 Jest 斷言系統的執行時狀態
+ * Stores runtime state of Jest assertion system
+ *
+ * @example
+ * const state: MatcherState = {
+ *   assertionCalls: 5,
+ *   expectedAssertionsNumber: 3,
+ *   isExpectingAssertions: true,
+ *   numPassingAsserts: 3,
+ *   suppressedErrors: []
+ * };
+ */
 export interface MatcherState {
   assertionCalls: number;
   currentConcurrentTestName?: () => string | undefined;
@@ -78,6 +126,31 @@ export interface MatcherState {
 
 export type MatcherContext = MatcherUtils & Readonly<MatcherState>;
 
+/**
+ * 非對稱匹配器類型定義
+ * Asymmetric matcher type definition
+ *
+ * 自定義 Asymmetric Matcher 需要實作的最小介面
+ * Minimum interface that custom Asymmetric Matchers need to implement
+ *
+ * @example
+ * // 最小實現
+ * const myMatcher: AsymmetricMatcher = {
+ *   $$typeof: Symbol.for('jest.asymmetricMatcher'),
+ *   asymmetricMatch: (value) => value === 'expected',
+ *   toString: () => 'myMatcher'
+ * };
+ *
+ * @example
+ * // 完整實現
+ * const myMatcher: AsymmetricMatcher = {
+ *   $$typeof: Symbol.for('jest.asymmetricMatcher'),
+ *   asymmetricMatch: (value) => value === 'expected',
+ *   toString: () => 'myMatcher',
+ *   getExpectedType: () => 'string',
+ *   toAsymmetricMatcher: () => 'myMatcher(expected)'
+ * };
+ */
 export type AsymmetricMatcher = {
   asymmetricMatch(other: unknown): boolean;
   toString(): string;

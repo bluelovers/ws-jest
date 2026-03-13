@@ -27,12 +27,12 @@ export class AnyOf extends AsymmetricMatcher<(unknown | AsymmetricMatcher<any>)[
 
 	override toString(): string
 	{
-		return `AnyOf(${this.sample.map(m => m?.toString?.() ?? String(m)).join(', ')})`;
+		return `AnyOf`;
 	}
 
 	override toAsymmetricMatcher(): string
 	{
-		return this.toString();
+		return `${this.toString()}(${this.sample.map(m => m?.toString?.() ?? String(m)).join(', ')})`;
 	}
 }
 
@@ -59,12 +59,12 @@ export class AllOf extends AsymmetricMatcher<(unknown | AsymmetricMatcher<any>)[
 
 	override toString(): string
 	{
-		return `AllOf(${this.sample.map(m => m?.toString?.() ?? String(m)).join(', ')})`;
+		return `AllOf`;
 	}
 
 	override toAsymmetricMatcher(): string
 	{
-		return this.toString();
+		return `${this.toString()}(${this.sample.map(m => m?.toString?.() ?? String(m)).join(', ')})`;
 	}
 }
 
@@ -87,7 +87,12 @@ export class NotAnyOf extends AnyOf
 
 	override toString(): string
 	{
-		return `NotAnyOf(${this.sample.map(m => m?.toString?.() ?? String(m)).join(', ')})`;
+		return `NotAnyOf`;
+	}
+
+	override toAsymmetricMatcher(): string
+	{
+		return `${this.toString()}(${this.sample.map(m => m?.toString?.() ?? String(m)).join(', ')})`;
 	}
 }
 
@@ -100,6 +105,11 @@ export class NotAllOf extends AllOf
 
 	override toString(): string
 	{
-		return `NotAllOf(${this.sample.map(m => m?.toString?.() ?? String(m)).join(', ')})`;
+		return `NotAllOf`;
+	}
+
+	override toAsymmetricMatcher(): string
+	{
+		return `${this.toString()}(${this.sample.map(m => m?.toString?.() ?? String(m)).join(', ')})`;
 	}
 }

@@ -43,13 +43,12 @@ export class AnyOf
 	
 	toString(): string
 	{
-		// @ts-ignore
-		return `AnyOf(${this.sample.map(m => m?.toString?.() ?? String(m)).join(', ')})`;
+		return `AnyOf`;
 	}
 	
 	toAsymmetricMatcher(): string
 	{
-		return this.toString();
+		return `${this.toString()}(${this.sample.map(m => m?.toString?.() ?? String(m)).join(', ')})`;
 	}
 }
 
@@ -92,13 +91,12 @@ export class AllOf
 	
 	toString(): string
 	{
-		// @ts-ignore
-		return `AllOf(${this.sample.map(m => m?.toString?.() ?? String(m)).join(', ')})`;
+		return `AllOf`;
 	}
 	
 	toAsymmetricMatcher(): string
 	{
-		return this.toString();
+		return `${this.toString()}(${this.sample.map(m => m?.toString?.() ?? String(m)).join(', ')})`;
 	}
 }
 
@@ -127,11 +125,14 @@ export class NotAnyOf extends AnyOf
 		super(matchers, true);
 	}
 	
-	// @ts-ignore
 	override toString(): string
 	{
-		// @ts-ignore
-		return `NotAnyOf(${this.sample.map(m => m?.toString?.() ?? String(m)).join(', ')})`;
+		return `NotAnyOf`;
+	}
+
+	override toAsymmetricMatcher(): string
+	{
+		return `${this.toString()}(${this.sample.map(m => m?.toString?.() ?? String(m)).join(', ')})`;
 	}
 }
 
@@ -142,10 +143,13 @@ export class NotAllOf extends AllOf
 		super(matchers, true);
 	}
 	
-	// @ts-ignore
 	override toString(): string
 	{
-		// @ts-ignore
-		return `NotAllOf(${this.sample.map(m => m?.toString?.() ?? String(m)).join(', ')})`;
+		return `NotAllOf`;
+	}
+
+	override toAsymmetricMatcher(): string
+	{
+		return `${this.toString()}(${this.sample.map(m => m?.toString?.() ?? String(m)).join(', ')})`;
 	}
 }

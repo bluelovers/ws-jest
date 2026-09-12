@@ -1,8 +1,12 @@
-/// <reference types="jest" />
+/** 匹配器名稱 / Matcher name */
 declare const matcherName: "toBeInteger";
 declare global {
     namespace jest {
         interface Matchers<R> {
+            /**
+             * 檢查值是否為整數
+             * Check if value is an integer
+             */
             [matcherName](): R;
         }
         interface Expect {
@@ -15,8 +19,15 @@ declare module 'expect' {
         [matcherName](): R;
     }
 }
-export declare const toBeInteger: (this: jest.MatcherContext, received: number) => jest.CustomMatcherResult;
+/**
+ * 檢查值是否為整數
+ * Check if value is an integer
+ *
+ * 使用 check-types 函式庫進行驗證
+ * Uses check-types library for validation
+ */
+export declare const toBeInteger: (this: IMatcherContext, received: number) => ICustomMatcherResult;
 declare const _default: {
-    toBeInteger: (this: jest.MatcherContext, received: number) => jest.CustomMatcherResult;
+    toBeInteger: (this: IMatcherContext, received: number) => ICustomMatcherResult;
 };
 export default _default;

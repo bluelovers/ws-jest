@@ -1,6 +1,6 @@
 {
   "name": "@lazy-assert/check-basic",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "Basic number checking utilities with TypeScript type guards / 基本數字檢查工具，支援 TypeScript 類型守護",
   "keywords": [
     "assert",

@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.14](https://github.com/bluelovers/ws-jest/compare/@lazy-assert/check-basic@1.0.13...@lazy-assert/check-basic@1.0.14) (2026-09-12)
+
+
+
+### 📚　Documentation
+
+* 添加详细的双语文档和 JSDoc 支持 ([fee4756](https://github.com/bluelovers/ws-jest/commit/fee475671b48cba1b48b1af4f05781ccb0eab635))
+
+
+### 🛠　Build System
+
+* 升級開發工具鏈與優化 monorepo 配置 ([d5ec02d](https://github.com/bluelovers/ws-jest/commit/d5ec02de7c66ab9cc1ebbe693e9708c561c68c53))
+
+
+### ♻️　Chores
+
+* **workspace:** 更新 .gitignore 和描述信息 ([247fdee](https://github.com/bluelovers/ws-jest/commit/247fdee5667abc19bb11812d1870e4fb9180a675))
+* **workspace:** 迁移至 pnpm 并重构 Jest 配置 ([c09cfc7](https://github.com/bluelovers/ws-jest/commit/c09cfc7e4472b8f0357d45c1c34e57fddde6e1cc))
+
+
+### 🔖　Miscellaneous
+
+* . ([e93d019](https://github.com/bluelovers/ws-jest/commit/e93d019e665e5d65bae5536f00e8c57f80ed77df))
+
+
+
 ## [1.0.13](https://github.com/bluelovers/ws-jest/compare/@lazy-assert/check-basic@1.0.12...@lazy-assert/check-basic@1.0.13) (2023-10-18)
 
 

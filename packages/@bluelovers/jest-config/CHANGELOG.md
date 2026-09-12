@@ -3,6 +3,49 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.12](https://github.com/bluelovers/ws-jest/compare/@bluelovers/jest-config@1.1.11...@bluelovers/jest-config@1.1.12) (2026-09-12)
+
+
+
+### ✨　Features
+
+* **@bluelovers/jest-config:** 重構配置邏輯並優化環境與轉換器設定 ([861fac6](https://github.com/bluelovers/ws-jest/commit/861fac6f8a2e0e5e1438b9cfd923c120a82690f3))
+* **@bluelovers/jest-config:** 新增 setupFiles 支援並優化依賴解析工具 ([093e468](https://github.com/bluelovers/ws-jest/commit/093e468ff09a923d78feb2329c6079a039910fc5))
+
+
+### 📚　Documentation
+
+* **jest-config:** 完善 JSDoc 文档和双语 README ([90b1e92](https://github.com/bluelovers/ws-jest/commit/90b1e92c35594b4601a1ec788d04d848de98ab4e))
+
+
+### 🚨　Tests
+
+* **@lazy-assert/jest-expect-matcher:** 新增 snapshot 檔案並重構測試結構 ([d371e65](https://github.com/bluelovers/ws-jest/commit/d371e6577c229db949e2e29f080d4bd4c81ed652))
+
+
+### 🛠　Build System
+
+* 升級開發工具鏈與優化 monorepo 配置 ([d5ec02d](https://github.com/bluelovers/ws-jest/commit/d5ec02de7c66ab9cc1ebbe693e9708c561c68c53))
+* **dist:** update build ([4afc40e](https://github.com/bluelovers/ws-jest/commit/4afc40e52c2dbf807ec50ccab179c969c36f270d))
+
+
+### ♻️　Chores
+
+* **workspace:** 更新 .gitignore 和描述信息 ([247fdee](https://github.com/bluelovers/ws-jest/commit/247fdee5667abc19bb11812d1870e4fb9180a675))
+* **workspace:** 迁移至 pnpm 并重构 Jest 配置 ([c09cfc7](https://github.com/bluelovers/ws-jest/commit/c09cfc7e4472b8f0357d45c1c34e57fddde6e1cc))
+
+
+### 📌　Dependencies
+
+* update deps ([a059d4f](https://github.com/bluelovers/ws-jest/commit/a059d4ffd6de4c2ed678ef2c1b1e1a3cf43ef3eb))
+
+
+### 🔖　Miscellaneous
+
+* . ([e93d019](https://github.com/bluelovers/ws-jest/commit/e93d019e665e5d65bae5536f00e8c57f80ed77df))
+
+
+
 ## [1.1.11](https://github.com/bluelovers/ws-jest/compare/@bluelovers/jest-config@1.1.10...@bluelovers/jest-config@1.1.11) (2023-11-16)
 
 

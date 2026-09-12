@@ -1,6 +1,6 @@
 {
   "name": "expect-print-close-to",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "Export Jest's printCloseTo function for toBeCloseTo assertions / 匯出 Jest 的 printCloseTo 函式，用於 toBeCloseTo 斷言",
   "keywords": [
     "assert",

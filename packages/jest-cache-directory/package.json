@@ -1,6 +1,6 @@
 {
   "name": "jest-cache-directory",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Get Jest cache directory from environment variable or temp dir / 從環境變數或暫存目錄取得 Jest 快取目錄",
   "keywords": [
     "jest",

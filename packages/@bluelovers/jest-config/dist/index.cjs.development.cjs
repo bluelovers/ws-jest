@@ -189,7 +189,7 @@ function fixJestConfig(jestConfig) {
 }
 
 var name = "@bluelovers/jest-config";
-var version = "1.1.11";
+var version = "1.1.12";
 
 /**
  * 建立無邊框表格實例

@@ -2,10 +2,16 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-exports.EnumUpdateSnapshot = void 0;
-(function (EnumUpdateSnapshot) {
+/// <reference types="jest" />
+/// <reference types="node" />
+/// <reference types="expect" />
+
+let EnumUpdateSnapshot = /*#__PURE__*/function (EnumUpdateSnapshot) {
   EnumUpdateSnapshot["none"] = "none";
   EnumUpdateSnapshot["new"] = "new";
   EnumUpdateSnapshot["all"] = "all";
-})(exports.EnumUpdateSnapshot || (exports.EnumUpdateSnapshot = {}));
+  return EnumUpdateSnapshot;
+}({});
+
+exports.EnumUpdateSnapshot = EnumUpdateSnapshot;
 //# sourceMappingURL=index.cjs.development.cjs.map

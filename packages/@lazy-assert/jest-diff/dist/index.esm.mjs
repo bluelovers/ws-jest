@@ -1,22 +1,21 @@
-import { diff as n } from "jest-matcher-utils";
+import { diff as r } from "jest-matcher-utils";
 
-import { crlf as r, chkcrlf as i } from "crlf-normalize";
+import { crlf as n, chkcrlf as t, EnumLineBreak as i } from "crlf-normalize";
 
-var e;
+let e = /*#__PURE__*/ function(r) {
+  return r.LINE_SEPARATORS = "Contents have differences only in line separators", 
+  r;
+}({});
 
-function _stringDiffCore(e, t, f) {
-  const o = [ "" ];
-  return r(t) === r(e) ? (o.push("Contents have differences only in line separators"), 
-  o.push(n(i(t), i(e)))) : o.push(n(t, e, f)), o;
+function _stringDiffCore(i, f, o) {
+  const s = [ "" ];
+  return n(f) === n(i) ? (s.push(e.LINE_SEPARATORS), s.push(r(t(f), t(i)))) : s.push(r(f, i, o)), 
+  s;
 }
 
-function _stringDiff(n, r, i) {
-  return _stringDiffCore(n, r, i).join("\n\n");
+function _stringDiff(r, n, t) {
+  return _stringDiffCore(r, n, t).join(i.LF + i.LF);
 }
-
-!function(n) {
-  n.LINE_SEPARATORS = "Contents have differences only in line separators";
-}(e || (e = {}));
 
 export { e as EnumDiffMessage, _stringDiff, _stringDiffCore };
 //# sourceMappingURL=index.esm.mjs.map

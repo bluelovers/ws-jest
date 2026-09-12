@@ -1,4 +1,3 @@
-/// <reference types="node" />
 import { DiffOptions } from 'jest-matcher-utils';
 import { IFindRootReturnType } from '@yarn-tool/find-root';
 import { ICustomMatcherResult, IMatcherContext } from '@lazy-assert/jest-global-types-extra';

@@ -1,8 +1,3 @@
-//@noUnusedParameters:false
-/// <reference types="jest" />
-/// <reference types="node" />
-/// <reference types="expect" />
-
 import { isInfinity, isNum, isFiniteNum, isUnSafeNumLike, isPositive, isNegative, isInt, isFloat } from '../src/index';
 import { inspect } from 'util';
 

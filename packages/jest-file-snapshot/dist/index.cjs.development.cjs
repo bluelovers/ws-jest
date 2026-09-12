@@ -8,6 +8,7 @@ var filenamify = require('filenamify');
 var jestMatcherUtils = require('jest-matcher-utils');
 var pathInDir = require('path-in-dir');
 var findRoot = require('@yarn-tool/find-root');
+var jestGlobalTypesExtra = require('@lazy-assert/jest-global-types-extra');
 var jestUtil = require('@lazy-assert/jest-util');
 var jestDiff = require('@lazy-assert/jest-diff');
 
@@ -19,9 +20,6 @@ const _defaultDiffOptions = {
   contextLines: 5,
   aAnnotation: `Snapshot`
 };
-/**
- * Check if 2 strings or buffer are equal
- */
 function isEqual(a, b) {
   // @ts-ignore: TypeScript gives error if we pass string to buffer.equals
   return Buffer.isBuffer(a) ? a.equals(b) : a === b;
@@ -29,9 +27,6 @@ function isEqual(a, b) {
 function getBaseSnapshotDirectory(context) {
   return upath2.join(upath2.dirname(context.testPath), '__file_snapshots__');
 }
-/**
- * generate from the test title
- */
 function getBaseSnapshotFileName(context) {
   return upath2.join(getBaseSnapshotDirectory(context), `${filenamify(context.currentTestName, {
     replacement: '-'
@@ -97,9 +92,6 @@ function toMatchFile(received, filepath, options = {}) {
     snapshotState
   } = this;
   const matcherName = 'toMatchFile';
-  /**
-   * If file name is not specified, generate one from the test title
-   */
   // @ts-ignore
   const snapshotFileName = upath2.normalize(filepath !== null && filepath !== void 0 ? filepath : getBaseSnapshotFileName(this));
   const {
@@ -108,15 +100,13 @@ function toMatchFile(received, filepath, options = {}) {
     // @ts-ignore
   } = _hintSnapshotFileName(this, snapshotFileName);
   options = {
-    // Options for jest-diff
     diff: Object.assign({}, _defaultDiffOptions,
     // @ts-ignore
     options.diff)
   };
   // @ts-ignore
   const optsMatcherHint = jestUtil.handleJestMatcherHintOptions(this);
-  if (snapshotState._updateSnapshot === "none" /* EnumUpdateSnapshot.none */ && !fsExtra.pathExistsSync(snapshotFileName)) {
-    // We're probably running in CI environment
+  if (snapshotState._updateSnapshot === jestGlobalTypesExtra.EnumUpdateSnapshot.none && !fsExtra.pathExistsSync(snapshotFileName)) {
     snapshotState.unmatched++;
     return {
       pass: isNot,
@@ -135,7 +125,7 @@ function toMatchFile(received, filepath, options = {}) {
     } else if (isNot) {
       snapshotState.unmatched++;
     } else {
-      if (safeUpdateSnapshot && snapshotState._updateSnapshot === "all" /* EnumUpdateSnapshot.all */) {
+      if (safeUpdateSnapshot && snapshotState._updateSnapshot === jestGlobalTypesExtra.EnumUpdateSnapshot.all) {
         pass = !isNot;
         fsExtra.outputFileSync(snapshotFileName, received);
         snapshotState.updated++;
@@ -148,50 +138,8 @@ function toMatchFile(received, filepath, options = {}) {
         };
       }
     }
-    //		if (isNot)
-    //		{
-    //			// The matcher is being used with `.not`
-    //
-    //			if (!isEqual(received, expected))
-    //			{
-    //				pass = false;
-    //			}
-    //			else
-    //			{
-    //				snapshotState.unmatched++;
-    //				pass = true;
-    //			}
-    //		}
-    //		else
-    //		{
-    //			if (isEqual(received, expected))
-    //			{
-    //				pass = true;
-    //			}
-    //			else
-    //			{
-    //				if (safeUpdateSnapshot && snapshotState._updateSnapshot === EnumUpdateSnapshot.all)
-    //				{
-    //					pass = true;
-    //					outputFileSync(snapshotFileName, received);
-    //
-    //					snapshotState.updated++;
-    //				}
-    //				else
-    //				{
-    //					snapshotState.unmatched++;
-    //
-    //					const difference = _diffHint(expected, received, options.diff);
-    //
-    //					message = () =>
-    //					{
-    //						return matcherHint(matcherName, undefined, snapshotDisplayName, optsMatcherHint) + difference
-    //					};
-    //				}
-    //			}
-    //		}
   } else {
-    if (safeUpdateSnapshot && !isNot && (snapshotState._updateSnapshot === "new" /* EnumUpdateSnapshot.new */ || snapshotState._updateSnapshot === "all" /* EnumUpdateSnapshot.all */)) {
+    if (safeUpdateSnapshot && !isNot && (snapshotState._updateSnapshot === jestGlobalTypesExtra.EnumUpdateSnapshot.new || snapshotState._updateSnapshot === jestGlobalTypesExtra.EnumUpdateSnapshot.all)) {
       pass = !isNot;
       fsExtra.outputFileSync(snapshotFileName, received);
       snapshotState.added++;

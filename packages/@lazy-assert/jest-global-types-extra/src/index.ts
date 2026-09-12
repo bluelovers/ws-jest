@@ -1,5 +1,6 @@
 /// <reference types="jest" />
 /// <reference types="node" />
+/// <reference types="expect" />
 
 import { ITSTypeAndStringLiteral } from 'ts-type/lib/helper/string';
 import { ITSOverwrite } from 'ts-type/lib/type/record';

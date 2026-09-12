@@ -16,7 +16,7 @@ export class AnyOf
 	inverse = false;
 	// @ts-ignore
 	sample: (unknown | IAsymmetricMatcher)[];
-	
+
 	constructor(matchers: (unknown | IAsymmetricMatcher)[], inverse = false)
 	{
 		// @ts-ignore
@@ -24,7 +24,7 @@ export class AnyOf
 		// @ts-ignore
 		this.inverse = inverse;
 	}
-	
+
 	asymmetricMatch(actual: unknown): boolean
 	{
 		// @ts-ignore
@@ -36,16 +36,16 @@ export class AnyOf
 			}
 			return actual === matcher;
 		});
-		
+
 		// @ts-ignore
 		return this.inverse ? !result : result;
 	}
-	
+
 	toString(): string
 	{
 		return `AnyOf`;
 	}
-	
+
 	toAsymmetricMatcher(): string
 	{
 		return `${this.toString()}(${this.sample.map(m => m?.toString?.() ?? String(m)).join(', ')})`;
@@ -64,7 +64,7 @@ export class AllOf
 	inverse = false;
 	// @ts-ignore
 	sample: (unknown | IAsymmetricMatcher)[];
-	
+
 	constructor(matchers: (unknown | IAsymmetricMatcher)[], inverse = false)
 	{
 		// @ts-ignore
@@ -72,7 +72,7 @@ export class AllOf
 		// @ts-ignore
 		this.inverse = inverse;
 	}
-	
+
 	asymmetricMatch(actual: unknown): boolean
 	{
 		// @ts-ignore
@@ -84,16 +84,16 @@ export class AllOf
 			}
 			return actual === matcher;
 		});
-		
+
 		// @ts-ignore
 		return this.inverse ? !result : result;
 	}
-	
+
 	toString(): string
 	{
 		return `AllOf`;
 	}
-	
+
 	toAsymmetricMatcher(): string
 	{
 		return `${this.toString()}(${this.sample.map(m => m?.toString?.() ?? String(m)).join(', ')})`;
@@ -124,7 +124,7 @@ export class NotAnyOf extends AnyOf
 	{
 		super(matchers, true);
 	}
-	
+
 	override toString(): string
 	{
 		return `NotAnyOf`;
@@ -142,7 +142,7 @@ export class NotAllOf extends AllOf
 	{
 		super(matchers, true);
 	}
-	
+
 	override toString(): string
 	{
 		return `NotAllOf`;

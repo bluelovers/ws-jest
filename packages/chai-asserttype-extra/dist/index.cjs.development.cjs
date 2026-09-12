@@ -6,46 +6,35 @@ var typeDetect = require('type-detect');
 var checkBasic = require('@lazy-assert/check-basic');
 var arrayHyperUnique = require('array-hyper-unique');
 
-/**
- * Created by user on 2018/11/13/013.
- */
-exports.EnumTypeDetect = void 0;
-(function (EnumTypeDetect) {
+let EnumTypeDetect = /*#__PURE__*/function (EnumTypeDetect) {
   EnumTypeDetect["array"] = "Array";
   EnumTypeDetect["boolean"] = "boolean";
   EnumTypeDetect["date"] = "Date";
   EnumTypeDetect["function"] = "function";
-  //null = 'null',
   EnumTypeDetect["number"] = "number";
   EnumTypeDetect["object"] = "Object";
   EnumTypeDetect["regexp"] = "RegExp";
   EnumTypeDetect["string"] = "string";
-  //undefined = 'undefined',
-})(exports.EnumTypeDetect || (exports.EnumTypeDetect = {}));
+  return EnumTypeDetect;
+}({});
+/**
+ * Chai 類型斷言外掛程式主函式
+ * Chai type assertion plugin main function
+ *
+ * 為 Chai 添加各種類型檢查方法（array、boolean、number、string 等）
+ * Adds various type checking methods to Chai (array, boolean, number, string, etc.)
+ *
+ * @param chai - Chai 實例 / Chai instance
+ * @param utils - Chai 工具物件 / Chai utilities
+ */
 function ChaiPluginAssertType(chai, utils) {
   // @ts-ignore
-  Object.entries(exports.EnumTypeDetect).forEach(function ([key, value]) {
+  Object.entries(EnumTypeDetect).forEach(function ([key, value]) {
     let fn = function () {
       this.an(value);
-      //utils.expectTypes(this, [value]);
     };
-
     addToAssertion(chai, key, fn);
   });
-  /*
-  const oldString = Assertion.prototype.string;
-   addToAssertion(chai, 'string', function ()
-  {
-      //utils.expectTypes(this, [EnumTypeDetect.number]);
-       this.an('string')
-   }, utils, function (...argv)
-  {
-      if (argv.length)
-      {
-          this.equal(...argv)
-      }
-  });
-  */
   addToAssertionLazy(chai, 'integer', checkBasic.isInt, utils);
   addToAssertionLazy(chai, 'float', checkBasic.isFloat, utils);
   addToAssertionLazy(chai, 'infinity', checkBasic.isInfinity, utils);
@@ -54,47 +43,77 @@ function ChaiPluginAssertType(chai, utils) {
   addToAssertionLazy(chai, 'positive', checkBasic.isPositive, utils);
   addToAssertionLazy(chai, 'negative', checkBasic.isNegative, utils);
 }
+/**
+ * 延遲添加類型斷言方法
+ * Lazily add type assertion method
+ *
+ * 使用外部檢查函數來驗證類型
+ * Uses external check function to validate type
+ *
+ * @param chai - Chai 實例 / Chai instance
+ * @param key - 方法名稱 / Method name
+ * @param fnCheck - 類型檢查函數 / Type check function
+ * @param utils - Chai 工具物件 / Chai utilities
+ */
 function addToAssertionLazy(chai, key, fnCheck, utils) {
   return addToAssertion(chai, key, function () {
-    //utils.expectTypes(this, [EnumTypeDetect.number]);
     let obj = utils.flag(this, 'object');
     _assertType(this, key, fnCheck(obj), obj);
   });
 }
+/**
+ * 添加斷言方法到 Chai
+ * Add assertion method to Chai
+ *
+ * @param chai - Chai 實例 / Chai instance
+ * @param key - 方法名稱 / Method name
+ * @param fn - 斷言函數 / Assertion function
+ * @param utils - Chai 工具物件 / Chai utilities
+ * @param fnMethod - 可鏈式呼叫的方法函數 / Chainable method function
+ */
 function addToAssertion(chai, key, fn, utils, fnMethod) {
-  //chai.Assertion.addProperty(key, fn);
-  //chai.Assertion.addMethod(key, fn);
   // @ts-ignore
   return chai.Assertion.addChainableMethod(key, fnMethod || function (...argv) {
     if (argv.length) {
       // @ts-ignore
       this.deep.equal(...argv);
     }
-    /*
-    if (typeof v !== 'undefined')
-    {
-        //let obj = utils.flag(this, 'object');
-        //new chai.Assertion(obj).to.be.deep.equal(v);
-        this.deep.equal(v);
-    }
-    */
   }, fn);
 }
+/**
+ * 執行類型斷言
+ * Execute type assertion
+ *
+ * @param target - 斷言目標 / Assertion target
+ * @param typeName - 類型名稱 / Type name
+ * @param bool - 檢查結果 / Check result
+ * @param obj - 檢查的物件 / Object being checked
+ */
 function _assertType(target, typeName, bool, obj) {
   // @ts-ignore
   return target.assert(bool, `expected #{this} to be an ${typeName}`, `expected #{this} to not be an ${typeName}`, obj);
 }
 /**
- * auto install this plugin to chai
+ * 自動安裝此外掛程式到 Chai
+ * Auto-install this plugin to Chai
+ *
+ * @param chai - 可選的 Chai 實例 / Optional Chai instance
+ * @returns 已安裝的 Chai 實例 / Installed Chai instance
  */
 function install(chai) {
   // @ts-ignore
   let o = (chai || require('chai')).use(ChaiPluginAssertType);
   return o;
 }
+/**
+ * 取得所有支援的類型檢查方法列表
+ * Get list of all supported type checking methods
+ *
+ * @returns 類型名稱陣列 / Array of type names
+ */
 function list() {
   // @ts-ignore
-  return arrayHyperUnique.array_unique_overwrite(Object.keys(exports.EnumTypeDetect).concat(['float', 'integer', 'nan', 'zero', 'positive', 'negative'])).sort();
+  return arrayHyperUnique.array_unique_overwrite(Object.keys(EnumTypeDetect).concat(['float', 'integer', 'nan', 'zero', 'positive', 'negative'])).sort();
 }
 const ChaiPlugin = {
   install
@@ -103,6 +122,7 @@ const typeOf = typeDetect;
 
 exports.ChaiPlugin = ChaiPlugin;
 exports.ChaiPluginAssertType = ChaiPluginAssertType;
+exports.EnumTypeDetect = EnumTypeDetect;
 exports._assertType = _assertType;
 exports.addToAssertion = addToAssertion;
 exports.addToAssertionLazy = addToAssertionLazy;

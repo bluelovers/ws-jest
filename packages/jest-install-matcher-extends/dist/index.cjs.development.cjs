@@ -2,6 +2,9 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
+/// <reference types="jest" />
+/// <reference types="node" />
+
 /**
  * 取得全域 expect 物件
  * Get global expect object

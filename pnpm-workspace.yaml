@@ -6,17 +6,17 @@ packages:
   - packages/@lazy-assert/*
   - packages/@bluelovers/*
 
-publicHoistPattern:
-  - "ts-type"
-  - "@bluelovers/tsconfig"
-  - "@bluelovers/jest-config"
-  - "@types/node"
-  - "@types/jest"
-  - "jest"
-  - "ts-jest"
-  - "ts-node"
-  - "tsx"
-  - "tslib"
+# publicHoistPattern:
+#   - "ts-type"
+#   - "@bluelovers/tsconfig"
+#   - "@bluelovers/jest-config"
+#   - "@types/node"
+#   - "@types/jest"
+#   - "jest"
+#   - "ts-jest"
+#   - "ts-node"
+#   - "tsx"
+#   - "tslib"
 
 linkWorkspacePackages: true
 saveWorkspaceProtocol: false
@@ -26,3 +26,8 @@ preferWorkspacePackages: true
 
 # onlyBuiltDependencies: []
 # ignoredBuiltDependencies: []
+minimumReleaseAgeExclude:
+  - crlf-normalize@1.0.25
+allowBuilds:
+  '@parcel/watcher': true
+  unrs-resolver: true

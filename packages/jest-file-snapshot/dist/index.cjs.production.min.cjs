@@ -4,83 +4,83 @@ Object.defineProperty(exports, "__esModule", {
   value: !0
 });
 
-var e = require("fs-extra"), t = require("upath2"), a = require("filenamify"), i = require("jest-matcher-utils"), n = require("path-in-dir"), s = require("@yarn-tool/find-root"), o = require("@lazy-assert/jest-util"), r = require("@lazy-assert/jest-diff");
+var t = require("fs-extra"), e = require("upath2"), a = require("filenamify"), n = require("jest-matcher-utils"), s = require("path-in-dir"), i = require("@yarn-tool/find-root"), o = require("@lazy-assert/jest-global-types-extra"), r = require("@lazy-assert/jest-util"), l = require("@lazy-assert/jest-diff");
 
-const l = {
+const p = {
   expand: !1,
   contextLines: 5,
   aAnnotation: "Snapshot"
 };
 
-function getBaseSnapshotDirectory(e) {
-  return t.join(t.dirname(e.testPath), "__file_snapshots__");
+function getBaseSnapshotDirectory(t) {
+  return e.join(e.dirname(t.testPath), "__file_snapshots__");
 }
 
-function getBaseSnapshotFileName(e) {
-  return t.join(getBaseSnapshotDirectory(e), `${a(e.currentTestName, {
+function getBaseSnapshotFileName(t) {
+  return e.join(getBaseSnapshotDirectory(t), `${a(t.currentTestName, {
     replacement: "-"
-  }).replace(/\s/g, "-")}-${e.assertionCalls}`);
+  }).replace(/\s/g, "-")}-${t.assertionCalls}`);
 }
 
-function _hintSnapshotFileName(e, a) {
-  var i;
-  const o = getBaseSnapshotDirectory(e);
-  let r, l, u;
-  var p, h;
-  if (n.pathInsideDirectory(a, o) ? (l = t.relative(o, a), u = !0) : (r = s.findRootLazy({
-    cwd: e.testPath
-  }, !1), r && (n.pathInsideDirectory(a, r.pkg) ? (l = t.relative(r.pkg, a), u = !0) : n.pathInsideDirectory(a, r.root) && (l = t.relative(r.root, a), 
-  u = !0)), null !== (p = l) && void 0 !== p && p.length || null === (h = e.snapshotState) || void 0 === h || null === (h = h._rootDir) || void 0 === h || !h.length || !n.pathInsideDirectory(a, e.snapshotState._rootDir) || (l = t.relative(e.snapshotState._rootDir, a), 
-  u = !0)), null === (i = l) || void 0 === i || !i.length) {
-    let e = s.findRootLazy({
-      cwd: t.dirname(a)
+function _hintSnapshotFileName(t, a) {
+  var n;
+  const o = getBaseSnapshotDirectory(t);
+  let r, l, p;
+  var u, h;
+  if (s.pathInsideDirectory(a, o) ? (l = e.relative(o, a), p = !0) : (r = i.findRootLazy({
+    cwd: t.testPath
+  }, !1), r && (s.pathInsideDirectory(a, r.pkg) ? (l = e.relative(r.pkg, a), p = !0) : s.pathInsideDirectory(a, r.root) && (l = e.relative(r.root, a), 
+  p = !0)), null !== (u = l) && void 0 !== u && u.length || null === (h = t.snapshotState) || void 0 === h || null === (h = h._rootDir) || void 0 === h || !h.length || !s.pathInsideDirectory(a, t.snapshotState._rootDir) || (l = e.relative(t.snapshotState._rootDir, a), 
+  p = !0)), null === (n = l) || void 0 === n || !n.length) {
+    let t = i.findRootLazy({
+      cwd: e.dirname(a)
     }, !1);
-    l = null != e && e.pkg ? t.relative(t.resolve(e.pkg, ".."), a) : a;
+    l = null != t && t.pkg ? e.relative(e.resolve(t.pkg, ".."), a) : a;
   }
-  return u = u && a.includes("/__file_snapshots__/"), {
+  return p = p && a.includes("/__file_snapshots__/"), {
     snapshotFileName: a,
     snapshotDisplayName: l,
     rootData: r,
-    safeUpdateSnapshot: u
+    safeUpdateSnapshot: p
   };
 }
 
-function toMatchFile(a, n, s = {}) {
-  const {isNot: r, snapshotState: u} = this, p = "toMatchFile", h = t.normalize(null != n ? n : getBaseSnapshotFileName(this)), {snapshotDisplayName: f, safeUpdateSnapshot: c} = _hintSnapshotFileName(this, h);
-  s = {
-    diff: Object.assign({}, l, s.diff)
+function toMatchFile(a, s, i = {}) {
+  const {isNot: l, snapshotState: u} = this, h = "toMatchFile", f = e.normalize(null != s ? s : getBaseSnapshotFileName(this)), {snapshotDisplayName: d, safeUpdateSnapshot: c} = _hintSnapshotFileName(this, f);
+  i = {
+    diff: Object.assign({}, p, i.diff)
   };
-  const d = o.handleJestMatcherHintOptions(this);
-  if ("none" === u._updateSnapshot && !e.pathExistsSync(h)) return u.unmatched++, 
+  const m = r.handleJestMatcherHintOptions(this);
+  if (u._updateSnapshot === o.EnumUpdateSnapshot.none && !t.pathExistsSync(f)) return u.unmatched++, 
   {
-    pass: r,
-    message: () => `New output file ${i.EXPECTED_COLOR(f)} was ${i.RECEIVED_COLOR("not written")}.\n\nThe update flag must be explicitly passed to write a new snapshot.\n\nThis is likely because this test is run in a ${i.EXPECTED_COLOR("continuous integration (CI) environment")} in which snapshots are not written by default.\n\n`,
+    pass: l,
+    message: () => `New output file ${n.EXPECTED_COLOR(d)} was ${n.RECEIVED_COLOR("not written")}.\n\nThe update flag must be explicitly passed to write a new snapshot.\n\nThis is likely because this test is run in a ${n.EXPECTED_COLOR("continuous integration (CI) environment")} in which snapshots are not written by default.\n\n`,
     actual: a,
-    name: p
+    name: h
   };
-  let _, m = r, message = () => i.matcherHint(p, void 0, f, d);
-  if (e.pathExistsSync(h)) if (_ = e.readFileSync(h, Buffer.isBuffer(a) ? null : "utf8"), 
-  function isEqual(e, t) {
-    return Buffer.isBuffer(e) ? e.equals(t) : e === t;
-  }(a, _) !== r) m = !r; else if (r) u.unmatched++; else if (c && "all" === u._updateSnapshot) m = !r, 
-  e.outputFileSync(h, a), u.updated++; else {
+  let S, _ = l, message = () => n.matcherHint(h, void 0, d, m);
+  if (t.pathExistsSync(f)) if (S = t.readFileSync(f, Buffer.isBuffer(a) ? null : "utf8"), 
+  function isEqual(t, e) {
+    return Buffer.isBuffer(t) ? t.equals(e) : t === e;
+  }(a, S) !== l) _ = !l; else if (l) u.unmatched++; else if (c && u._updateSnapshot === o.EnumUpdateSnapshot.all) _ = !l, 
+  t.outputFileSync(f, a), u.updated++; else {
     u.unmatched++;
-    const e = _diffHint(_, a, s.diff);
-    message = () => i.matcherHint(p, void 0, f, d) + e;
-  } else !c || r || "new" !== u._updateSnapshot && "all" !== u._updateSnapshot ? (u.unmatched++, 
-  message = () => `The output file ${i.EXPECTED_COLOR(f)} ${i.RECEIVED_COLOR("doesn't exist")}.`) : (m = !r, 
-  e.outputFileSync(h, a), u.added++);
+    const t = _diffHint(S, a, i.diff);
+    message = () => n.matcherHint(h, void 0, d, m) + t;
+  } else !c || l || u._updateSnapshot !== o.EnumUpdateSnapshot.new && u._updateSnapshot !== o.EnumUpdateSnapshot.all ? (u.unmatched++, 
+  message = () => `The output file ${n.EXPECTED_COLOR(d)} ${n.RECEIVED_COLOR("doesn't exist")}.`) : (_ = !l, 
+  t.outputFileSync(f, a), u.added++);
   return {
-    pass: m,
+    pass: _,
     message,
     actual: a,
-    expected: _,
-    name: p
+    expected: S,
+    name: h
   };
 }
 
-function _diffHint(e, t, a) {
-  return Buffer.isBuffer(e) || Buffer.isBuffer(t) ? "" : r._stringDiff(e, t, null != a ? a : l);
+function _diffHint(t, e, a) {
+  return Buffer.isBuffer(t) || Buffer.isBuffer(e) ? "" : l._stringDiff(t, e, null != a ? a : p);
 }
 
 var u = {

@@ -1,11 +1,11 @@
 /**
  * Created by user on 2018/11/15/015.
- * 
+ *
  * Chai 類型斷言類型定義
  * Chai type assertion type definitions
  */
 
-import { ITSPickMember } from 'ts-type/lib/helper/record/pick-type';
+import { ITSPickMember } from 'ts-type';
 import { EnumTypeDetect } from './index';
 
 /** Chai 靜態類型 / Chai static type */

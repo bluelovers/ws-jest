@@ -1,6 +1,6 @@
 import { pathExistsSync as t, readFileSync as e, outputFileSync as a } from "fs-extra";
 
-import { join as n, dirname as s, relative as i, resolve as o, normalize as r } from "upath2";
+import { join as s, dirname as n, relative as o, resolve as i, normalize as r } from "upath2";
 
 import l from "filenamify";
 
@@ -8,42 +8,44 @@ import { EXPECTED_COLOR as f, RECEIVED_COLOR as p, matcherHint as u } from "jest
 
 import { pathInsideDirectory as h } from "path-in-dir";
 
-import { findRootLazy as c } from "@yarn-tool/find-root";
+import { findRootLazy as m } from "@yarn-tool/find-root";
+
+import { EnumUpdateSnapshot as c } from "@lazy-assert/jest-global-types-extra";
 
 import { handleJestMatcherHintOptions as d } from "@lazy-assert/jest-util";
 
-import { _stringDiff as m } from "@lazy-assert/jest-diff";
+import { _stringDiff as _ } from "@lazy-assert/jest-diff";
 
-const _ = {
+const g = {
   expand: !1,
   contextLines: 5,
   aAnnotation: "Snapshot"
 };
 
 function getBaseSnapshotDirectory(t) {
-  return n(s(t.testPath), "__file_snapshots__");
+  return s(n(t.testPath), "__file_snapshots__");
 }
 
 function getBaseSnapshotFileName(t) {
-  return n(getBaseSnapshotDirectory(t), `${l(t.currentTestName, {
+  return s(getBaseSnapshotDirectory(t), `${l(t.currentTestName, {
     replacement: "-"
   }).replace(/\s/g, "-")}-${t.assertionCalls}`);
 }
 
 function _hintSnapshotFileName(t, e) {
   var a;
-  const n = getBaseSnapshotDirectory(t);
+  const s = getBaseSnapshotDirectory(t);
   let r, l, f;
   var p, u;
-  if (h(e, n) ? (l = i(n, e), f = !0) : (r = c({
+  if (h(e, s) ? (l = o(s, e), f = !0) : (r = m({
     cwd: t.testPath
-  }, !1), r && (h(e, r.pkg) ? (l = i(r.pkg, e), f = !0) : h(e, r.root) && (l = i(r.root, e), 
-  f = !0)), null !== (p = l) && void 0 !== p && p.length || null === (u = t.snapshotState) || void 0 === u || null === (u = u._rootDir) || void 0 === u || !u.length || !h(e, t.snapshotState._rootDir) || (l = i(t.snapshotState._rootDir, e), 
+  }, !1), r && (h(e, r.pkg) ? (l = o(r.pkg, e), f = !0) : h(e, r.root) && (l = o(r.root, e), 
+  f = !0)), null !== (p = l) && void 0 !== p && p.length || null === (u = t.snapshotState) || void 0 === u || null === (u = u._rootDir) || void 0 === u || !u.length || !h(e, t.snapshotState._rootDir) || (l = o(t.snapshotState._rootDir, e), 
   f = !0)), null === (a = l) || void 0 === a || !a.length) {
-    let t = c({
-      cwd: s(e)
+    let t = m({
+      cwd: n(e)
     }, !1);
-    l = null != t && t.pkg ? i(o(t.pkg, ".."), e) : e;
+    l = null != t && t.pkg ? o(i(t.pkg, ".."), e) : e;
   }
   return f = f && e.includes("/__file_snapshots__/"), {
     snapshotFileName: e,
@@ -53,40 +55,40 @@ function _hintSnapshotFileName(t, e) {
   };
 }
 
-function toMatchFile(n, s, i = {}) {
-  const {isNot: o, snapshotState: l} = this, h = "toMatchFile", c = r(null != s ? s : getBaseSnapshotFileName(this)), {snapshotDisplayName: m, safeUpdateSnapshot: S} = _hintSnapshotFileName(this, c);
-  i = {
-    diff: Object.assign({}, _, i.diff)
+function toMatchFile(s, n, o = {}) {
+  const {isNot: i, snapshotState: l} = this, h = "toMatchFile", m = r(null != n ? n : getBaseSnapshotFileName(this)), {snapshotDisplayName: _, safeUpdateSnapshot: S} = _hintSnapshotFileName(this, m);
+  o = {
+    diff: Object.assign({}, g, o.diff)
   };
-  const g = d(this);
-  if ("none" === l._updateSnapshot && !t(c)) return l.unmatched++, {
-    pass: o,
-    message: () => `New output file ${f(m)} was ${p("not written")}.\n\nThe update flag must be explicitly passed to write a new snapshot.\n\nThis is likely because this test is run in a ${f("continuous integration (CI) environment")} in which snapshots are not written by default.\n\n`,
-    actual: n,
+  const y = d(this);
+  if (l._updateSnapshot === c.none && !t(m)) return l.unmatched++, {
+    pass: i,
+    message: () => `New output file ${f(_)} was ${p("not written")}.\n\nThe update flag must be explicitly passed to write a new snapshot.\n\nThis is likely because this test is run in a ${f("continuous integration (CI) environment")} in which snapshots are not written by default.\n\n`,
+    actual: s,
     name: h
   };
-  let B, y = o, message = () => u(h, void 0, m, g);
-  if (t(c)) if (B = e(c, Buffer.isBuffer(n) ? null : "utf8"), function isEqual(t, e) {
+  let B, F = i, message = () => u(h, void 0, _, y);
+  if (t(m)) if (B = e(m, Buffer.isBuffer(s) ? null : "utf8"), function isEqual(t, e) {
     return Buffer.isBuffer(t) ? t.equals(e) : t === e;
-  }(n, B) !== o) y = !o; else if (o) l.unmatched++; else if (S && "all" === l._updateSnapshot) y = !o, 
-  a(c, n), l.updated++; else {
+  }(s, B) !== i) F = !i; else if (i) l.unmatched++; else if (S && l._updateSnapshot === c.all) F = !i, 
+  a(m, s), l.updated++; else {
     l.unmatched++;
-    const t = _diffHint(B, n, i.diff);
-    message = () => u(h, void 0, m, g) + t;
-  } else !S || o || "new" !== l._updateSnapshot && "all" !== l._updateSnapshot ? (l.unmatched++, 
-  message = () => `The output file ${f(m)} ${p("doesn't exist")}.`) : (y = !o, a(c, n), 
+    const t = _diffHint(B, s, o.diff);
+    message = () => u(h, void 0, _, y) + t;
+  } else !S || i || l._updateSnapshot !== c.new && l._updateSnapshot !== c.all ? (l.unmatched++, 
+  message = () => `The output file ${f(_)} ${p("doesn't exist")}.`) : (F = !i, a(m, s), 
   l.added++);
   return {
-    pass: y,
+    pass: F,
     message,
-    actual: n,
+    actual: s,
     expected: B,
     name: h
   };
 }
 
 function _diffHint(t, e, a) {
-  return Buffer.isBuffer(t) || Buffer.isBuffer(e) ? "" : m(t, e, null != a ? a : _);
+  return Buffer.isBuffer(t) || Buffer.isBuffer(e) ? "" : _(t, e, null != a ? a : g);
 }
 
 var S = {

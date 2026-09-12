@@ -13,7 +13,18 @@ var jestUtil = require('@lazy-assert/jest-util');
 /// <reference types="node" />
 /// <reference types="expect" />
 /**
- * check actual number is expected number ± delta
+ * 檢查實際數值是否在預期數值的 ± delta 範圍內
+ * Check if actual number is within expected number ± delta
+ *
+ * 結合 num-in-delta 和 Jest 的 toBeCloseTo 功能，提供更靈活的數值比較
+ * Combines num-in-delta with Jest's toBeCloseTo for more flexible number comparison
+ *
+ * @param this - 匹配器上下文 / Matcher context
+ * @param received - 實際數值 / Actual number
+ * @param expected - 預期數值 / Expected number
+ * @param delta - 允許的誤差範圍 / Allowed delta
+ * @param precision - 精度位數（預設 4）/ Precision digits (default 4)
+ * @returns 匹配結果 / Match result
  */
 function toBeCloseWith(received, expected, delta, precision = 4) {
   const matcherName = 'toBeCloseWith';
@@ -33,9 +44,9 @@ function toBeCloseWith(received, expected, delta, precision = 4) {
   let expectedDiff = 0;
   let receivedDiff = 0;
   if (received === Infinity && expected === Infinity) {
-    pass = true; // Infinity - Infinity is NaN
+    pass = true;
   } else if (received === -Infinity && expected === -Infinity) {
-    pass = true; // -Infinity - -Infinity is NaN
+    pass = true;
   } else {
     expectedDiff = Math.pow(10, -precision) / 2;
     receivedDiff = Number(util.subAbs(received, expected));
@@ -51,9 +62,6 @@ function toBeCloseWith(received, expected, delta, precision = 4) {
   };
 }
 var index = {
-  /**
-   * check actual number is expected number ± delta
-   */
   toBeCloseWith
 };
 jestInstallMatcherExtends.jestAutoInstallExpectExtend({

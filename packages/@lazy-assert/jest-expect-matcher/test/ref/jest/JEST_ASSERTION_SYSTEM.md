@@ -55,7 +55,7 @@ if (!Object.prototype.hasOwnProperty.call(globalThis, JEST_MATCHERS_OBJECT)) {
     numPassingAsserts: 0,
     suppressedErrors: [], // 不立即拋出的錯誤
   };
-  
+
   Object.defineProperty(globalThis, JEST_MATCHERS_OBJECT, {
     value: {
       customEqualityTesters: [],
@@ -78,52 +78,52 @@ export const setMatchers = (
 ): void => {
   for (const key of Object.keys(matchers)) {
     const matcher = matchers[key];
-    
+
     // 驗證匹配器類型
     if (typeof matcher !== 'function') {
       throw new TypeError(`expect.extend: \`${key}\` is not a valid matcher.`);
     }
-    
+
     // 標記內部匹配器
     Object.defineProperty(matcher, INTERNAL_MATCHER_FLAG, {
       value: isInternal,
     });
-    
+
     if (!isInternal) {
       // 為自定義匹配器創建非對稱匹配器類
       class CustomMatcher extends AsymmetricMatcher<[unknown, ...Array<unknown>]> {
         constructor(inverse = false, ...sample: [unknown, ...Array<unknown>]) {
           super(sample, inverse);
         }
-        
+
         asymmetricMatch(other: unknown) {
           const {pass} = matcher.call(
             this.getMatcherContext(),
             other,
             ...this.sample,
           ) as SyncExpectationResult;
-          
+
           return this.inverse ? !pass : pass;
         }
-        
+
         toString() {
           return `${this.inverse ? 'not.' : ''}${key}`;
         }
       }
-      
+
       // 註冊到 expect 和 expect.not
       Object.defineProperty(expect, key, {
         value: (...sample: [unknown, ...Array<unknown>]) =>
           new CustomMatcher(false, ...sample),
       });
-      
+
       Object.defineProperty(expect.not, key, {
         value: (...sample: [unknown, ...Array<unknown>]) =>
           new CustomMatcher(true, ...sample),
       });
     }
   }
-  
+
   // 合併到全局匹配器對象
   Object.assign((globalThis as any)[JEST_MATCHERS_OBJECT].matchers, matchers);
 };
@@ -140,7 +140,7 @@ export const addCustomEqualityTesters = (newTesters: Array<Tester>): void => {
       `expect.customEqualityTesters: Must be set to an array of Testers.`
     );
   }
-  
+
   (globalThis as any)[JEST_MATCHERS_OBJECT].customEqualityTesters.push(
     ...newTesters,
   );
@@ -160,14 +160,14 @@ const makeResolveMatcher = (
   outerErr: JestAssertionError,
 ): PromiseMatcherFn => (...args) => {
   const options = { isNot, promise: 'resolves' };
-  
+
   const actualWrapper: Promise<any> =
     typeof actual === 'function' ? actual() : actual;
-  
+
   if (!isPromise(actualWrapper)) {
     throw new JestAssertionError('Received value must be a promise');
   }
-  
+
   return actualWrapper.then(
     result => makeThrowingMatcher(matcher, isNot, 'resolves', result).apply(null, args),
     error => {
@@ -227,14 +227,14 @@ const makeThrowingMatcher = (
     iterableEquality,
     subsetEquality,
   };
-  
+
   const matcherUtilsThing: MatcherUtils = {
     customTesters: getCustomEqualityTesters(),
     dontThrow: () => (throws = false), // 控制錯誤拋出
     equals,
     utils,
   };
-  
+
   // ... 匹配器執行邏輯
 };
 ```
@@ -261,8 +261,8 @@ interface MatcherResult {
 }
 
 type MatcherFunction = (
-  received: unknown, 
-  expected: unknown, 
+  received: unknown,
+  expected: unknown,
   ...args: any[]
 ) => MatcherResult;
 ```
@@ -301,12 +301,12 @@ flowchart TD
 ```typescript
 toBe(received: unknown, expected: unknown) {
   const pass = Object.is(received, expected);
-  
+
   // 當嚴格相等失敗時，嘗試深度相等以提供更好的錯誤訊息
   if (!pass) {
     const expectedType = getType(expected);
     let deepEqualityName = null;
-    
+
     if (expectedType !== 'map' && expectedType !== 'set') {
       if (equals(received, expected, [...this.customTesters, ...toStrictEqualTesters], true)) {
         deepEqualityName = 'toStrictEqual';
@@ -315,7 +315,7 @@ toBe(received: unknown, expected: unknown) {
       }
     }
   }
-  
+
   return { message, pass };
 }
 ```
@@ -328,7 +328,7 @@ toBe(received: unknown, expected: unknown) {
 toEqual(received: unknown, expected: unknown) {
   const customTesters = this.customTesters;
   const pass = equals(received, expected, customTesters);
-  
+
   return {
     message: () => /* 格式化錯誤訊息 */,
     pass,
@@ -357,18 +357,18 @@ toBeCloseTo(received: number, expected: number, precision = 2) {
   if (typeof expected !== 'number' || typeof received !== 'number') {
     throw new TypeError('Expected and received must be numbers');
   }
-  
+
   // 處理 Infinity 特殊情況
-  if (received === Number.POSITIVE_INFINITY && 
+  if (received === Number.POSITIVE_INFINITY &&
       expected === Number.POSITIVE_INFINITY) {
     return { pass: true, message: () => '...' };
   }
-  
+
   // 計算允許的誤差範圍
   const expectedDiff = Math.pow(10, -precision) / 2;
   const receivedDiff = Math.abs(expected - received);
   const pass = receivedDiff < expectedDiff;
-  
+
   return { pass, message: () => /* 格式化訊息 */ };
 }
 ```
@@ -382,9 +382,9 @@ toBeInstanceOf(received: any, expected: Function) {
   if (typeof expected !== 'function') {
     throw new TypeError('Expected value must be a constructor function');
   }
-  
+
   const pass = received instanceof expected;
-  
+
   return {
     pass,
     message: () => `Expected value to be an instance of ${expected.name}`
@@ -483,10 +483,10 @@ Jest 提供了強大的自定義 matchers 擴展能力，允許開發者根據�
 ```javascript
 function customMatcher(actual, expected) {
   const pass = /* 驗證邏輯 */;
-  
+
   return {
     pass,
-    message: () => pass 
+    message: () => pass
       ? `預期 ${actual} 不應該滿足條件`
       : `預期 ${actual} 應該滿足條件`
   };
@@ -499,14 +499,14 @@ function customMatcher(actual, expected) {
 
 ```javascript
 function toBeWithinRange(actual, floor, ceiling) {
-  if (typeof actual !== 'number' || 
-      typeof floor !== 'number' || 
+  if (typeof actual !== 'number' ||
+      typeof floor !== 'number' ||
       typeof ceiling !== 'number') {
     throw new TypeError('所有參數必須為數字類型');
   }
 
   const pass = actual >= floor && actual <= ceiling;
-  
+
   return {
     pass,
     message: () =>
@@ -534,7 +534,7 @@ expect.extend({ toBeWithinRange });
 ```javascript
 function toBeDeepEqual(actual, expected) {
   const pass = this.equals(actual, expected);
-  
+
   return {
     pass,
     message: () => {
@@ -542,7 +542,7 @@ function toBeDeepEqual(actual, expected) {
         isNot: this.isNot,
         promise: this.promise
       });
-      
+
       return pass
         ? `${hint}\n\n預期值不應該深度相等`
         : `${hint}\n\n${this.utils.diff(expected, actual)}`;
@@ -560,7 +560,7 @@ expect.extend({
   async toBeDivisibleByExternalValue(actual) {
     const externalValue = await fetchExternalValue();
     const pass = actual % externalValue === 0;
-    
+
     return {
       pass,
       message: () => `預期 ${actual} ${pass ? '不' : ''}能能被 ${externalValue} 整除`
@@ -585,7 +585,7 @@ declare namespace jest {
     toBeWithinRange(floor: number, ceiling: number): R;
     toBeDivisibleByExternalValue(): Promise<R>;
   }
-  
+
   interface Expect {
     toBeWithinRange(floor: number, ceiling: number): any;
     not: {
@@ -605,7 +605,7 @@ export {};
 function toBeValidEmail(actual) {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const pass = typeof actual === 'string' && emailRegex.test(actual);
-  
+
   if (!pass) {
     // 使用內置 matcher 提供更好的錯誤訊息
     return {
@@ -613,7 +613,7 @@ function toBeValidEmail(actual) {
       message: () => `預期收到有效的郵箱地址，但收到: ${this.utils.printReceived(actual)}`
     };
   }
-  
+
   return { pass: true, message: () => '' };
 }
 ```
@@ -629,7 +629,7 @@ function toBeValidUrl(actual, protocol) {
       `預期收到字符串類型的 URL，但收到: ${this.utils.printReceived(actual)}`
     );
   }
-  
+
   let url;
   try {
     url = new URL(actual);
@@ -639,12 +639,12 @@ function toBeValidUrl(actual, protocol) {
       message: () => `預期收到有效的 URL: ${this.utils.printReceived(actual)}`
     };
   }
-  
+
   const pass = protocol ? url.protocol === `${protocol}:` : true;
-  
+
   return {
     pass,
-    message: () => 
+    message: () =>
       `預期 URL ${pass ? '不' : ''}應該使用 ${protocol} 協議`
   };
 }
@@ -660,12 +660,12 @@ describe('自定義 matchers 測試', () => {
     expect(5).toBeWithinRange(1, 10);
     expect(15).not.toBeWithinRange(1, 10);
   });
-  
+
   test('toBeWithinRange 錯誤處理', () => {
     expect(() => expect('string').toBeWithinRange(1, 10))
       .toThrow('所有參數必須為數字類型');
   });
-  
+
   test('異步 matcher 測試', async () => {
     await expect(100).toBeDivisibleByExternalValue();
     await expect(97).not.toBeDivisibleByExternalValue();
@@ -681,14 +681,14 @@ describe('自定義 matchers 測試', () => {
 function toBeCachedValue(actual, key) {
   // 緩存計算結果避免重複運算
   if (!this._cache) this._cache = new Map();
-  
+
   if (this._cache.has(key)) {
     return this._cache.get(key);
   }
-  
+
   const result = expensiveValidation(actual, key);
   this._cache.set(key, result);
-  
+
   return result;
 }
 ```
@@ -731,7 +731,7 @@ Jest 的異步斷言系統基於 Promise 鏈式調用構建，通過 `makeResolv
 const makeResolveMatcher = (matcherName, matcher, isNot, actual, outerErr) => {
   return (...args) => {
     const actualWrapper = typeof actual === 'function' ? actual() : actual;
-    
+
     if (!isPromise(actualWrapper)) {
       throw new JestAssertionError('received value must be a promise');
     }
@@ -883,7 +883,7 @@ test('concurrent promises', async () => {
     fetchData('url2'),
     fetchData('url3')
   ];
-  
+
   await expect(Promise.all(promises))
     .resolves
     .toHaveLength(3);
@@ -901,7 +901,7 @@ sequenceDiagram
     participant Promise as Promise
     participant Matcher as matcher
     participant Error as JestAssertionError
-    
+
     Test->>Expect: expect(promise)
     Expect->>Promise: wrap with .resolves
     Promise-->>Matcher: resolve value
@@ -954,10 +954,10 @@ test('unexpected async error', async () => {
 test('mixed sync and async assertions', async () => {
   // 同步斷言
   expect(syncValue).toBeDefined();
-  
+
   // 異步斷言
   await expect(asyncOperation()).resolves.toEqual(expectedResult);
-  
+
   // 更多同步斷言
   expect(anotherSyncValue).toBeTruthy();
 });

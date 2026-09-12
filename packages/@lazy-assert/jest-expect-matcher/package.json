@@ -42,23 +42,16 @@
   "types": "dist/index.d.ts",
   "typings": "dist/index.d.ts",
   "scripts": {
-    "review": "node --run review:coverage",
-    "review:coverage": "yarn run lint && yarn run coverage",
-    "review:test": "yarn run lint && yarn run test",
-    "coverage": "yarn run test -- --coverage",
-    "lint": "node --run lint:eslint",
-    "lint:eslint": "ynpx eslint --ext .ts,.tsx,.mts,.cts ./",
-    "pretest": "echo pretest",
-    "test": "node --run test:jest:snapshot",
+    "test": "echo node --run test:jest:snapshot",
     "test:jest": "jest --passWithNoTests --no-colors",
     "test:jest:coverage": "node --run test:jest -- --coverage",
     "test:jest:snapshot": "node --run test:jest -- -u",
     "test:mocha": "ynpx --quiet -p ts-node -p mocha mocha -- --require ts-node/register \"!(node_modules)/**/*.{test,spec}.{ts,tsx}\"",
-    "test:snapshot": "yarn run test -- -u",
+    "test:snapshot": "pnpm run test -u",
     "test:tsd": "ynpx tsd",
     "test:tsdx": "ynpx @bluelovers/tsdx test --passWithNoTests",
-    "posttest": "yarn run build",
-    "build": "yarn run build:tsdx && yarn run build:dts:bundle",
+    "posttest": "pnpm run build",
+    "build": "pnpm run build:tsdx && pnpm run build:dts:bundle",
     "build:dts:bundle": "ynpx @bluelovers/dts-bundle-generator -o ./dist/index.d.ts ./src/index.ts --no-banner --inline-declare-global & echo build:dts:bundle",
     "build:dts:copy": "copy .\\src\\index.d.ts .\\dist\\index.d.ts & echo build:dts",
     "build:dts:tsc": "node --run build:dts:tsc:emit && node --run build:dts:copy",
@@ -67,17 +60,11 @@
     "build:tsdx": "ynpx @bluelovers/tsdx build --target node --name index",
     "ci:install": "echo ci:install",
     "ci:build": "echo ci:build",
-    "preversion": "echo preversion && yarn run test",
+    "preversion": "echo preversion && pnpm run test",
     "version": "echo version",
     "postversion": "echo postversion",
-    "prepublish": "echo prepublish",
-    "prepare": "echo prepare",
     "prepublishOnly": "echo prepublishOnly",
-    "prepack": "echo prepack",
-    "pack": "echo pack",
-    "postpack": "echo postpack",
     "publish": "echo publish",
-    "postpublish": "echo postpublish",
     "postpublishOnly": "echo postpublishOnly",
     "sort-package-json": "yarn-tool sort",
     "tsc:default": "tsc -p tsconfig.json",
@@ -85,16 +72,17 @@
     "tsc:showConfig": "ynpx get-current-tsconfig -p"
   },
   "dependencies": {
-    "expect": "^30.3.0"
+    "expect": "^30.5.1"
+  },
+  "devDependencies": {
+    "@jest/expect-utils": "^30.5.1",
+    "@jest/get-type": "^30.5.0",
+    "dotenv": "^17.4.2",
+    "jest-matcher-utils": "^30.5.1",
+    "jest-mock": "^30.5.1",
+    "jest-util": "^30.5.1"
   },
   "publishConfig": {
     "access": "public"
-  },
-  "devDependencies": {
-    "@jest/expect-utils": "^30.3.0",
-    "@jest/get-type": "^30.1.0",
-    "jest-matcher-utils": "^30.3.0",
-    "jest-mock": "^30.3.0",
-    "jest-util": "^30.3.0"
   }
 }

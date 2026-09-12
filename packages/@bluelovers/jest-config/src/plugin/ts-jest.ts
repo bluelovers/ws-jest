@@ -5,6 +5,7 @@
 
 import { TsJestTransformerOptions } from 'ts-jest';
 import { IRuntime } from '../types';
+import { array_unique } from 'array-hyper-unique';
 
 /**
  * 取得預設的 ts-jest 轉換器選項
@@ -23,8 +24,8 @@ import { IRuntime } from '../types';
  * - Allow unused parameters and labels (for test development)
  * - Disable strict type checking options (ensure tests run smoothly)
  *
- * @param {IRuntime} runtime - 執行時期配置，包含原始 Jest 配置 / Runtime configuration containing original Jest config
- * @returns {TsJestTransformerOptions} ts-jest 轉換器選項 / ts-jest transformer options
+ * @param runtime - 執行時期配置，包含原始 Jest 配置 / Runtime configuration containing original Jest config
+ * @returns ts-jest 轉換器選項 / ts-jest transformer options
  */
 export function defaultTsJestTransformerOptions(runtime: IRuntime)
 {
@@ -45,6 +46,8 @@ export function defaultTsJestTransformerOptions(runtime: IRuntime)
 	 * Uses user-provided object tsconfig or creates empty object
 	 */
 	const tsconfig = typeof old.tsconfig === 'object' ? old.tsconfig : {};
+
+	const types = array_unique([...(tsconfig.types ?? []), 'jest']);
 
 	/**
 	 * 回傳合併後的 ts-jest 選項
@@ -94,6 +97,7 @@ export function defaultTsJestTransformerOptions(runtime: IRuntime)
 			noImplicitAny: false,
 			// 合併使用者自定義的 tsconfig 設定 / Merge user custom tsconfig settings
 			...tsconfig,
+			types,
 		},
-	} satisfies TsJestTransformerOptions
+	} as TsJestTransformerOptions
 }

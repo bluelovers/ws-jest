@@ -7,19 +7,22 @@ import { _requireResolve, fixJestConfig, makeTestRegexConfig } from './helper';
 import {
 	defaultCoveragePathIgnorePatterns,
 	defaultModuleFileExtensions,
-	defaultSetupFiles,
 	defaultTestFileExtensions,
 	defaultTestPathIgnorePatterns,
-	defaultTransform,
+
 } from './defaults';
 import { IOptionsPrintJestConfigInfo, printJestConfigInfo } from './print';
 import { IJestConfig } from './types';
 import { getJestCacheDirectory } from 'jest-cache-directory';
+import { defaultTransform } from './default-transform';
+import { defaultSetupFiles } from './default-setup-fles';
 
 // 重新匯出輔助函數和類型 / Re-export helper functions and types
 export * from './helper';
 export * from './defaults';
 export * from './print';
+export { defaultTransform } from './default-transform';
+export { defaultSetupFiles } from './default-setup-fles';
 
 /** Jest 快取目錄路徑 / Jest cache directory path */
 const cacheDirectory = getJestCacheDirectory();
@@ -86,20 +89,7 @@ export function mixinJestConfig<T extends IJestConfig>(jestConfig?: T, autoPrint
 		// 測試執行器設定 / Test runner setting
 		//testRunner: 'jest-circus/runner',
 		/** 環境設置後載入的檔案 / Files to load after environment setup */
-		setupFiles: defaultSetupFiles(),
-		setupFilesAfterEnv: [
-			// 可選擇性啟用的 Jest 擴充套件 / Optional Jest extensions
-			//"jest-chain",
-			//"jest-extended/all",
-			//"jest-extended-extra",
-			//"jest-num-close-with",
-			/**
-			 * 跨平台測試支援參考 / Cross-platform testing support reference
-			 * @see https://medium.com/doctolib/how-to-run-the-same-jest-test-suite-across-several-platforms-jest-os-detection-plugin-included-f8113832482b
-			 * @see https://github.com/doctolib/jest-os-detection
-			 */
-			//'jest-os-detection',
-		],
+		...defaultSetupFiles(),
 		// 轉換器設定（後面單獨處理） / Transform setting (handled separately below)
 		//transform: defaultTransform(),
 		/** 詳細輸出模式 / Verbose output mode */

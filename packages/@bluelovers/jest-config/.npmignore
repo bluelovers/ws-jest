@@ -178,3 +178,6 @@ openspec/
 !/README.md
 !/CHANGELOG.md
 
+!/jest-preset.cjs
+!/jest-preset.mjs
+!/jest.config.js

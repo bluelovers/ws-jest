@@ -1,6 +1,6 @@
 {
   "name": "@bluelovers/jest-config",
-  "version": "1.1.12",
+  "version": "1.1.13",
   "description": "Jest configuration preset with TypeScript support, providing automatic ts-jest transform chain integration, cache management, and coverage settings / 具備 TypeScript 支援的 Jest 配置預設套件，提供自動 ts-jest 轉換鏈整合、快取管理和覆蓋率設定",
   "keywords": [
     "jest-preset",

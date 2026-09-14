@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.13](https://github.com/bluelovers/ws-jest/compare/@bluelovers/jest-config@1.1.12...@bluelovers/jest-config@1.1.13) (2026-09-14)
+
+
+
+### 🛠　Build System
+
+* **dist:** update build ([2d4b41f](https://github.com/bluelovers/ws-jest/commit/2d4b41f19ddf1bf4b4acaa0e4adfb8ccc1fbac06))
+
+
+### ♻️　Chores
+
+* **@bluelovers/jest-config:** 將 jest 設定檔排除於 .npmignore 之外 ([4f34655](https://github.com/bluelovers/ws-jest/commit/4f346554728adb182b55f65020631f1d9c0af8d4))
+
+
+
 ## [1.1.12](https://github.com/bluelovers/ws-jest/compare/@bluelovers/jest-config@1.1.11...@bluelovers/jest-config@1.1.12) (2026-09-12)
 
 

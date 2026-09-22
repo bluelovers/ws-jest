@@ -3,15 +3,26 @@ import {
 	type TransformCallback,
 } from 'node:stream';
 
-/**
- * Tag used to mark a test as a "maybe" test.
- */
-export const MAYBE_TAG = 'maybe' as const;
+// The only logic genuinely shared with the `maybe` API (`index.ts`) is the
+// maybe tag/prefix contract, which lives in `lib/constants.ts`.
+import { MAYBE_TAG, MAYBE_PREFIX } from './lib/constants.ts';
 
 /**
- * Human-readable prefix appended to the test name by `node-test-maybe`.
+ * Keywords used by Node's built-in summary, which is streamed to the reporter
+ * as a sequence of `test:diagnostic` messages (`"tests 24"`, `"pass 19"`,
+ * `"fail 0"`, … `"duration_ms 300"`). The final `duration_ms` line marks the
+ * end of the summary block.
  */
-export const MAYBE_PREFIX = '[maybe] ' as const;
+const SUMMARY_KEYWORDS = [
+	'tests',
+	'suites',
+	'pass',
+	'fail',
+	'cancelled',
+	'skipped',
+	'todo',
+	'duration_ms',
+] as const;
 
 export interface MaybeTestState
 {
@@ -122,6 +133,62 @@ function formatError(error: Error | { stack?: string; message?: string } | undef
 }
 
 /**
+ * Build a single, compact summary block from a `test:summary` event's counts.
+ *
+ * The standard counts (`tests`/`passed`/`failed`/`skipped`/`cancelled`/`todo`)
+ * come straight from Node, which already classifies a failing `maybe` test as
+ * `todo` rather than `failed`. Any count that is `0` is omitted so the output
+ * stays noise-free, and the `Maybe` breakdown (unique to this reporter) is
+ * appended.
+ */
+function formatSummary(
+	counts: {
+		tests?: number;
+		total?: number;
+		passed?: number;
+		failed?: number;
+		skipped?: number;
+		cancelled?: number;
+		todo?: number;
+	},
+	maybePassed: number,
+	maybeFailed: number,
+): string
+{
+	const tests = counts.tests ?? counts.total ?? 0;
+	const passed = counts.passed ?? 0;
+	const failed = counts.failed ?? 0;
+	const skipped = counts.skipped ?? 0;
+	const cancelled = counts.cancelled ?? 0;
+	const todo = counts.todo ?? 0;
+
+	const lines: string[] = [];
+
+	const add = (label: string, value: number) =>
+	{
+		if (value !== 0)
+		{
+			lines.push(`  ${label}: ${value}`);
+		}
+	};
+
+	add('Tests', tests);
+	add('Passed', passed);
+	add('Failed', failed);
+	add('Cancelled', cancelled);
+	add('Skipped', skipped);
+	add('TODO', todo);
+
+	const maybeTotal = maybePassed + maybeFailed;
+	if (maybeTotal > 0)
+	{
+		lines.push(`  Maybe: ${maybeTotal} (passed: ${maybePassed}, failed: ${maybeFailed})`);
+	}
+
+	return lines.length > 0 ? `\n${lines.join('\n')}\n\n` : '';
+}
+
+/**
  * Create a custom reporter `Transform` stream.
  *
  * The reporter:
@@ -129,7 +196,7 @@ function formatError(error: Error | { stack?: string; message?: string } | undef
  * - prints `◌ MAYBE` for maybe tests (pass or fail),
  * - prints `✔` for normal passes and `✖ FAIL` for normal failures,
  * - tracks per-test metadata by `testId` so parallel tests stay correct,
- * - prints a summary with a dedicated `Maybe` line.
+ * - prints one summary per test file (once), with a dedicated `Maybe` line.
  *
  * The returned stream is accepted by `stream.compose`, so it can be passed
  * to `node --test --test-reporter=./this-file`.
@@ -139,7 +206,7 @@ export function createReporter(): Transform
 	const tests = new Map<number | string, MaybeTestState>();
 	let maybePassed = 0;
 	let maybeFailed = 0;
-	let summaryPrinted = false;
+	const printedFiles = new Set<string>();
 
 	function record(event: ReporterEvent): MaybeTestState
 	{
@@ -250,9 +317,30 @@ export function createReporter(): Transform
 					}
 
 					case 'test:diagnostic':
-						this.push(`  ${event.data?.message ?? ''}\n`);
+					{
+						const message = event.data?.message;
+
+						if (typeof message === 'string')
+						{
+							const keyword = message.split(' ')[0];
+
+							// Node streams its built-in summary as a sequence of
+							// `test:diagnostic` messages ("tests 24", "pass 19",
+							// …). Those counts are not todo-aware (a failing
+							// `maybe` test is miscounted as `fail`), so we ignore
+							// them and compute our own summary from the per-test
+							// events instead (emitted once at the end).
+							if (SUMMARY_KEYWORDS.includes(keyword))
+							{
+								callback();
+								return;
+							}
+						}
+
+						this.push(`  ${message ?? ''}\n`);
 						callback();
 						return;
+					}
 
 					case 'test:stdout':
 					case 'test:stderr':
@@ -262,28 +350,36 @@ export function createReporter(): Transform
 
 					case 'test:summary':
 					{
-						// Node may deliver the summary event more than once in
-						// some configurations; print it only once.
-						if (summaryPrinted)
+						const file = event.data?.file;
+
+						// Under `tsx`, Node emits one `test:summary` per test
+						// file (carrying a `file` path) plus a final root
+						// aggregate with `file: undefined`. For a per-file summary
+						// (Option B) we print each file's own summary and skip the
+						// root aggregate to avoid printing a duplicate.
+						if (typeof file !== 'string' || file.length === 0)
 						{
 							callback();
 							return;
 						}
 
-						summaryPrinted = true;
-
-						const maybeTotal = maybePassed + maybeFailed;
-
-						// Only the `Maybe` breakdown is unique to this reporter;
-						// the standard Total/Passed/Failed counts are already
-						// printed by Node's built-in summary, so repeating them
-						// here would only add noise.
-						if (maybeTotal > 0)
+						// De-dupe: a given file should produce exactly one summary
+						// even if Node delivers its `test:summary` more than once.
+						if (printedFiles.has(file))
 						{
-							this.push(
-								`\nMaybe: ${maybeTotal} (passed: ${maybePassed}, failed: ${maybeFailed})\n`,
-							);
+							callback();
+							return;
 						}
+						printedFiles.add(file);
+
+						const counts = (event.data?.counts ?? {}) as Record<string, number | undefined>;
+						this.push(formatSummary(counts, maybePassed, maybeFailed));
+
+						// Reset the `maybe` counters so the next file's summary
+						// reflects only that file's `maybe` results, keeping each
+						// per-file breakdown accurate.
+						maybePassed = 0;
+						maybeFailed = 0;
 
 						callback();
 						return;
@@ -303,6 +399,7 @@ export function createReporter(): Transform
 				callback(error as Error);
 			}
 		},
+
 	});
 
 	return reporter;

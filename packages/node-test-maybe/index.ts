@@ -5,20 +5,11 @@ import type {
 	TestOptions,
 } from 'node:test';
 
-/**
- * Tag used to mark a test as a "maybe" test.
- *
- * Machine-readable metadata consumed by reporters / tag filters.
- */
-export const MAYBE_TAG = 'maybe' as const;
+// The only logic genuinely shared with the reporter (`reporter.ts`) is the
+// maybe tag/prefix contract, which lives in `lib/constants.ts`.
+import { MAYBE_TAG, MAYBE_PREFIX } from './lib/constants.ts';
 
-/**
- * Human-readable prefix appended to the test name.
- *
- * Portable metadata: even the built-in Node reporter (which only shows
- * the test name) will display the `[maybe]` intent.
- */
-export const MAYBE_PREFIX = '[maybe] ' as const;
+export { MAYBE_TAG, MAYBE_PREFIX };
 
 export type IMaybeName = string;
 

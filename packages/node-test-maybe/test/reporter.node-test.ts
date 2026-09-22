@@ -3,10 +3,8 @@ import test from 'node:test';
 import {
 	createReporter,
 	isMaybeEvent,
-	MAYBE_TAG,
-	MAYBE_PREFIX,
-} from '../reporter.js';
-import type { ReporterEvent } from '../reporter.js';
+} from '../reporter.ts';
+import type { ReporterEvent } from '../reporter.ts';
 
 function runReporter(events: ReporterEvent[]): Promise<string>
 {
@@ -165,13 +163,14 @@ test('reporter prints a summary with a dedicated Maybe line', async () => {
 		{
 			type: 'test:summary',
 			data: {
+				file: 'a.ts',
 				counts: { total: 3, passed: 1, failed: 0, skipped: 0, cancelled: 0 },
 			},
 		},
 	]);
 
-	// The reporter prints only the `Maybe` breakdown line; the standard
-	// Total/Passed/Failed counts are left to Node's built-in summary.
+	// The reporter prints the `Maybe` breakdown alongside the standard counts
+	// for this file; the built-in summary is not echoed verbatim.
 	assert.match(out, /Maybe:\s+2 \(passed: 1, failed: 1\)/);
 	// The summary line must appear exactly once.
 	assert.equal(out.match(/Maybe:/g)?.length, 1);
@@ -183,17 +182,54 @@ test('reporter prints the summary only once when the event fires twice', async (
 			type: 'test:pass',
 			data: { testId: 1, name: '[maybe] ok', tags: ['maybe'], details: { duration_ms: 1 } },
 		},
+		// Node may emit the same file's `test:summary` more than once under
+		// some setups; the reporter must still print it only once.
 		{
 			type: 'test:summary',
-			data: { counts: { total: 1, passed: 0, failed: 0, skipped: 0, cancelled: 0 } },
+			data: { file: 'a.ts', counts: { total: 1, passed: 0, failed: 0, skipped: 0, cancelled: 0 } },
 		},
-		// Node may emit the summary event more than once in some setups.
 		{
 			type: 'test:summary',
-			data: { counts: { total: 1, passed: 0, failed: 0, skipped: 0, cancelled: 0 } },
+			data: { file: 'a.ts', counts: { total: 1, passed: 0, failed: 0, skipped: 0, cancelled: 0 } },
 		},
 	]);
 
 	assert.match(out, /Maybe:\s+1 \(passed: 1, failed: 0\)/);
 	assert.equal(out.match(/Maybe:/g)?.length, 1);
+});
+
+test('reporter summarizes from test:summary and omits zero counts', async () => {
+	const out = await runReporter([
+		// The `maybe` results are streamed during the file's run, before its
+		// `test:summary` — matching the real event ordering.
+		{ type: 'test:pass', data: { testId: 1, name: '[maybe] ok', tags: ['maybe'] } },
+		{
+			type: 'test:fail',
+			data: { testId: 2, name: '[maybe] flaky', tags: ['maybe'], details: { error: new Error('x') } },
+		},
+		// Node delivers one `test:summary` per file; its counts are already
+		// todo-aware — a failing `maybe` test lands in `todo`, not `failed`.
+		// Here: 5 normal passes, 2 maybe (1 pass + 1 fail) counted as `todo`.
+		{
+			type: 'test:summary',
+			data: { file: 'a.ts', counts: { total: 7, passed: 5, failed: 0, skipped: 0, cancelled: 0, todo: 2 } },
+		},
+		// A non-summary diagnostic must still be echoed.
+		{ type: 'test:diagnostic', data: { message: 'note from runner' } },
+	]);
+
+	assert.match(out, /Tests:\s+7/);
+	assert.match(out, /Passed:\s+5/);
+	assert.match(out, /TODO:\s+2/);
+	assert.match(out, /Maybe:\s+2 \(passed: 1, failed: 1\)/);
+
+	// A hard `Failed` of 0 is filtered out.
+	assert.doesNotMatch(out, /Failed:/);
+	// Zero counts are filtered out.
+	assert.doesNotMatch(out, /cancelled 0/);
+	assert.doesNotMatch(out, /skipped 0/);
+
+	// Node's built-in summary diagnostics are consumed, not echoed verbatim.
+	assert.doesNotMatch(out, /\btests \d/);
+	assert.match(out, /note from runner/);
 });

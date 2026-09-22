@@ -1,6 +1,6 @@
 {
   "name": "node-test-maybe",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "基於 Node.js 原生測試執行器（`node:test`）的非阻斷測試工具：讓某些測試「可以通過，也可以失敗」，且失敗時不影響整次執行的結束狀態（exit code）",
   "keywords": [
     "assert",

@@ -50,6 +50,9 @@ importers:
       typescript:
         specifier: ^6.0.3
         version: 6.0.3
+      upath2:
+        specifier: ^3.1.25
+        version: 3.1.25(ts-toolbelt@9.6.0)
     devDependencies:
       '@bluelovers/conventional-changelog-bluelovers':
         specifier: ^5.0.27
@@ -294,6 +297,12 @@ importers:
       num-in-delta:
         specifier: ^1.0.10
         version: 1.0.10
+
+  packages/node-test-maybe:
+    dependencies:
+      tslib:
+        specifier: '>=2.8.1'
+        version: 2.8.1
 
 packages:
 

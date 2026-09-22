@@ -9,6 +9,7 @@ Please see the individual package changelogs for what's new:
 * 🌏 [`jest-file-snapshot2`](./packages/jest-file-snapshot/CHANGELOG.md "packages/jest-file-snapshot") *packages/jest-file-snapshot*
 * 🌏 [`jest-install-matcher-extends`](./packages/jest-install-matcher-extends/CHANGELOG.md "packages/jest-install-matcher-extends") *packages/jest-install-matcher-extends*
 * 🌏 [`jest-num-close-with`](./packages/jest-num-close-with/CHANGELOG.md "packages/jest-num-close-with") *packages/jest-num-close-with*
+* 🌏 [`node-test-maybe`](./packages/node-test-maybe/CHANGELOG.md "packages/node-test-maybe") *packages/node-test-maybe*
 * 🌏 [`@lazy-assert/check-basic`](./packages/@lazy-assert/check-basic/CHANGELOG.md "packages/@lazy-assert/check-basic") *packages/@lazy-assert/check-basic*
 * 🌏 [`@lazy-assert/jest-diff`](./packages/@lazy-assert/jest-diff/CHANGELOG.md "packages/@lazy-assert/jest-diff") *packages/@lazy-assert/jest-diff*
 * 🌏 [`@lazy-assert/jest-expect-matcher`](./packages/@lazy-assert/jest-expect-matcher/CHANGELOG.md "packages/@lazy-assert/jest-expect-matcher") *packages/@lazy-assert/jest-expect-matcher*

@@ -464,7 +464,7 @@ export function createReporter(
 							// `maybe` test is miscounted as `fail`), so we ignore
 							// them and compute our own summary from the per-test
 							// events instead (emitted once at the end).
-							if (SUMMARY_KEYWORDS.includes(keyword))
+							if (SUMMARY_KEYWORDS.includes(keyword as (typeof SUMMARY_KEYWORDS)[number]))
 							{
 								callback();
 								return;

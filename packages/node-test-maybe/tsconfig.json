@@ -4,6 +4,9 @@
     "importHelpers": true,
     "module": "nodenext",
     "moduleResolution": "nodenext",
+    "allowImportingTsExtensions": true,
+    "rewriteRelativeImportExtensions": true,
+    "noPropertyAccessFromIndexSignature": false,
     "types": [
       "node"
     ]

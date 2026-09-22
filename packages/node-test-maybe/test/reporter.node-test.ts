@@ -236,7 +236,7 @@ test('reporter summarizes from test:summary and omits zero counts', async () => 
 
 function runReporterWith(
 	events: ReporterEvent[],
-	options: Parameters<typeof createReporter>[0],
+	options?: Parameters<typeof createReporter>[0],
 ): Promise<string>
 {
 	const reporter = createReporter(options);

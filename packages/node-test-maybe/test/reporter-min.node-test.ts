@@ -11,10 +11,10 @@ import {
 	resolveReporterOptions,
 	REPORTER_ENV_KEYS,
 } from '../reporter.ts';
-import type { ReporterEvent } from '../reporter.ts';
+import type { IReporterEvent } from '../reporter.ts';
 
 function runReporter(
-	events: ReporterEvent[],
+	events: IReporterEvent[],
 	reporter = createReporter({}, { maybeOnly: true }),
 ): Promise<string>
 {

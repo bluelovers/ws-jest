@@ -43,6 +43,8 @@
     "test:node": "tsx --test test/*.node-test.ts",
     "test:node:reporter": "node --run test:tsc && tsx --test-reporter=./reporter.ts --test test/*.node-test.ts",
     "demo:run-maybe": "tsx test/example/run-maybe.ts",
+    "demo:run-maybe:js": "node test/example/run-maybe-js.mjs",
+    "demo:run-collector:js": "node --test --test-reporter=./run-collector.js --test test/fixtures/sample.mjs",
     "test:snapshot": "pnpm run test -u",
     "test:tsc": "tsc --noEmit & echo Typescript checked",
     "test:tsd": "ynpx tsd",

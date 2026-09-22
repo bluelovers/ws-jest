@@ -1,6 +1,6 @@
 import { Transform } from 'node:stream';
 
-import { isMaybeEvent, type ReporterEvent } from './reporter.ts';
+import { isMaybeEvent, type IReporterEvent } from './reporter.ts';
 
 /**
  * `--test-reporter` module consumed by {@link runMaybe} (run.ts).
@@ -33,7 +33,7 @@ export default function runCollector(): Transform
 	const seenFiles = new Set<string>();
 	const files: string[] = [];
 
-	function record(event: ReporterEvent): { maybe: boolean }
+	function record(event: IReporterEvent): { maybe: boolean }
 	{
 		const data = event.data ?? {};
 		const state = { maybe: isMaybeEvent(event) };
@@ -46,7 +46,7 @@ export default function runCollector(): Transform
 		return state;
 	}
 
-	function getState(event: ReporterEvent): { maybe: boolean }
+	function getState(event: IReporterEvent): { maybe: boolean }
 	{
 		const testId = event.data?.testId;
 
@@ -65,7 +65,7 @@ export default function runCollector(): Transform
 	return new Transform({
 		writableObjectMode: true,
 
-		transform(event: ReporterEvent, _encoding, callback)
+		transform(event: IReporterEvent, _encoding, callback)
 		{
 			try
 			{

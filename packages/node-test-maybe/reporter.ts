@@ -24,7 +24,7 @@ const SUMMARY_KEYWORDS = [
 	'duration_ms',
 ] as const;
 
-export interface MaybeTestState
+export interface IMaybeTestState
 {
 	name: string;
 	maybe: boolean;
@@ -42,7 +42,7 @@ export interface MaybeTestState
  *   every `0` count is hidden — this is the intended default, and it is
  *   independent of `maybe` (it applies uniformly to the standard breakdown).
  */
-export interface ReporterOptions
+export interface IReporterOptions
 {
 	maybeOnly?: boolean;
 	showZero?: boolean;
@@ -51,7 +51,7 @@ export interface ReporterOptions
 /**
  * Built-in defaults used when neither an explicit option nor an env var is set.
  */
-export const DEFAULT_REPORTER_OPTIONS: Required<ReporterOptions> = {
+export const DEFAULT_REPORTER_OPTIONS: Required<IReporterOptions> = {
 	maybeOnly: false,
 	showZero: false,
 };
@@ -107,9 +107,9 @@ export function parseBoolEnv(value: string | undefined | null): boolean | undefi
  * 4. {@link DEFAULT_REPORTER_OPTIONS}.
  */
 export function resolveReporterOptions(
-	explicit: Partial<ReporterOptions> = {},
-	envDefaults: Partial<ReporterOptions> = {},
-): Required<ReporterOptions>
+	explicit: Partial<IReporterOptions> = {},
+	envDefaults: Partial<IReporterOptions> = {},
+): Required<IReporterOptions>
 {
 	const env = process.env;
 
@@ -135,7 +135,7 @@ export function resolveReporterOptions(
  * Only the fields used by this reporter are declared; the real Node events
  * carry additional data which is ignored.
  */
-export interface ReporterEvent
+export interface IReporterEvent
 {
 	type: string;
 	data?: {
@@ -167,7 +167,7 @@ export interface ReporterEvent
  * human-readable `[maybe] ` name prefix so the reporter also works on the
  * raw test name when tags are unavailable.
  */
-export function isMaybeEvent(event: ReporterEvent): boolean
+export function isMaybeEvent(event: IReporterEvent): boolean
 {
 	const data = event.data;
 	if (!data)
@@ -251,7 +251,7 @@ export function formatSummary(
 	},
 	maybePassed: number,
 	maybeFailed: number,
-	options: Required<ReporterOptions>,
+	options: Required<IReporterOptions>,
 ): string
 {
 	const lines: string[] = [];
@@ -317,22 +317,22 @@ export function formatSummary(
  * to `node --test --test-reporter=./this-file`.
  */
 export function createReporter(
-	options: Partial<ReporterOptions> = {},
-	envDefaults: Partial<ReporterOptions> = {},
+	options: Partial<IReporterOptions> = {},
+	envDefaults: Partial<IReporterOptions> = {},
 ): Transform
 {
 	const opts = resolveReporterOptions(options, envDefaults);
 
-	const tests = new Map<number | string, MaybeTestState>();
+	const tests = new Map<number | string, IMaybeTestState>();
 	let maybePassed = 0;
 	let maybeFailed = 0;
 	const printedFiles = new Set<string>();
 
-	function record(event: ReporterEvent): MaybeTestState
+	function record(event: IReporterEvent): IMaybeTestState
 	{
 		const data = event.data ?? {};
 		const name = data.name ?? '<anonymous>';
-		const state: MaybeTestState = {
+		const state: IMaybeTestState = {
 			name,
 			maybe: isMaybeEvent(event),
 			todo: data.todo,
@@ -346,7 +346,7 @@ export function createReporter(
 		return state;
 	}
 
-	function getState(event: ReporterEvent): MaybeTestState
+	function getState(event: IReporterEvent): IMaybeTestState
 	{
 		const testId = event.data?.testId;
 
@@ -366,7 +366,7 @@ export function createReporter(
 		writableObjectMode: true,
 
 		transform(
-			event: ReporterEvent,
+			event: IReporterEvent,
 			_encoding: BufferEncoding,
 			callback: TransformCallback,
 		)

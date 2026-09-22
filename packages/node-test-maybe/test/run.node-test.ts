@@ -4,7 +4,7 @@ import { Writable } from 'node:stream';
 import test from 'node:test';
 
 import { runMaybe } from '../run.ts';
-import type { MaybeRunSummary } from '../run.ts';
+import type { IMaybeRunSummary } from '../run.ts';
 
 const fixture = fileURLToPath(new URL('./fixtures/sample.mjs', import.meta.url));
 

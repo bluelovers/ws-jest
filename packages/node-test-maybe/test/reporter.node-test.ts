@@ -4,9 +4,9 @@ import {
 	createReporter,
 	isMaybeEvent,
 } from '../reporter.ts';
-import type { ReporterEvent } from '../reporter.ts';
+import type { IReporterEvent } from '../reporter.ts';
 
-function runReporter(events: ReporterEvent[]): Promise<string>
+function runReporter(events: IReporterEvent[]): Promise<string>
 {
 	const reporter = createReporter();
 	let output = '';
@@ -237,7 +237,7 @@ test('reporter summarizes from test:summary and omits zero counts', async () => 
 });
 
 function runReporterWith(
-	events: ReporterEvent[],
+	events: IReporterEvent[],
 	options?: Parameters<typeof createReporter>[0],
 ): Promise<string>
 {

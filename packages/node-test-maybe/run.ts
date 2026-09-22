@@ -1,12 +1,10 @@
 import { createRequire } from 'node:module';
-import { execFile } from 'node:child_process';
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
-import { promisify } from 'node:util';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { resolveReporterOptions, formatSummary, type ReporterOptions } from './reporter.ts';
+import { resolveReporterOptions, formatSummary, type IReporterOptions } from './reporter.ts';
+import crossSpawn from 'cross-spawn';
 
-const execFileAsync = promisify(execFile);
 const require = createRequire(import.meta.url);
 
 /**
@@ -68,9 +66,13 @@ function findPnpmTsxBin(): string | null
  *
  * 1. a normal `tsx/package.json` resolve from this file,
  * 2. scanning the pnpm store,
- * 3. a bare `tsx` on `PATH` (e.g. when run via pnpm scripts).
+ * 3. `null` when tsx is genuinely unavailable.
+ *
+ * Returning `null` (instead of a bare `'tsx'`) is important: a consumer who
+ * only writes `.js`/`.mjs` tests and has no TypeScript toolchain should fall
+ * back to `node --test` directly, not fail with "tsx: command not found".
  */
-function resolveTsxBin(): string
+function resolveTsxBin(): string | null
 {
 	try
 	{
@@ -87,13 +89,13 @@ function resolveTsxBin(): string
 		// ignore and try the pnpm store
 	}
 
-	return findPnpmTsxBin() ?? 'tsx';
+	return findPnpmTsxBin() ?? null;
 }
 
 /**
  * Structured, maybe-aware result returned by {@link runMaybe}.
  */
-export interface MaybeRunSummary
+export interface IMaybeRunSummary
 {
 	total: number;
 	passed: number;
@@ -116,7 +118,22 @@ export interface MaybeRunSummary
 	ok: boolean;
 }
 
-export interface RunMaybeOptions
+/**
+ * Known runner commands accepted by {@link IRunMaybeOptions}. A plain
+ * string (a custom command) may also be passed instead of a {@link EnumRunner} member
+ * — e.g. `'bun'` or an absolute path to a runner.
+ */
+export enum EnumRunner
+{
+	/** Auto-detect: use `tsx` when resolvable, otherwise `node`. */
+	Auto = 'auto',
+	/** Always `node` + the built `run-collector.js` collector (no `tsx`). */
+	Node = 'node',
+	/** Always `tsx`; if genuinely absent the spawn fails naturally. */
+	Tsx = 'tsx',
+}
+
+export interface IRunMaybeOptions
 {
 	/**
 	 * When `true`, do not print the compact maybe-aware summary. Defaults to
@@ -124,7 +141,7 @@ export interface RunMaybeOptions
 	 */
 	silent?: boolean;
 	/** Reporter tuning (e.g. `showZero`). Falls back to env / built-in defaults. */
-	reporterOptions?: Partial<ReporterOptions>;
+	reporterOptions?: Partial<IReporterOptions>;
 	/** Working directory for the spawned test runner. Defaults to `process.cwd()`. */
 	cwd?: string;
 	/**
@@ -132,11 +149,25 @@ export interface RunMaybeOptions
 	 * `process.stdout`. Useful for tests that capture the report.
 	 */
 	output?: NodeJS.WritableStream;
+	/**
+	 * Force which test runner command `runMaybe` spawns. Accepts a
+	 * {@link EnumRunner} member (`RunnerEnum.Auto`, `RunnerEnum.Node`, `RunnerEnum.Tsx`) or any
+	 * other string used verbatim as the command.
+	 *
+	 * - `RunnerEnum.Auto` (default): use `tsx` when resolvable, otherwise `node`.
+	 * - `RunnerEnum.Node`: always `node --test` + the built `run-collector.js`
+	 *   collector (no `tsx`, even if `tsx` is installed in the environment).
+	 * - `RunnerEnum.Tsx`: always `tsx`; if genuinely absent the spawn fails naturally.
+	 * - any other string: used verbatim as the command (e.g. `'bun'`, an absolute
+	 *   path to a runner). The built `run-collector.js` collector is used, which
+	 *   any node-compatible runner can load natively.
+	 */
+	runner?: EnumRunner | string;
 }
 
 /**
  * Run tests through Node's native test runner (the `node:test` `run()` entry
- * point) and resolve a maybe-aware {@link MaybeRunSummary}.
+ * point) and resolve a maybe-aware {@link IMaybeRunSummary}.
  *
  * Because maybe tests are implemented on top of `todo: true`, Node counts them
  * inside its `todo` bucket. This API deducts the maybe quantity from `todo` so
@@ -160,11 +191,89 @@ export interface RunMaybeOptions
  */
 export async function runMaybe(
 	runOptions: { files?: string[] } = {},
-	options: RunMaybeOptions = {},
-): Promise<MaybeRunSummary>
+	options: IRunMaybeOptions = {},
+): Promise<IMaybeRunSummary>
 {
-	const collectorPath = pathToFileURL(fileURLToPath(new URL('./run-collector.ts', import.meta.url))).href;
 	const tsxBin = resolveTsxBin();
+
+	// The collector ships as `run-collector.ts` (loaded by `tsx`) and, once the
+	// package is built, as `run-collector.js` (loaded natively by `node`).
+	const runCollectorTsUrl = pathToFileURL(fileURLToPath(new URL('./run-collector.ts', import.meta.url))).href;
+	const runCollectorJsUrl = pathToFileURL(fileURLToPath(new URL('./run-collector.js', import.meta.url))).href;
+
+	// Decide which runner command to spawn. `runner` may be:
+	//   - 'auto' (default): use `tsx` when resolvable, else `node`.
+	//   - 'node'          : always `node` + the built `run-collector.js`.
+	//   - 'tsx'           : always `tsx`; if it is genuinely absent the spawn
+	//                       fails naturally, so we do NOT pre-validate/throw.
+	//   - any other string: treated verbatim as the command (e.g. 'bun', an
+	//                       absolute path). The built `.js` collector is used,
+	//                       which any node-compatible runner can load.
+	const runnerMode = options.runner ?? EnumRunner.Auto;
+
+	let command: string;
+	let tsxCapable: boolean;
+
+	if (runnerMode === EnumRunner.Node)
+	{
+		command = process.execPath;
+		tsxCapable = false;
+	}
+	else if (runnerMode === EnumRunner.Tsx)
+	{
+		// No pre-check: when `tsx` is genuinely absent the spawn fails naturally.
+		command = tsxBin ?? 'tsx';
+		tsxCapable = true;
+	}
+	else if (runnerMode === EnumRunner.Auto)
+	{
+		tsxCapable = tsxBin !== null;
+		command = tsxBin ?? process.execPath;
+	}
+	else
+	{
+		// Explicit command: treated verbatim. Assume it cannot load `.ts`, so the
+		// built `.js` collector is used (any node-compatible runner can load it).
+		command = runnerMode;
+		tsxCapable = false;
+	}
+
+	// Pick the collector by which file is actually present:
+	//   - `run-collector.ts` exists (dev, possibly before the build) → use it; it
+	//     requires a `tsx`-capable runner.
+	//   - only `run-collector.js` exists (published packages ship the build, not
+	//     the `.ts` source) → use it; `node` and any node-compatible runner load
+	//     it natively.
+	const tsCollectorFsPath = fileURLToPath(runCollectorTsUrl);
+	const jsCollectorFsPath = fileURLToPath(runCollectorJsUrl);
+	const tsCollectorExists = existsSync(tsCollectorFsPath);
+	const jsCollectorExists = existsSync(jsCollectorFsPath);
+
+	let collectorPath: string;
+	if (tsxCapable && tsCollectorExists)
+	{
+		collectorPath = runCollectorTsUrl;
+	}
+	else if (jsCollectorExists)
+	{
+		collectorPath = runCollectorJsUrl;
+	}
+	else if (tsCollectorExists)
+	{
+		// Only the `.ts` collector exists, but the chosen runner cannot load it.
+		throw new Error(
+			`runMaybe: only the TypeScript collector (${tsCollectorFsPath}) is present, `
+			+ 'but the selected runner cannot load `.ts`. Use runner: "tsx"/"auto" (needs tsx) '
+			+ 'or build the package so run-collector.js is emitted.',
+		);
+	}
+	else
+	{
+		throw new Error(
+			`runMaybe: no test collector found. Looked for ${tsCollectorFsPath} and ${jsCollectorFsPath}. `
+			+ 'Build the package (e.g. `tsc` / `pnpm run build`) so run-collector.js is emitted.',
+		);
+	}
 
 	const reporterArgs: string[] = [`--test-reporter=${collectorPath}`, '--test'];
 
@@ -173,11 +282,8 @@ export async function runMaybe(
 		reporterArgs.push(...runOptions.files);
 	}
 
-	// A resolved path is invoked as `node <tsx-cli> …`; otherwise `tsx` is
-	// expected on PATH (e.g. inside pnpm scripts).
-	const [command, spawnArgs] = tsxBin === 'tsx'
-		? ['tsx', reporterArgs]
-		: [process.execPath, [tsxBin, ...reporterArgs]];
+	const spawnArgs: string[] = [command, ...reporterArgs];
+	const [tsxCommand, ...tsxArgs] = spawnArgs;
 
 	// When `runMaybe` is itself invoked from inside a running test runner
 	// (e.g. a `node:test` test file), the spawned child inherits the parent's
@@ -193,12 +299,25 @@ export async function runMaybe(
 		}
 	}
 
-	console.log(command, spawnArgs, options);
-
-	const { stdout } = await execFileAsync(command, spawnArgs, {
+	// `crossSpawn` (the async form) returns a `ChildProcess`, not a promise of
+	// `{ stdout }`, so we use its synchronous variant which returns the captured
+	// output directly. `encoding: 'utf8'` makes `stdout` a string instead of a
+	// Buffer. The collector's JSON summary is the last line of the output, which
+	// `parseSummary` extracts regardless of any other runner text.
+	const result = crossSpawn.sync(tsxCommand, tsxArgs, {
 		cwd: options.cwd ?? process.cwd(),
 		env: childEnv,
+		encoding: 'utf8',
 	});
+
+	if (result.error)
+	{
+		throw result.error;
+	}
+
+	const stdout = typeof result.stdout === 'string'
+		? result.stdout
+		: (result.stdout?.toString() ?? '');
 
 	const summary = parseSummary(stdout);
 
@@ -228,7 +347,7 @@ export async function runMaybe(
 	return summary;
 }
 
-function parseSummary(stdout: string): MaybeRunSummary
+function parseSummary(stdout: string): IMaybeRunSummary
 {
 	const lines = stdout
 		.split('\n')
@@ -240,7 +359,7 @@ function parseSummary(stdout: string): MaybeRunSummary
 	{
 		try
 		{
-			const value = JSON.parse(lines[i]!) as Partial<MaybeRunSummary>;
+			const value = JSON.parse(lines[i]!) as Partial<IMaybeRunSummary>;
 			if (
 				value
 				&& typeof value === 'object'
@@ -259,7 +378,7 @@ function parseSummary(stdout: string): MaybeRunSummary
 	throw new Error('runMaybe: could not find a JSON summary in the test runner output');
 }
 
-function normalize(value: Partial<MaybeRunSummary>): MaybeRunSummary
+function normalize(value: Partial<IMaybeRunSummary>): IMaybeRunSummary
 {
 	const total = value.total ?? 0;
 	const passed = value.passed ?? 0;

@@ -44,7 +44,7 @@ export function buildMaybeTags(userTags?: string[]): string[]
 	return [...(userTags ?? []), MAYBE_TAG];
 }
 
-interface NormalizedMaybeArgs
+interface INormalizedMaybeArgs
 {
 	name: IMaybeName;
 	options: IMaybeTestOptions;
@@ -55,7 +55,7 @@ function normalizeMaybeArgs(
 	name: IMaybeName | IMaybeTestFunction,
 	options: TestOptions | IMaybeTestFunction | undefined,
 	fn: IMaybeTestFunction | undefined,
-): NormalizedMaybeArgs
+): INormalizedMaybeArgs
 {
 	// test.maybe(fn)
 	if (typeof name === 'function')
@@ -173,5 +173,5 @@ test.maybe = maybe;
 export default test;
 
 // Programmatic, maybe-aware run API built on Node's native `node:test` runner.
-export { runMaybe } from './run.ts';
-export type { MaybeRunSummary, RunMaybeOptions } from './run.ts';
+export { runMaybe, EnumRunner as RunnerEnum } from './run.ts';
+export type { IMaybeRunSummary, IRunMaybeOptions } from './run.ts';

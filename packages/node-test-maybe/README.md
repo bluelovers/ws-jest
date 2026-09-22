@@ -99,6 +99,73 @@ if (!summary.ok) {
 }
 ```
 
+## 命令列 (CLI)
+
+`node-test-maybe` 的 maybe 測試本質上是 Node 原生 `node:test` 測試（只是標記了 `todo`），所以你可以用任何 Node 測試執行方式直接跑；搭配本套件提供的 reporter / collector，可以得到「maybe-aware」的報表。
+
+A maybe test is just a Node native `node:test` test (only marked `todo`), so you can run it with any Node test runner; pairing it with this package's reporter / collector yields a maybe-aware report.
+
+### 直接執行（內建 reporter） (Run directly, built-in reporter)
+
+```bash
+# 直接跑，失敗的 maybe 測試只會顯示為 TODO，exit code 仍為 0
+# run directly: a failing maybe test only shows as a TODO, exit code stays 0
+node --test
+```
+
+### 使用 maybe-aware reporter（TypeScript 來源） (Using the maybe-aware reporter, TS source)
+
+```bash
+# 需要 tsx 才能載入 .ts reporter / needs tsx to load the .ts reporter
+tsx --test-reporter=./reporter.ts --test test/*.node-test.ts
+```
+
+### 使用 maybe-aware reporter（已建置 .js） (Using the maybe-aware reporter, built .js)
+
+發佈後套件只含編譯結果，可直接用原生 `node` 載入 `.js` reporter：
+
+In the published package only the build is shipped, so the `.js` reporter loads natively with `node`:
+
+```bash
+node --test --test-reporter=node-test-maybe/reporter.js test/
+# 精簡版 reporter / minimal reporter
+node --test --test-reporter=node-test-maybe/reporter-min.js test/
+```
+
+reporter 可透過環境變數或選項微調：
+The reporter can be tuned via env vars or options:
+
+| 選項 (Option) | 預設 (Default) | 說明 (Description) |
+|--------------|---------------|-------------------|
+| `maybeOnly` | `false` | 只輸出 maybe 結果的 `◌ MAYBE` 標記，其餘訊息原樣透過 / only the `◌ MAYBE` marker for maybe tests, pass everything else through |
+| `showZero` | `false` | 是否列出數值為 0 的摘要行（預設隱藏） / whether to list zero-value summary lines (hidden by default) |
+
+### 用 collector 收集 JSON 摘要 (Collect a JSON summary via the collector)
+
+`run-collector.js` 是一個 JSON collector，最後一行輸出單一 JSON 物件，供 `runMaybe()` 解析：
+
+`run-collector.js` is a JSON collector that emits a single JSON object on its last line, parsed by `runMaybe()`:
+
+```bash
+node --test --test-reporter=./run-collector.js --test test/fixtures/sample.mjs
+```
+
+### 套件內建範例指令 (Built-in demo scripts)
+
+本套件 `package.json` 提供可直接執行的範例：
+The package ships runnable demos via `package.json` scripts:
+
+```bash
+# TypeScript 範例：runMaybe + 報表 / TS demo: runMaybe + report
+pnpm run demo:run-maybe          # tsx test/example/run-maybe.ts
+
+# 純 JS 範例：不依賴 tsx / plain JS demo, no tsx needed
+pnpm run demo:run-maybe:js       # node test/example/run-maybe-js.mjs
+
+# 直接示範 collector / direct collector demo
+pnpm run demo:run-collector:js   # node --test --test-reporter=./run-collector.js --test test/fixtures/sample.mjs
+```
+
 ## API 參考 (API Reference)
 
 ### 函式 (Functions)

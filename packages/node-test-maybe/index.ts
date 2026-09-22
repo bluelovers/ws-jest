@@ -171,3 +171,7 @@ export const test = _nodeTest as ITest;
 test.maybe = maybe;
 
 export default test;
+
+// Programmatic, maybe-aware run API built on Node's native `node:test` runner.
+export { runMaybe } from './run.ts';
+export type { MaybeRunSummary, RunMaybeOptions } from './run.ts';

@@ -220,7 +220,9 @@ test('reporter summarizes from test:summary and omits zero counts', async () => 
 
 	assert.match(out, /Tests:\s+7/);
 	assert.match(out, /Passed:\s+5/);
-	assert.match(out, /TODO:\s+2/);
+	// The 2 maybe results are built on `todo`, so they are deducted from the raw
+	// `todo: 2` — leaving a real TODO count of 0 (hidden by default).
+	assert.doesNotMatch(out, /TODO:/);
 	assert.match(out, /Maybe:\s+2 \(passed: 1, failed: 1\)/);
 
 	// A hard `Failed` of 0 is filtered out.

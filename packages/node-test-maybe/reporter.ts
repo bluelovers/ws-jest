@@ -239,7 +239,7 @@ function formatError(error: Error | { stack?: string; message?: string } | undef
  * stays noise-free, and the `Maybe` breakdown (unique to this reporter) is
  * appended.
  */
-function formatSummary(
+export function formatSummary(
 	counts: {
 		tests?: number;
 		total?: number;
@@ -256,6 +256,12 @@ function formatSummary(
 {
 	const lines: string[] = [];
 
+	// Maybe tests are built on `todo: true`, so Node counts them inside the
+	// `todo` bucket. To surface the *real* TODO count we deduct the maybe
+	// quantity (which can never exceed `todo`). The Maybe breakdown itself is
+	// reported separately below.
+	const maybeTotal = maybePassed + maybeFailed;
+
 	// In `maybeOnly` mode the standard breakdown (Tests/Passed/Failed/…) is the
 	// reporter's own addition for non-maybe tests, so it is omitted and only the
 	// Maybe-specific line remains.
@@ -266,7 +272,7 @@ function formatSummary(
 		const failed = counts.failed ?? 0;
 		const skipped = counts.skipped ?? 0;
 		const cancelled = counts.cancelled ?? 0;
-		const todo = counts.todo ?? 0;
+		const todo = Math.max(0, (counts.todo ?? 0) - maybeTotal);
 
 		const add = (label: string, value: number) =>
 		{
@@ -289,7 +295,6 @@ function formatSummary(
 	// The Maybe breakdown is shown whenever maybe results exist. It can never be
 	// `0` in that case, so it is decoupled from `showZero` (a zero total simply
 	// means there were no maybe tests, and nothing is printed).
-	const maybeTotal = maybePassed + maybeFailed;
 	if (maybeTotal > 0)
 	{
 		lines.push(`  Maybe: ${maybeTotal} (passed: ${maybePassed}, failed: ${maybeFailed})`);

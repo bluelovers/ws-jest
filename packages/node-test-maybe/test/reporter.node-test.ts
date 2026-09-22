@@ -233,3 +233,178 @@ test('reporter summarizes from test:summary and omits zero counts', async () => 
 	assert.doesNotMatch(out, /\btests \d/);
 	assert.match(out, /note from runner/);
 });
+
+function runReporterWith(
+	events: ReporterEvent[],
+	options: Parameters<typeof createReporter>[0],
+): Promise<string>
+{
+	const reporter = createReporter(options);
+	let output = '';
+
+	reporter.on('data', (chunk: Buffer | string) => {
+		output += chunk.toString();
+	});
+
+	for (const event of events)
+	{
+		reporter.write(event);
+	}
+
+	reporter.end();
+
+	return new Promise((resolve, reject) => {
+		reporter.on('finish', () => resolve(output));
+		reporter.on('error', reject);
+	});
+}
+
+test('maybeOnly omits non-maybe ✔/✖ lines but keeps the ◌ MAYBE marker', async () => {
+	const out = await runReporterWith([
+		{ type: 'test:pass', data: { testId: 1, name: 'normal pass', details: { duration_ms: 1 } } },
+		{
+			type: 'test:fail',
+			data: {
+				testId: 2,
+				name: 'normal fail',
+				details: { duration_ms: 1, error: new Error('boom') },
+			},
+		},
+		{ type: 'test:pass', data: { testId: 3, name: '[maybe] ok', tags: ['maybe'], details: { duration_ms: 1 } } },
+	], { maybeOnly: true });
+
+	// Non-maybe results are not added by the reporter.
+	assert.doesNotMatch(out, /✔/);
+	assert.doesNotMatch(out, /✖ FAIL/);
+	assert.doesNotMatch(out, /boom/);
+	// Maybe results are still surfaced.
+	assert.match(out, /◌ MAYBE ok/);
+});
+
+test('maybeOnly passes other original messages through unchanged', async () => {
+	const out = await runReporterWith([
+		{ type: 'test:stdout', data: { message: 'hello from test' } },
+		{ type: 'test:diagnostic', data: { message: 'runner note' } },
+		{ type: 'test:watch:restarted' },
+	], { maybeOnly: true });
+
+	assert.match(out, /hello from test/);
+	assert.match(out, /runner note/);
+	assert.match(out, /↻ Test run restarted\./);
+});
+
+test('maybeOnly summary only shows the Maybe line', async () => {
+	const out = await runReporterWith([
+		{ type: 'test:pass', data: { testId: 1, name: 'normal', details: { duration_ms: 1 } } },
+		{ type: 'test:pass', data: { testId: 2, name: '[maybe] ok', tags: ['maybe'], details: { duration_ms: 1 } } },
+		{
+			type: 'test:summary',
+			data: { file: 'a.ts', counts: { total: 2, passed: 1, failed: 0, skipped: 0, cancelled: 0, todo: 1 } },
+		},
+	], { maybeOnly: true });
+
+	assert.doesNotMatch(out, /Tests:/);
+	assert.doesNotMatch(out, /Passed:/);
+	assert.match(out, /Maybe:\s+1 \(passed: 1, failed: 0\)/);
+});
+
+test('showZero=true lists zero counts in the summary', async () => {
+	const out = await runReporterWith([
+		{ type: 'test:pass', data: { testId: 1, name: '[maybe] ok', tags: ['maybe'], details: { duration_ms: 1 } } },
+		{
+			type: 'test:summary',
+			data: { file: 'a.ts', counts: { total: 1, passed: 0, failed: 0, skipped: 0, cancelled: 0, todo: 0 } },
+		},
+	], { showZero: true });
+
+	assert.match(out, /Failed:\s+0/);
+	assert.match(out, /Skipped:\s+0/);
+	assert.match(out, /Cancelled:\s+0/);
+});
+
+test('by default zero counts are hidden, independent of maybe', async () => {
+	const out = await runReporterWith([
+		{ type: 'test:pass', data: { testId: 1, name: 'normal', details: { duration_ms: 1 } } },
+		{ type: 'test:pass', data: { testId: 2, name: '[maybe] ok', tags: ['maybe'], details: { duration_ms: 1 } } },
+		{
+			type: 'test:summary',
+			data: { file: 'a.ts', counts: { total: 2, passed: 1, failed: 0, skipped: 0, cancelled: 0, todo: 1 } },
+		},
+	]);
+
+	// Standard zero counts are hidden by default (unrelated to maybe).
+	assert.doesNotMatch(out, /Failed:\s+0/);
+	assert.doesNotMatch(out, /Skipped:\s+0/);
+	// The Maybe line still shows because maybe results exist (can never be 0).
+	assert.match(out, /Maybe:\s+1 \(passed: 1, failed: 0\)/);
+});
+
+test('the Maybe line is omitted entirely when no maybe tests exist', async () => {
+	const out = await runReporterWith([
+		{ type: 'test:pass', data: { testId: 1, name: 'normal', details: { duration_ms: 1 } } },
+		{
+			type: 'test:summary',
+			data: { file: 'a.ts', counts: { total: 1, passed: 1, failed: 0, skipped: 0, cancelled: 0, todo: 0 } },
+		},
+	]);
+
+	assert.doesNotMatch(out, /Maybe:/);
+});
+
+test('environment variables override the resolved options', async () => {
+	const key = 'NODE_TEST_MAYBE_REPORTER_MAYBE_ONLY';
+	const prev = process.env[key];
+
+	try
+	{
+		process.env[key] = '1';
+
+		// No explicit option: the env var must take effect.
+		const out = await runReporter([
+			{ type: 'test:pass', data: { testId: 1, name: 'normal pass', details: { duration_ms: 1 } } },
+			{ type: 'test:pass', data: { testId: 2, name: '[maybe] ok', tags: ['maybe'], details: { duration_ms: 1 } } },
+		]);
+
+		assert.doesNotMatch(out, /✔/);
+		assert.match(out, /◌ MAYBE ok/);
+	}
+	finally
+	{
+		if (prev === undefined)
+		{
+			delete process.env[key];
+		}
+		else
+		{
+			process.env[key] = prev;
+		}
+	}
+});
+
+test('explicit options win over environment variables', async () => {
+	const key = 'NODE_TEST_MAYBE_REPORTER_MAYBE_ONLY';
+	const prev = process.env[key];
+
+	try
+	{
+		process.env[key] = '1';
+
+		// Explicit `false` must override the env `true`.
+		const out = await runReporterWith([
+			{ type: 'test:pass', data: { testId: 1, name: 'normal pass', details: { duration_ms: 1 } } },
+		], { maybeOnly: false });
+
+		assert.match(out, /✔ normal pass/);
+	}
+	finally
+	{
+		if (prev === undefined)
+		{
+			delete process.env[key];
+		}
+		else
+		{
+			process.env[key] = prev;
+		}
+	}
+});

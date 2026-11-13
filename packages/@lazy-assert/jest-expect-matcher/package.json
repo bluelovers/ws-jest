@@ -42,6 +42,7 @@
   "types": "dist/index.d.ts",
   "typings": "dist/index.d.ts",
   "scripts": {
+    "coverage": "pnpm run test --coverage",
     "test": "echo node --run test:jest:snapshot",
     "test:jest": "jest --passWithNoTests --no-colors",
     "test:jest:coverage": "node --run test:jest -- --coverage",

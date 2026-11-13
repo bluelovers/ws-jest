@@ -1,0 +1,47 @@
+exports[`[maybe] circular structure without snapshot serializers 1`] = `
+"This test is expected to fail until nodejs fixes the snapshot serializer issue"
+`;
+
+exports[`circular structure 1`] = `
+{
+  "a": 1,
+  "b": 2,
+  "c": "[Circular]",
+  "d": {
+    "d1": "[Circular]"
+  }
+}
+`;
+
+exports[`circular structure with _nodeSnapshotInspectFnWrapper 1`] = `
+{
+  Symbol(c): 'Symbol(c)',
+  a: 1,
+  b: 2,
+  c: [Circular *1],
+  d: {
+    d1: [Circular *1]
+  }
+}
+`;
+
+exports[`circular structure with circularReferenceWithIndex 1`] = `
+{
+  "a": 1,
+  "b": 2,
+  "c": "[Circular *1]",
+  "d": {
+    "d1": "[Circular *1]"
+  }
+}
+`;
+
+exports[`circular structure with inspect 1`] = `
+<ref *1> {
+  a: 1,
+  b: 2,
+  c: [Circular *1],
+  d: { d1: [Circular *1] },
+  Symbol(c): 'Symbol(c)'
+}
+`;

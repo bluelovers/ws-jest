@@ -83,14 +83,14 @@
     "tsc:default": "tsc -p tsconfig.json",
     "tsc:showConfig": "ynpx get-current-tsconfig -p"
   },
-  "publishConfig": {
-    "access": "public"
-  },
   "dependencies": {
     "@types/node": ">=26",
     "ts-type": "^3.0.19"
   },
   "devDependencies": {
     "node-test-maybe": "^1.0.3"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

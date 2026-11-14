@@ -1,7 +1,39 @@
 "use strict";
 
+function _handleHookNewValue(e, n) {
+  return n && (n.skip || (e = n.newValue)), e;
+}
+
+function _handleHookFn(e) {
+  return Array.isArray(e) ? (n, t) => {
+    let r;
+    for (const s of e) {
+      const e = s(n, t);
+      if (e && (r = e, n = _handleHookNewValue(n, e), e.stop)) break;
+    }
+    return {
+      ...r,
+      value: n
+    };
+  } : (n, t) => {
+    const r = e(n, t);
+    return {
+      ...r,
+      value: _handleHookNewValue(n, r)
+    };
+  };
+}
+
+function _regexpStringify(e) {
+  return `/${e.source}/${e.flags}`;
+}
+
 function _nodeInspectResultNoOuterRef(e) {
   return e.replace(/^\<ref \*\d\> (?=\{)/, "");
+}
+
+function _nodeSnapshotInspectFnWrapper(e, n) {
+  return n = _nodeInspectOptions(n), t => _nodeInspectResultNoOuterRef(e(t, n));
 }
 
 function _nodeInspectOptions(e) {
@@ -50,16 +82,22 @@ function _createSerializer(e) {
     seenCache: n,
     seenIndex: 0,
     seenCount: 0
-  }, r = _handleOptions(e).fnLabel;
+  }, r = _handleOptions(e), s = r.fnLabel, o = r.hooks ? _handleHookFn(r.hooks) : void 0;
   return {
     seenCache: n,
     seenIndex: () => t.seenIndex,
     seenCount: () => t.seenCount,
     test: e => _isObjectNotNull(e),
-    serialize: (e, n) => _handleCircularReferences(n, {
-      fnLabel: r,
-      seenCtx: t
-    })
+    serialize: (e, n) => {
+      if (o) {
+        const t = o(n, e);
+        t && (n = t.value);
+      }
+      return _handleCircularReferences(n, {
+        fnLabel: s,
+        seenCtx: t
+      });
+    }
   };
 }
 
@@ -79,9 +117,29 @@ Object.defineProperty(exports, "__esModule", {
   value: !0
 }), exports._circularLabel = _circularLabel, exports._circularLabelWithIndex = _circularLabelWithIndex, 
 exports._createSerializer = _createSerializer, exports._handleCircularReferences = _handleCircularReferences, 
+exports._handleHookFn = _handleHookFn, exports._handleHookNewValue = _handleHookNewValue, 
 exports._handleOptions = _handleOptions, exports._isObjectNotNull = _isObjectNotNull, 
 exports._nodeInspectOptions = _nodeInspectOptions, exports._nodeInspectResultNoOuterRef = _nodeInspectResultNoOuterRef, 
-exports._nodeSnapshotInspectFnWrapper = function _nodeSnapshotInspectFnWrapper(e, n) {
-  return n = _nodeInspectOptions(n), t => _nodeInspectResultNoOuterRef(e(t, n));
-}, exports.createSnapshotStringify = createSnapshotStringify, exports.default = createSnapshotStringify;
+exports._nodeSnapshotInspectFnWrapper = _nodeSnapshotInspectFnWrapper, exports._regexpSerializeHook = e => {
+  if (e instanceof RegExp) return {
+    newValue: _regexpStringify(e),
+    stop: !0
+  };
+}, exports._regexpSerializer = function _regexpSerializer(e) {
+  return e instanceof RegExp ? _regexpStringify(e) : e;
+}, exports._regexpStringify = _regexpStringify, exports.assertSnapshot = function assertSnapshot(e, n) {
+  const t = createSnapshotStringify(n);
+  return (n, r) => e.assert.snapshot(n, r ? createSnapshotStringify(r) : t);
+}, exports.createSnapshotStringify = createSnapshotStringify, exports.default = createSnapshotStringify, 
+exports.setGlobalSnapshotSerializers = function setGlobalSnapshotSerializers(e) {
+  const n = createSnapshotStringify(e.snapshotOptions);
+  return e.snapshot.setDefaultSnapshotSerializers(n.serializers), n;
+}, exports.setGlobalSnapshotSerializersWithInspect = function setGlobalSnapshotSerializersWithInspect(e) {
+  var n, t;
+  const r = _nodeSnapshotInspectFnWrapper(e.inspect, null == e ? void 0 : e.inspectOptions), s = [ ...null !== (n = null === (t = e.snapshotOptions) || void 0 === t ? void 0 : t.serializers) && void 0 !== n ? n : [], r ];
+  return e.snapshot.setDefaultSnapshotSerializers(s), {
+    serializers: s,
+    inspectFn: r
+  };
+};
 //# sourceMappingURL=index.cjs.production.min.cjs.map

@@ -1,3 +1,42 @@
+function _handleHookNewValue(e, n) {
+  return n && (n.skip || (e = n.newValue)), e;
+}
+
+function _handleHookFn(e) {
+  return Array.isArray(e) ? (n, t) => {
+    let r;
+    for (const s of e) {
+      const e = s(n, t);
+      if (e && (r = e, n = _handleHookNewValue(n, e), e.stop)) break;
+    }
+    return {
+      ...r,
+      value: n
+    };
+  } : (n, t) => {
+    const r = e(n, t);
+    return {
+      ...r,
+      value: _handleHookNewValue(n, r)
+    };
+  };
+}
+
+function _regexpStringify(e) {
+  return `/${e.source}/${e.flags}`;
+}
+
+function _regexpSerializer(e) {
+  return e instanceof RegExp ? _regexpStringify(e) : e;
+}
+
+const _regexpSerializeHook = e => {
+  if (e instanceof RegExp) return {
+    newValue: _regexpStringify(e),
+    stop: !0
+  };
+};
+
 function _nodeInspectResultNoOuterRef(e) {
   return e.replace(/^\<ref \*\d\> (?=\{)/, "");
 }
@@ -52,16 +91,22 @@ function _createSerializer(e) {
     seenCache: n,
     seenIndex: 0,
     seenCount: 0
-  }, r = _handleOptions(e).fnLabel;
+  }, r = _handleOptions(e), s = r.fnLabel, i = r.hooks ? _handleHookFn(r.hooks) : void 0;
   return {
     seenCache: n,
     seenIndex: () => t.seenIndex,
     seenCount: () => t.seenCount,
     test: e => _isObjectNotNull(e),
-    serialize: (e, n) => _handleCircularReferences(n, {
-      fnLabel: r,
-      seenCtx: t
-    })
+    serialize: (e, n) => {
+      if (i) {
+        const t = i(n, e);
+        t && (n = t.value);
+      }
+      return _handleCircularReferences(n, {
+        fnLabel: s,
+        seenCtx: t
+      });
+    }
   };
 }
 
@@ -77,5 +122,24 @@ function createSnapshotStringify(e) {
   };
 }
 
-export { _circularLabel, _circularLabelWithIndex, _createSerializer, _handleCircularReferences, _handleOptions, _isObjectNotNull, _nodeInspectOptions, _nodeInspectResultNoOuterRef, _nodeSnapshotInspectFnWrapper, createSnapshotStringify, createSnapshotStringify as default };
+function assertSnapshot(e, n) {
+  const t = createSnapshotStringify(n);
+  return (n, r) => e.assert.snapshot(n, r ? createSnapshotStringify(r) : t);
+}
+
+function setGlobalSnapshotSerializers(e) {
+  const n = createSnapshotStringify(e.snapshotOptions);
+  return e.snapshot.setDefaultSnapshotSerializers(n.serializers), n;
+}
+
+function setGlobalSnapshotSerializersWithInspect(e) {
+  var n, t;
+  const r = _nodeSnapshotInspectFnWrapper(e.inspect, null == e ? void 0 : e.inspectOptions), s = [ ...null !== (n = null === (t = e.snapshotOptions) || void 0 === t ? void 0 : t.serializers) && void 0 !== n ? n : [], r ];
+  return e.snapshot.setDefaultSnapshotSerializers(s), {
+    serializers: s,
+    inspectFn: r
+  };
+}
+
+export { _circularLabel, _circularLabelWithIndex, _createSerializer, _handleCircularReferences, _handleHookFn, _handleHookNewValue, _handleOptions, _isObjectNotNull, _nodeInspectOptions, _nodeInspectResultNoOuterRef, _nodeSnapshotInspectFnWrapper, _regexpSerializeHook, _regexpSerializer, _regexpStringify, assertSnapshot, createSnapshotStringify, createSnapshotStringify as default, setGlobalSnapshotSerializers, setGlobalSnapshotSerializersWithInspect };
 //# sourceMappingURL=index.esm.mjs.map

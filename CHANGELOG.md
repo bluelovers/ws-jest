@@ -15,5 +15,6 @@ Please see the individual package changelogs for what's new:
 * 🌏 [`@lazy-assert/jest-expect-matcher`](./packages/@lazy-assert/jest-expect-matcher/CHANGELOG.md "packages/@lazy-assert/jest-expect-matcher") *packages/@lazy-assert/jest-expect-matcher*
 * 🌏 [`@lazy-assert/jest-global-types-extra`](./packages/@lazy-assert/jest-global-types-extra/CHANGELOG.md "packages/@lazy-assert/jest-global-types-extra") *packages/@lazy-assert/jest-global-types-extra*
 * 🌏 [`@lazy-assert/jest-util`](./packages/@lazy-assert/jest-util/CHANGELOG.md "packages/@lazy-assert/jest-util") *packages/@lazy-assert/jest-util*
+* 🌏 [`@lazy-assert/node-snapshot-serializers`](./packages/@lazy-assert/node-snapshot-serializers/CHANGELOG.md "packages/@lazy-assert/node-snapshot-serializers") *packages/@lazy-assert/node-snapshot-serializers*
 * 🌏 [`@bluelovers/jest-config`](./packages/@bluelovers/jest-config/CHANGELOG.md "packages/@bluelovers/jest-config") *packages/@bluelovers/jest-config*
 

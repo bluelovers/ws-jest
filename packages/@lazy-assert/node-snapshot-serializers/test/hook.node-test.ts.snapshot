@@ -1,0 +1,79 @@
+exports[`hook > _handleHookFn chains array hooks until stop 1`] = `
+{
+  "newValue": "x-a-b",
+  "stop": true,
+  "value": "x-a-b"
+}
+`;
+
+exports[`hook > _handleHookFn ignores custom value field 1`] = `
+{
+  "newValue": "normalized",
+  "value": "normalized"
+}
+`;
+
+exports[`hook > _handleHookFn normalizes single hook result 1`] = `
+{
+  "newValue": "x!",
+  "value": "x!"
+}
+`;
+
+exports[`hook > _handleHookFn skip keeps original value 1`] = `
+{
+  "newValue": "changed",
+  "skip": true,
+  "value": "keep"
+}
+`;
+
+exports[`hook > hooks snapshot with chained array 1`] = `
+{
+  "plain": "text",
+  "numbers": {
+    "a": 1,
+    "b": 2,
+    "chained": true
+  },
+  "self": "[Circular]"
+}
+`;
+
+exports[`hook > hooks snapshot with single hook 1`] = `
+{
+  "plain": "text",
+  "numbers": {
+    "a": 1,
+    "b": 2
+  },
+  "self": "[Circular]"
+}
+`;
+
+exports[`hook > hooks snapshot with skip 1`] = `
+{
+  "plain": "text",
+  "numbers": {},
+  "self": "[Circular]"
+}
+`;
+
+exports[`hook > hooks snapshot with stop 1`] = `
+{
+  "plain": "text",
+  "numbers": {
+    "a": 1,
+    "b": 2
+  },
+  "self": "[Circular]"
+}
+`;
+
+exports[`hook > hooks snapshot without intervention 1`] = `
+{
+  "plain": "text",
+  "numbers": {},
+  "self": "[Circular]"
+}
+`;

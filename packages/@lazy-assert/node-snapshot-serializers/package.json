@@ -1,6 +1,6 @@
 {
   "name": "@lazy-assert/node-snapshot-serializers",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Snapshot serializers for node:test t.assert.snapshot(), serializing circular reference structures as [Circular] labels",
   "keywords": [
     "snapshot",
@@ -91,6 +91,6 @@
     "ts-type": "^3.0.19"
   },
   "devDependencies": {
-    "node-test-maybe": "^1.0.2"
+    "node-test-maybe": "^1.0.3"
   }
 }

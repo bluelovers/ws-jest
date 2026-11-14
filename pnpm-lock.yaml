@@ -121,7 +121,7 @@ importers:
         specifier: ^1.3.2
         version: 1.3.2(@types/bluebird@3.5.42)(@types/node@26.6.6)(debug@4.4.3(supports-color@8.1.1))(ts-toolbelt@9.6.0)
       jest-cache-directory:
-        specifier: ^1.0.8
+        specifier: ^1.0.9
         version: link:../../jest-cache-directory
       jest-chain-transform:
         specifier: ^0.0.8
@@ -204,7 +204,7 @@ importers:
         version: 3.0.19(ts-toolbelt@9.6.0)
     devDependencies:
       node-test-maybe:
-        specifier: ^1.0.2
+        specifier: ^1.0.3
         version: link:../../node-test-maybe
 
   packages/chai-asserttype-extra:

@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.2](https://github.com/bluelovers/ws-jest/compare/@lazy-assert/jest-expect-matcher@1.0.1...@lazy-assert/jest-expect-matcher@1.0.2) (2026-11-14)
+
+
+
+### 🔖　Miscellaneous
+
+* . ([d37da98](https://github.com/bluelovers/ws-jest/commit/d37da98386c8c39f9c59274e8a6198f911da9621))
+
+
+
 ## 1.0.1 (2026-09-12)
 
 

@@ -99,7 +99,7 @@
     "@types/graceful-fs": "^4.1.9",
     "@types/jest": "^30.0.0",
     "@types/mkdirp": "^1.0.2",
-    "@types/node": "^25.9.6",
+    "@types/node": "^26.6.6",
     "@yarn-tool/require-resolve": "^4.0.9",
     "@yarn-tool/ws-find-up-paths": "^1.0.22",
     "expect": "^30.5.1",

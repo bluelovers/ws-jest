@@ -1,4 +1,4 @@
-import { AssertSnapshotOptions } from 'node:test';
+import type { AssertSnapshotOptions, TestContext, snapshot as snapshotModule } from 'node:test';
 // import { inspect } from 'util';
 import type { ITSRequiredWith, ITSValueOrArrayMaybeReadonly } from 'ts-type';
 import { InspectOptions } from 'util';
@@ -369,8 +369,116 @@ export function createSnapshotStringify(options?: IAssertSnapshotOptions): ICrea
 	};
 }
 
+/**
+ * 以 `TestContext` 建立綁定共用選項的快照斷言函式 (Bound Snapshot Assertion)
+ *
+ * 外層 `options` 只在建立時轉換一次、由回傳的函式共用；
+ * 單次呼叫若再傳入 `options`，則以該次傳入的選項為準，不影響共用的預設值
+ *
+ * @param t - 測試上下文 (TestContext)
+ * @param options - 共用的快照選項，可省略
+ * @returns `(value, options?)` 形式的斷言函式，呼叫時以 value 對快照
+ *
+ * @example
+ * const snapshot = assertSnapshot(t);
+ *
+ * snapshot(obj); // 共用建立時的預設選項
+ * snapshot(obj, { circularReferenceWithIndex: true }); // 該次改用專屬選項
+ */
+export function assertSnapshot(t: TestContext, options?: IAssertSnapshotOptions)
+{
+	const snapshotOptions = createSnapshotStringify(options);
+
+	return (value: any, options?: IAssertSnapshotOptions) => {
+		/**
+		 * 單次呼叫有指定選項時另建專屬的一份，
+		 * 否則沿用建立時的共用選項，避免每次呼叫都重新轉換
+		 */
+		return t.assert.snapshot(value, options ? createSnapshotStringify(options) : snapshotOptions);
+	};
+}
+
+/**
+ * `setGlobalSnapshotSerializers()` 系列的共用選項
+ *
+ * `inspect` 與 `inspectOptions` 只有 inspect 形式會用到
+ */
+export interface ISetGlobalSnapshotSerializersOptions
+{
+	/** `node:test` 匯出的 `snapshot` 模組，用來註冊全域預設 serializers */
+	snapshot: typeof snapshotModule;
+	/**
+	 * 快照選項：`setGlobalSnapshotSerializers()` 整份傳入 `createSnapshotStringify()`；
+	 * inspect 形式只取用其中的 `serializers` 排入 pipeline 前段
+	 */
+	snapshotOptions?: IAssertSnapshotOptions;
+
+	/** inspect 風格函式 (Inspect Function)，例如 `node:util` 的 `inspect`；inspect 形式為必填 */
+	inspect?: typeof import('node:util').inspect;
+	/** inspect 的覆寫選項，由 `_nodeSnapshotInspectFnWrapper()` 與預設值合併 */
+	inspectOptions?: InspectOptions;
+}
+
+/**
+ * 將本套件的 serializers 註冊 (Register) 為 `node:test` 測試執行器的全域預設快照 serializers
+ *
+ * 經 `snapshot.setDefaultSnapshotSerializers()` 註冊後，
+ * 不帶 `serializers` 的 `t.assert.snapshot(value)` 也會走本套件的序列化，
+ * 循環引用 (Circular Reference) 結構無需逐次傳選項
+ *
+ * @param options - `snapshot` 模組與註冊用的快照選項
+ * @returns 已註冊的選項，保留 `_stringify` 供單獨呼叫
+ *
+ * @example
+ * import { snapshot } from 'node:test';
+ *
+ * setGlobalSnapshotSerializers({
+ * 	snapshot,
+ * 	snapshotOptions: { circularReferenceWithIndex: true },
+ * });
+ *
+ * t.assert.snapshot(obj); // 全域生效，輸出 "c": "[Circular *1]"
+ */
+export function setGlobalSnapshotSerializers(options: ISetGlobalSnapshotSerializersOptions)
+{
+	const snapshotOptions = createSnapshotStringify(options.snapshotOptions);
+	options.snapshot.setDefaultSnapshotSerializers(snapshotOptions.serializers);
+
+	return snapshotOptions;
+}
+
+/**
+ * 以 inspect 格式註冊 (Register) 全域預設快照 serializers
+ *
+ * `inspect` 先經 `_nodeSnapshotInspectFnWrapper()` 包裝（套用預設 `InspectOptions`、
+ * 移除 `<ref *n>` 標記）後排入 pipeline 末尾產生最終字串；
+ * `snapshotOptions.serializers` 排在前方先做前置轉換。
+ * inspect 格式原生支援循環引用 (Circular Reference)，此路徑不經過 `_stringify`
+ *
+ * @param options - `snapshot` 模組、inspect 函式（`inspect` 為必填）與可選的快照／inspect 選項
+ * @returns 註冊用的 `serializers` 與包裝後的 `inspectFn`，供單獨呼叫或除錯
+ *
+ * @example
+ * import { snapshot } from 'node:test';
+ * import { inspect } from 'node:util';
+ *
+ * setGlobalSnapshotSerializersWithInspect({
+ * 	snapshot,
+ * 	inspect,
+ * });
+ *
+ * t.assert.snapshot(obj); // inspect 格式輸出，開頭無 `<ref *n>`
+ */
+export function setGlobalSnapshotSerializersWithInspect(options: ITSRequiredWith<ISetGlobalSnapshotSerializersOptions, 'inspect'>)
+{
+	const inspectFn = _nodeSnapshotInspectFnWrapper(options.inspect, options?.inspectOptions);
+	const serializers = [
+		...(options.snapshotOptions?.serializers ?? []),
+		inspectFn,
+	];
+	options.snapshot.setDefaultSnapshotSerializers(serializers);
+
+	return { serializers, inspectFn };
+}
+
 export default createSnapshotStringify;
-
-// snapshot.setDefaultSnapshotSerializers([
-
-// ]);

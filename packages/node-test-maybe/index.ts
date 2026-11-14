@@ -23,6 +23,13 @@ export interface IMaybeTestOptions extends TestOptions
 	tags?: string[]
 }
 
+interface INormalizedMaybeArgs
+{
+	name: IMaybeName;
+	options: IMaybeTestOptions;
+	fn: IMaybeTestFunction;
+}
+
 /**
  * Build the human-visible test name for a maybe test.
  *
@@ -42,13 +49,6 @@ export function buildMaybeName(name: IMaybeName)
 export function buildMaybeTags(userTags?: string[]): string[]
 {
 	return [...(userTags ?? []), MAYBE_TAG];
-}
-
-interface INormalizedMaybeArgs
-{
-	name: IMaybeName;
-	options: IMaybeTestOptions;
-	fn: IMaybeTestFunction;
 }
 
 function normalizeMaybeArgs(
@@ -80,7 +80,7 @@ function normalizeMaybeArgs(
 	// test.maybe(name, options, fn)
 	return {
 		name: name as IMaybeName,
-		options: (options as TestOptions) ?? {},
+		options: (options as IMaybeTestOptions) ?? {},
 		fn: fn as IMaybeTestFunction,
 	};
 }

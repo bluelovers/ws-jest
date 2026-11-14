@@ -1,5 +1,5 @@
 import { test, type TestContext, before, type AssertSnapshotOptions } from 'node:test';
-import { _nodeInspectResultNoOuterRef, _nodeSnapshotInspectFnWrapper, createSnapshotStringify } from '../src';
+import { _nodeInspectResultNoOuterRef, _nodeSnapshotInspectFnWrapper, _regexpSerializeHook, _regexpSerializer, createSnapshotStringify } from '../src';
 import { inspect } from 'util';
 import { maybe } from 'node-test-maybe';
 
@@ -57,39 +57,6 @@ test('circular structure', (t: TestContext) => {
 });
 
 /**
- * 以 `util.inspect` 自製 serializer，輸出不經 `JSON.stringify` 的格式
- *
- * @example
- * // snapshot: `c: [Circular *1]`、開頭保留 `<ref *1>`
- */
-test('circular structure with inspect', (t: TestContext) => {
-	let obj = _createCircularStructure();
-
-  t.assert.snapshot(obj, {
-    serializers: [
-      (value) => inspect(value),
-    ],
-  });
-});
-
-/**
- * 以 `_nodeSnapshotInspectFnWrapper(inspect)` 包裝 inspect，
- * 取得與上一個測試相同的格式，但移除開頭的 `<ref *n>` 標記
- *
- * @example
- * // snapshot: 無 `<ref *1>`，`c: [Circular *1]`
- */
-test('circular structure with _nodeSnapshotInspectFnWrapper', (t: TestContext) => {
-	let obj = _createCircularStructure();
-
-  t.assert.snapshot(obj, {
-    serializers: [
-      _nodeSnapshotInspectFnWrapper(inspect),
-    ],
-  });
-});
-
-/**
  * 啟用 `circularReferenceWithIndex`，讓標籤帶編號以區分不同的循環引用
  *
  * @example
@@ -103,6 +70,116 @@ test('circular structure with circularReferenceWithIndex', (t: TestContext) => {
   }));
 });
 
+test('inspect', () => {
+
+	/**
+	 * 以 `util.inspect` 自製 serializer，輸出不經 `JSON.stringify` 的格式
+	 *
+	 * @example
+	 * // snapshot: `c: [Circular *1]`、開頭保留 `<ref *1>`
+	 */
+	test('circular structure with inspect', (t: TestContext) => {
+		let obj = _createCircularStructure();
+
+		t.assert.snapshot(obj, {
+			serializers: [
+				(value) => inspect(value),
+			],
+		});
+	});
+
+	/**
+	 * 以 `_nodeSnapshotInspectFnWrapper(inspect)` 包裝 inspect，
+	 * 取得與上一個測試相同的格式，但移除開頭的 `<ref *n>` 標記
+	 *
+	 * @example
+	 * // snapshot: 無 `<ref *1>`，`c: [Circular *1]`
+	 */
+	test('circular structure with inspect and _nodeSnapshotInspectFnWrapper', (t: TestContext) => {
+		let obj = _createCircularStructure();
+
+		t.assert.snapshot(obj, {
+			serializers: [
+				_nodeSnapshotInspectFnWrapper(inspect),
+			],
+		});
+	});
+
+});
+
+test('regexp', () => {
+
+	/**
+	 * serializers 形式的 RegExp 支援
+	 *
+	 * `node:test` 以 pipeline 方式依序傳遞值：`_regexpSerializer` 收到 RegExp
+	 * 即轉為字面表示後交給後續 serializer 輸出
+	 *
+	 * 注意：pipeline 只收到最外層的值，巢狀的 RegExp 不會經過此函式，
+	 * 需改用 hook 形式（見 `regexp with hook`）
+	 *
+	 * @example
+	 * t.assert.snapshot(re, { serializers: [_regexpSerializer] });
+	 */
+	test('regexp with serializers', (t: TestContext) => {
+		let re = /node:test/gi;
+
+		t.assert.snapshot(re, {
+			serializers: [
+				_regexpSerializer,
+			],
+		});
+	});
+
+	/**
+	 * `createSnapshotStringify` 串接 serializers 的 pipeline
+	 *
+	 * 使用者的 serializer 排在 pipeline 前段：
+	 * `_regexpSerializer` 先把 RegExp 轉為字面字串，
+	 * 其回傳值再交給內建的 `_stringify` 以 JSON 格式收尾輸出
+	 *
+	 * @example
+	 * t.assert.snapshot(re, createSnapshotStringify({ serializers: [_regexpSerializer] }));
+	 */
+	test('regexp with pipeline _regexpSerializer', (t: TestContext) => {
+		let re = /createSnapshotStringify/i;
+
+		t.assert.snapshot(re, createSnapshotStringify({
+			serializers: [
+				_regexpSerializer,
+			],
+		}));
+	});
+
+	test('circular structure with pipeline _regexpSerializer', (t: TestContext) => {
+		let obj = _createCircularStructure();
+
+		t.assert.snapshot(obj, createSnapshotStringify({
+			serializers: [
+				_regexpSerializer,
+			],
+		}));
+	});
+
+	/**
+	 * hook 形式的 RegExp 支援
+	 *
+	 * `_regexpSerializeHook` 在 `_stringify` 的 replacer 內逐節點 (Per-node) 攔截，
+	 * 巢狀的 RegExp 同樣會以字面字串取代（未加 hook 時 `JSON.stringify` 會輸出 `{}`）
+	 *
+	 * @example
+	 * t.assert.snapshot(obj, createSnapshotStringify({ hook: _regexpSerializeHook }));
+	 */
+	test('circular structure with hook _regexpSerializeHook', (t: TestContext) => {
+		let obj = _createCircularStructure();
+
+		t.assert.snapshot(obj, createSnapshotStringify({
+			hooks: _regexpSerializeHook,
+		}));
+	});
+
+});
+
 /**
  * 建立含循環引用 (Circular Reference) 與 Symbol 鍵的測試用物件
  *
@@ -110,10 +187,16 @@ test('circular structure with circularReferenceWithIndex', (t: TestContext) => {
  * 用來驗證各 serializer 對直接與間接循環的標籤輸出
  */
 function _createCircularStructure() {
+	let re = /node:test/gi;
 	let obj = {
 		a: 1,
 		b: 2,
 		[Symbol('c')]: 'Symbol(c)',
+		pattern: re,
+		nested: {
+			deep: /\d+/u,
+			re,
+		},
 	};
 	// @ts-ignore
 	obj.c = obj;

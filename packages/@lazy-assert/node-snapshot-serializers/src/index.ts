@@ -1,7 +1,11 @@
 import { AssertSnapshotOptions } from 'node:test';
 // import { inspect } from 'util';
-import type { ITSRequiredWith } from 'ts-type';
+import type { ITSRequiredWith, ITSValueOrArrayMaybeReadonly } from 'ts-type';
 import { InspectOptions } from 'util';
+import { _handleHookFn, ISerializeHookFn } from './hook';
+
+export * from './regexp';
+export * from './hook';
 
 /**
  * `node:test` 快照選項的擴充 (Snapshot Serializer Options)
@@ -15,6 +19,11 @@ export interface IAssertSnapshotOptions extends AssertSnapshotOptions
 	circularReferenceWithIndex?: boolean;
 	/** 自訂循環引用標籤的產生函式，有指定時優先於 `circularReferenceWithIndex` */
 	fnLabel?: ICircularReferencesLabelFn;
+	/**
+	 * 逐節點 (Per-node) 攔截的 serialize hook；
+	 * 相較 `serializers` 只收到最外層值，hook 可處理巢狀結構中的節點
+	 */
+	hooks?: ITSValueOrArrayMaybeReadonly<ISerializeHookFn>;
 }
 
 /**
@@ -251,6 +260,9 @@ export function _createSerializer(options?: IAssertSnapshotOptions)
 
 	const fnLabel = opts.fnLabel;
 
+	/** hook 可省略，存在時先於循環引用處理攔截每個節點 */
+	const hook = opts.hooks ? _handleHookFn(opts.hooks) : undefined;
+
 	return {
 		seenCache,
 		/** 觀察點：目前已登記的最大編號 */
@@ -265,9 +277,23 @@ export function _createSerializer(options?: IAssertSnapshotOptions)
 		},
 		/** 只對物件節點執行序列化，其餘值交由 `JSON.stringify` 內建行為處理 */
 		test: (value: unknown) => _isObjectNotNull(value),
-		/** `JSON.stringify` 的 replacer 形式：以 `(key, value)` 接收每個節點並判斷是否為重複出現的物件 */
+		/** `JSON.stringify` 的 replacer 形式：以 `(key, value)` 接收每個節點，先經 hook 攔截再判斷是否為重複出現的物件 */
 		serialize: (_key: any, value: unknown) =>
 		{
+			if (hook)
+			{
+				/**
+				 * hook 先於循環引用處理：允許在節點被登記編號前改寫值，
+				 * 例如將 RegExp 等 `JSON.stringify` 會輸出為 `{}` 的葉節點轉成字串
+				 */
+				const hooked = hook(value, _key);
+
+				if (hooked)
+				{
+					value = hooked.value;
+				}
+			}
+
 			return _handleCircularReferences(value, {
 				fnLabel: fnLabel,
 				seenCtx,
@@ -283,9 +309,10 @@ export function _createSerializer(options?: IAssertSnapshotOptions)
  * 內部以 `JSON.stringify` 的 replacer 追蹤已走訪的物件：
  * 首次出現者登記編號，再次出現即以 `[Circular]`（或帶編號標籤）字串取代，
  * 使 `node:test` 的快照能涵蓋循環引用 (Circular Reference) 結構。
- * 使用者自訂的 `serializers` 會排在前方優先嘗試
+ * `serializers` 依 pipeline 執行：使用者的 serializer 先跑，
+ * 其回傳值再交給內建的 `_stringify` 收尾輸出
  *
- * @param options - 快照選項，可指定標籤策略或附加其他 serializer
+ * @param options - 快照選項，可指定標籤策略、注入 `hook` 或附加其他 serializer
  * @returns 含 `serializers` 的 `AssertSnapshotOptions`，並保留 `_stringify` 供單獨呼叫
  *
  * @example 基本用法
@@ -301,6 +328,13 @@ export function _createSerializer(options?: IAssertSnapshotOptions)
  * //   "a": 1,
  * //   "c": "[Circular]"
  * // }
+ *
+ * @example 串接自訂 serializers
+ * t.assert.snapshot(/node:test/gi, createSnapshotStringify({
+ * 	serializers: [_regexpSerializer],
+ * }));
+ * // 使用者的 serializer 先轉為字面字串，再由 `_stringify` 輸出 JSON 格式
+ * // "/node:test/gi"
  *
  * @example 以編號區分不同的循環引用
  * t.assert.snapshot(obj, createSnapshotStringify({
@@ -322,7 +356,7 @@ export function createSnapshotStringify(options?: IAssertSnapshotOptions): ICrea
 	};
 
 	return {
-		/** 使用者的 serializers 排在前方，自訂格式可先於本套件的 stringify 被採用 */
+		/** pipeline 前段：使用者的 serializer 先執行，其回傳值再交給 `_stringify` 收尾輸出 */
 		serializers: [
 			...(options?.serializers ?? []),
 			_stringify,

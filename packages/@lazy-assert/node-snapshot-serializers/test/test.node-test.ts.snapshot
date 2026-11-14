@@ -6,21 +6,14 @@ exports[`circular structure 1`] = `
 {
   "a": 1,
   "b": 2,
+  "pattern": {},
+  "nested": {
+    "deep": {},
+    "re": "[Circular]"
+  },
   "c": "[Circular]",
   "d": {
     "d1": "[Circular]"
-  }
-}
-`;
-
-exports[`circular structure with _nodeSnapshotInspectFnWrapper 1`] = `
-{
-  Symbol(c): 'Symbol(c)',
-  a: 1,
-  b: 2,
-  c: [Circular *1],
-  d: {
-    d1: [Circular *1]
   }
 }
 `;
@@ -29,6 +22,11 @@ exports[`circular structure with circularReferenceWithIndex 1`] = `
 {
   "a": 1,
   "b": 2,
+  "pattern": {},
+  "nested": {
+    "deep": {},
+    "re": "[Circular *2]"
+  },
   "c": "[Circular *1]",
   "d": {
     "d1": "[Circular *1]"
@@ -36,12 +34,71 @@ exports[`circular structure with circularReferenceWithIndex 1`] = `
 }
 `;
 
-exports[`circular structure with inspect 1`] = `
+exports[`inspect > circular structure with inspect 1`] = `
 <ref *1> {
   a: 1,
   b: 2,
+  pattern: /node:test/gi,
+  nested: { deep: /\\d+/u, re: /node:test/gi },
   c: [Circular *1],
   d: { d1: [Circular *1] },
   Symbol(c): 'Symbol(c)'
 }
+`;
+
+exports[`inspect > circular structure with inspect and _nodeSnapshotInspectFnWrapper 1`] = `
+{
+  Symbol(c): 'Symbol(c)',
+  a: 1,
+  b: 2,
+  c: [Circular *1],
+  d: {
+    d1: [Circular *1]
+  },
+  nested: {
+    deep: /\\d+/u,
+    re: /node:test/gi
+  },
+  pattern: /node:test/gi
+}
+`;
+
+exports[`regexp > circular structure with hook _regexpSerializeHook 1`] = `
+{
+  "a": 1,
+  "b": 2,
+  "pattern": "/node:test/gi",
+  "nested": {
+    "deep": "/\\\\d+/u",
+    "re": "/node:test/gi"
+  },
+  "c": "[Circular]",
+  "d": {
+    "d1": "[Circular]"
+  }
+}
+`;
+
+exports[`regexp > circular structure with pipeline _regexpSerializer 1`] = `
+{
+  "a": 1,
+  "b": 2,
+  "pattern": {},
+  "nested": {
+    "deep": {},
+    "re": "[Circular]"
+  },
+  "c": "[Circular]",
+  "d": {
+    "d1": "[Circular]"
+  }
+}
+`;
+
+exports[`regexp > regexp with pipeline _regexpSerializer 1`] = `
+"/createSnapshotStringify/i"
+`;
+
+exports[`regexp > regexp with serializers 1`] = `
+/node:test/gi
 `;

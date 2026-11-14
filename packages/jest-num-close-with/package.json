@@ -1,6 +1,6 @@
 {
   "name": "jest-num-close-with",
-  "version": "1.0.19",
+  "version": "1.0.20",
   "description": "Check if actual number is within expected number ± delta / 檢查實際數值是否在預期數值的 ± delta 範圍內",
   "keywords": [
     "jest",
@@ -78,10 +78,10 @@
     "tsc:showConfig": "ynpx get-current-tsconfig -p"
   },
   "dependencies": {
-    "@lazy-assert/jest-global-types-extra": "^1.0.7",
-    "@lazy-assert/jest-util": "^1.0.7",
-    "expect-print-close-to": "^1.0.12",
-    "jest-install-matcher-extends": "^1.0.17",
+    "@lazy-assert/jest-global-types-extra": "^1.0.8",
+    "@lazy-assert/jest-util": "^1.0.8",
+    "expect-print-close-to": "^1.0.13",
+    "jest-install-matcher-extends": "^1.0.18",
     "num-in-delta": "^1.0.10"
   }
 }

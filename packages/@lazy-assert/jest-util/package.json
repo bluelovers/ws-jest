@@ -1,6 +1,6 @@
 {
   "name": "@lazy-assert/jest-util",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Jest matcher utilities for message generation and option handling / Jest 匹配器工具函式庫，提供訊息產生和選項處理",
   "keywords": [
     "assert",
@@ -84,7 +84,7 @@
     "tsc:showConfig": "ynpx get-current-tsconfig -p"
   },
   "dependencies": {
-    "@lazy-assert/jest-global-types-extra": "^1.0.7",
+    "@lazy-assert/jest-global-types-extra": "^1.0.8",
     "jest-matcher-utils": ">=29"
   },
   "publishConfig": {

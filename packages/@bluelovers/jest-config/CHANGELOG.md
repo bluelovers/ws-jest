@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.18](https://github.com/bluelovers/ws-jest/compare/@bluelovers/jest-config@1.1.17...@bluelovers/jest-config@1.1.18) (2026-11-14)
+
+
+
+### 🛠　Build System
+
+* **dist:** update build ([cc6ccdc](https://github.com/bluelovers/ws-jest/commit/cc6ccdc52ba23774d5963501d04514036bcf726e))
+
+
+
 ## [1.1.17](https://github.com/bluelovers/ws-jest/compare/@bluelovers/jest-config@1.1.15...@bluelovers/jest-config@1.1.17) (2026-11-14)
 
 

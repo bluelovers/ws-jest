@@ -188,7 +188,7 @@ importers:
   packages/@lazy-assert/jest-util:
     dependencies:
       '@lazy-assert/jest-global-types-extra':
-        specifier: ^1.0.7
+        specifier: ^1.0.8
         version: link:../jest-global-types-extra
       jest-matcher-utils:
         specifier: '>=29'
@@ -210,7 +210,7 @@ importers:
   packages/chai-asserttype-extra:
     dependencies:
       '@lazy-assert/check-basic':
-        specifier: ^1.0.14
+        specifier: ^1.0.15
         version: link:../@lazy-assert/check-basic
       '@types/type-detect':
         specifier: ^4.0.3
@@ -241,25 +241,25 @@ importers:
   packages/jest-extended-extra:
     dependencies:
       '@lazy-assert/check-basic':
-        specifier: ^1.0.14
+        specifier: ^1.0.15
         version: link:../@lazy-assert/check-basic
       '@lazy-assert/jest-util':
-        specifier: ^1.0.7
+        specifier: ^1.0.8
         version: link:../@lazy-assert/jest-util
       check-types:
         specifier: ^11.2.3
         version: 11.2.3
       jest-install-matcher-extends:
-        specifier: ^1.0.17
+        specifier: ^1.0.18
         version: link:../jest-install-matcher-extends
 
   packages/jest-file-snapshot:
     dependencies:
       '@lazy-assert/jest-diff':
-        specifier: ^1.0.11
+        specifier: ^1.0.12
         version: link:../@lazy-assert/jest-diff
       '@lazy-assert/jest-util':
-        specifier: ^1.0.7
+        specifier: ^1.0.8
         version: link:../@lazy-assert/jest-util
       '@yarn-tool/find-root':
         specifier: ^2.0.25
@@ -281,7 +281,7 @@ importers:
         version: 3.1.25(ts-toolbelt@9.6.0)
     devDependencies:
       '@lazy-assert/jest-global-types-extra':
-        specifier: ^1.0.7
+        specifier: ^1.0.8
         version: link:../@lazy-assert/jest-global-types-extra
       expect:
         specifier: ^30.5.1
@@ -290,22 +290,22 @@ importers:
   packages/jest-install-matcher-extends:
     dependencies:
       '@lazy-assert/jest-global-types-extra':
-        specifier: ^1.0.7
+        specifier: ^1.0.8
         version: link:../@lazy-assert/jest-global-types-extra
 
   packages/jest-num-close-with:
     dependencies:
       '@lazy-assert/jest-global-types-extra':
-        specifier: ^1.0.7
+        specifier: ^1.0.8
         version: link:../@lazy-assert/jest-global-types-extra
       '@lazy-assert/jest-util':
-        specifier: ^1.0.7
+        specifier: ^1.0.8
         version: link:../@lazy-assert/jest-util
       expect-print-close-to:
-        specifier: ^1.0.12
+        specifier: ^1.0.13
         version: link:../expect-print-close-to
       jest-install-matcher-extends:
-        specifier: ^1.0.17
+        specifier: ^1.0.18
         version: link:../jest-install-matcher-extends
       num-in-delta:
         specifier: ^1.0.10

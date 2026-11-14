@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.2](https://github.com/bluelovers/ws-jest/compare/node-test-maybe@1.0.1...node-test-maybe@1.0.2) (2026-11-14)
+
+
+
+### 📦　Code Refactoring
+
+* **node-test-maybe:** 重構參數正規化邏輯並修正類型定義 ([ed53ede](https://github.com/bluelovers/ws-jest/commit/ed53ede400b8ab6defe9c5f7cb00d7181348ad0d))
+
+
+### 📚　Documentation
+
+* **node-test-maybe:** 優化文件結構並新增測試配置 ([14fdb0c](https://github.com/bluelovers/ws-jest/commit/14fdb0ce8cf3da0743cd94348f0e02c67c28ee5c))
+
+
+### 🔖　Miscellaneous
+
+* . ([d37da98](https://github.com/bluelovers/ws-jest/commit/d37da98386c8c39f9c59274e8a6198f911da9621))
+
+
+
 ## 1.0.1 (2026-09-22)
 
 

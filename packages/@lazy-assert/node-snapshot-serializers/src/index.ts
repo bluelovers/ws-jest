@@ -20,8 +20,9 @@ export interface IAssertSnapshotOptions extends AssertSnapshotOptions
 	/** 自訂循環引用標籤的產生函式，有指定時優先於 `circularReferenceWithIndex` */
 	fnLabel?: ICircularReferencesLabelFn;
 	/**
-	 * 逐節點 (Per-node) 攔截的 serialize hook；
-	 * 相較 `serializers` 只收到最外層值，hook 可處理巢狀結構中的節點
+	 * 逐節點 (Per-node) 攔截的 serialize hook，可傳入單一函式或陣列（含 readonly）；
+	 * 相較 `serializers` 只收到最外層值，hooks 可處理巢狀結構中的節點，
+	 * 陣列由 `_handleHookFn()` 依序串接執行
 	 */
 	hooks?: ITSValueOrArrayMaybeReadonly<ISerializeHookFn>;
 }
@@ -260,7 +261,7 @@ export function _createSerializer(options?: IAssertSnapshotOptions)
 
 	const fnLabel = opts.fnLabel;
 
-	/** hook 可省略，存在時先於循環引用處理攔截每個節點 */
+	/** `hooks` 可省略：先以 `_handleHookFn()` 標準化為單一函式，存在時先於循環引用處理攔截每個節點 */
 	const hook = opts.hooks ? _handleHookFn(opts.hooks) : undefined;
 
 	return {
@@ -283,8 +284,9 @@ export function _createSerializer(options?: IAssertSnapshotOptions)
 			if (hook)
 			{
 				/**
-				 * hook 先於循環引用處理：允許在節點被登記編號前改寫值，
-				 * 例如將 RegExp 等 `JSON.stringify` 會輸出為 `{}` 的葉節點轉成字串
+				 * hooks 先於循環引用處理：允許在節點被登記編號前改寫值，
+				 * 例如將 RegExp 等 `JSON.stringify` 會輸出為 `{}` 的葉節點轉成字串；
+				 * 此處取用 `_handleHookFn` 標準化後統一產出的 `value`
 				 */
 				const hooked = hook(value, _key);
 
@@ -312,7 +314,7 @@ export function _createSerializer(options?: IAssertSnapshotOptions)
  * `serializers` 依 pipeline 執行：使用者的 serializer 先跑，
  * 其回傳值再交給內建的 `_stringify` 收尾輸出
  *
- * @param options - 快照選項，可指定標籤策略、注入 `hook` 或附加其他 serializer
+ * @param options - 快照選項，可指定標籤策略、注入 `hooks` 或附加其他 serializer
  * @returns 含 `serializers` 的 `AssertSnapshotOptions`，並保留 `_stringify` 供單獨呼叫
  *
  * @example 基本用法

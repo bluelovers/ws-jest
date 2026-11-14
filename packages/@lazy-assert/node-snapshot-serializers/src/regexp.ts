@@ -44,12 +44,12 @@ export function _regexpSerializer(value: unknown)
  * hook 形式的 RegExp 支援：由 `_stringify` 的 replacer 逐節點 (Per-node) 攔截，
  * 巢狀結構中的 RegExp 同樣會被轉成字面字串
  *
- * RegExp 命中時以 `[字串, stop]` 回傳：
- * RegExp 是葉節點，停止追蹤即直接輸出，不會被往下走訪
+ * RegExp 命中時以 `{ newValue: 字面字串, stop: true }` 回傳：
+ * RegExp 是葉節點，轉成字串後即由 `JSON.stringify` 直接輸出，不再往下走訪
  *
  * @example
  * t.assert.snapshot(obj, createSnapshotStringify({
- * 	hook: _regexpSerializeHook,
+ * 	hooks: _regexpSerializeHook,
  * }));
  * // "pattern": "/node:test/gi"
  */

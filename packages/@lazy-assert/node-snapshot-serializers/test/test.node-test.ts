@@ -116,7 +116,7 @@ test('regexp', () => {
 	 * 即轉為字面表示後交給後續 serializer 輸出
 	 *
 	 * 注意：pipeline 只收到最外層的值，巢狀的 RegExp 不會經過此函式，
-	 * 需改用 hook 形式（見 `regexp with hook`）
+	 * 需改用 hook 形式（見 `circular structure with hook _regexpSerializeHook`）
 	 *
 	 * @example
 	 * t.assert.snapshot(re, { serializers: [_regexpSerializer] });
@@ -151,6 +151,17 @@ test('regexp', () => {
 		}));
 	});
 
+	/**
+	 * 循環結構以 pipeline 形式搭配 `_regexpSerializer`
+	 *
+	 * 根節點是物件而非 RegExp，`_regexpSerializer` 原樣放行、由 `_stringify` 收尾：
+	 * 循環引用正常標記為 `[Circular]`，巢狀的 RegExp 則輸出 `{}`
+	 * （pipeline 只處理最外層值，需 `hooks` 才能逐節點轉換）
+	 *
+	 * @example
+	 * t.assert.snapshot(obj, createSnapshotStringify({ serializers: [_regexpSerializer] }));
+	 * // "pattern": {}、"c": "[Circular]"
+	 */
 	test('circular structure with pipeline _regexpSerializer', (t: TestContext) => {
 		let obj = _createCircularStructure();
 
@@ -168,7 +179,7 @@ test('regexp', () => {
 	 * 巢狀的 RegExp 同樣會以字面字串取代（未加 hook 時 `JSON.stringify` 會輸出 `{}`）
 	 *
 	 * @example
-	 * t.assert.snapshot(obj, createSnapshotStringify({ hook: _regexpSerializeHook }));
+	 * t.assert.snapshot(obj, createSnapshotStringify({ hooks: _regexpSerializeHook }));
 	 */
 	test('circular structure with hook _regexpSerializeHook', (t: TestContext) => {
 		let obj = _createCircularStructure();
@@ -181,10 +192,7 @@ test('regexp', () => {
 });
 
 /**
- * 建立含循環引用 (Circular Reference) 與 Symbol 鍵的測試用物件
- *
- * `c` 直接指回根物件、`d.d1` 再經一層指回根物件，
- * 用來驗證各 serializer 對直接與間接循環的標籤輸出
+ * 建立含循環引用 (Circular Reference) 與其他類型的測試用物件
  */
 function _createCircularStructure() {
 	let re = /node:test/gi;

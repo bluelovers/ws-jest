@@ -204,7 +204,7 @@ importers:
         version: 3.0.19(ts-toolbelt@9.6.0)
     devDependencies:
       node-test-maybe:
-        specifier: ^1.0.4
+        specifier: ^1.0.5
         version: link:../../node-test-maybe
 
   packages/chai-asserttype-extra:

@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.4](https://github.com/bluelovers/ws-jest/compare/@lazy-assert/node-snapshot-serializers@1.0.3...@lazy-assert/node-snapshot-serializers@1.0.4) (2026-11-16)
+
+**Note:** Version bump only for package @lazy-assert/node-snapshot-serializers
+
+
+
+
+
 ## [1.0.3](https://github.com/bluelovers/ws-jest/compare/@lazy-assert/node-snapshot-serializers@1.0.2...@lazy-assert/node-snapshot-serializers@1.0.3) (2026-11-14)
 
 

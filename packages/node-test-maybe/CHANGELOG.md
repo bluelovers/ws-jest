@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.5](https://github.com/bluelovers/ws-jest/compare/node-test-maybe@1.0.4...node-test-maybe@1.0.5) (2026-11-16)
+
+
+
+### ✨　Features
+
+* **node-test-maybe:** 新增 `fixme` 顯示變體與相關 API ([f5e5e57](https://github.com/bluelovers/ws-jest/commit/f5e5e579681843b807e8b897f333ea73a31e318d))
+
+
+### 📦　Code Refactoring
+
+* **node-test-maybe:** 優化 buildMaybeTags 的回傳類型定義 ([cb8738b](https://github.com/bluelovers/ws-jest/commit/cb8738b5fe522695a270d20eb18285a14fcb5328))
+
+
+### 🛠　Build System
+
+* update build ([4368670](https://github.com/bluelovers/ws-jest/commit/43686704082112dec6fbf6209458d2b8a08a23d5))
+
+
+
 ## [1.0.4](https://github.com/bluelovers/ws-jest/compare/node-test-maybe@1.0.3...node-test-maybe@1.0.4) (2026-11-14)
 
 

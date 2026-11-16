@@ -46,7 +46,7 @@ export function buildMaybeName(name: IMaybeName)
  *
  * @example buildMaybeTags(['network']) // ['network', 'maybe']
  */
-export function buildMaybeTags(userTags?: string[]): string[]
+export function buildMaybeTags(userTags?: string[]): (typeof MAYBE_TAG | (string & {}))[]
 {
 	return [...(userTags ?? []), MAYBE_TAG];
 }

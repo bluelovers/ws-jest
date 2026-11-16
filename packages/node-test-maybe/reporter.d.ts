@@ -88,8 +88,8 @@ export interface IReporterEvent {
  * Decide whether an event belongs to a `maybe` test.
  *
  * Prefers the machine-readable `tags` metadata, and falls back to the
- * human-readable `[maybe] ` name prefix so the reporter also works on the
- * raw test name when tags are unavailable.
+ * human-readable name prefix (`[maybe] ` or the `[fixme] ` display variant)
+ * so the reporter also works on the raw test name when tags are unavailable.
  */
 export declare function isMaybeEvent(event: IReporterEvent): boolean;
 /**
@@ -115,7 +115,8 @@ export declare function formatSummary(counts: {
  *
  * The reporter:
  *
- * - prints `◌ MAYBE` for maybe tests (pass or fail),
+ * - prints `◌ MAYBE` for maybe tests (pass or fail) — `◌ FIXME` for the
+ *   `fixme` display variant, which shares the same semantics,
  * - prints `✔` for normal passes and `✖ FAIL` for normal failures,
  * - tracks per-test metadata by `testId` so parallel tests stay correct,
  * - prints one summary per test file (once), with a dedicated `Maybe` line.

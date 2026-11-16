@@ -1,15 +1,16 @@
 import _nodeTest from 'node:test';
 // The only logic genuinely shared with the reporter (`reporter.ts`) is the
 // maybe tag/prefix contract, which lives in `lib/constants.ts`.
-import { MAYBE_TAG, MAYBE_PREFIX } from "./lib/constants.js";
-export { MAYBE_TAG, MAYBE_PREFIX };
+import { MAYBE_TAG, MAYBE_PREFIX, FIXME_PREFIX, resolveMaybePrefix, } from "./lib/constants.js";
+export { MAYBE_TAG, MAYBE_PREFIX, FIXME_PREFIX, resolveMaybePrefix };
 /**
  * Build the human-visible test name for a maybe test.
  *
  * @example buildMaybeName('external API') // '[maybe] external API'
+ * @example buildMaybeName('external API', 'fixme') // '[fixme] external API'
  */
-export function buildMaybeName(name) {
-    return `${MAYBE_PREFIX}${name}`;
+export function buildMaybeName(name, display) {
+    return `${resolveMaybePrefix(display)}${name}`;
 }
 /**
  * Build the tag list for a maybe test, preserving the user's own tags and
@@ -67,6 +68,9 @@ function normalizeMaybeArgs(name, options, fn) {
  *
  * None of these three mechanisms are mutually exclusive; they each cover a
  * different layer (display name, tooling metadata, runner semantics).
+ *
+ * The `display: 'fixme'` option keeps all three layers' *semantics* intact
+ * and only swaps the visible prefix for `[fixme] `.
  */
 export function maybe(name, options, fn) {
     const args = normalizeMaybeArgs(name, options, fn);
@@ -76,20 +80,42 @@ export function maybe(name, options, fn) {
     if (typeof args.fn !== 'function') {
         throw new TypeError('test.maybe() requires a test function');
     }
+    // `display` is this API's own knob: it selects the visible prefix and must
+    // never be forwarded to node:test's option bag. `buildMaybeName` resolves
+    // it — and rejects an unknown variant — while building the name.
+    const { display, ...nodeOptions } = args.options;
     // Preserve the user's own tags, then append the maybe tag.
     const tags = buildMaybeTags(args.options.tags);
-    return _nodeTest(buildMaybeName(args.name), {
-        ...args.options,
+    return _nodeTest(buildMaybeName(args.name, display), {
+        ...nodeOptions,
         // `maybe` owns this behavior; user value is intentionally ignored.
         todo: true,
         // @ts-ignore
         tags,
     }, args.fn);
 }
-export { maybe as testMaybe };
+/**
+ * `fixme(name, fn)`
+ * `fixme(name, options, fn)`
+ * `fixme(fn)`
+ *
+ * The `fixme` display variant of {@link maybe}: execution is *identical*
+ * (`todo: true`, non-blocking failure, counted in the maybe bucket); only the
+ * display changes — `[fixme] ` name prefix and the reporter's `◌ FIXME`
+ * marker instead of `◌ MAYBE`.
+ *
+ * A `display` value passed through `options` is overridden: `fixme` owns it.
+ */
+export function fixme(name, options, fn) {
+    const args = normalizeMaybeArgs(name, options, fn);
+    return maybe(args.name, { ...args.options, display: 'fixme' }, args.fn);
+}
+export { maybe as testMaybe, fixme as testFixme };
 export const test = _nodeTest;
-// Attach to the native `test` function so `test.maybe(...)` works directly.
+// Attach to the native `test` function so `test.maybe(...)` / `test.fixme(...)`
+// work directly.
 test.maybe = maybe;
+test.fixme = fixme;
 export default test;
 // Programmatic, maybe-aware run API built on Node's native `node:test` runner.
 export { runMaybe, EnumRunner as RunnerEnum } from "./run.js";

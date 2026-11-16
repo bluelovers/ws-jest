@@ -3,6 +3,10 @@
   "version": "1.0.4",
   "description": "基於 Node.js 原生測試執行器（`node:test`）的非阻斷測試工具：讓某些測試「可以通過，也可以失敗」，且失敗時不影響整次執行的結束狀態（exit code）",
   "keywords": [
+    "maybe",
+    "fixme",
+    "test.maybe",
+    "test.fixme",
     "assert",
     "test",
     "check",
@@ -78,6 +82,7 @@
   },
   "dependencies": {
     "cross-spawn": "^7.0.6",
+    "ts-type": "^3.0.19",
     "tslib": ">=2.8.1"
   }
 }

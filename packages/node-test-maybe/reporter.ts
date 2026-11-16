@@ -5,7 +5,14 @@ import {
 
 // The only logic genuinely shared with the `maybe` API (`index.ts`) is the
 // maybe tag/prefix contract, which lives in `lib/constants.ts`.
-import { MAYBE_TAG, MAYBE_PREFIX } from './lib/constants.ts';
+import {
+	MAYBE_TAG,
+	MAYBE_PREFIX,
+	FIXME_PREFIX,
+	resolveMaybeDisplay,
+	type IMaybeDisplay,
+	EnumMaybe,
+} from './lib/constants.ts';
 
 /**
  * Keywords used by Node's built-in summary, which is streamed to the reporter
@@ -164,8 +171,8 @@ export interface IReporterEvent
  * Decide whether an event belongs to a `maybe` test.
  *
  * Prefers the machine-readable `tags` metadata, and falls back to the
- * human-readable `[maybe] ` name prefix so the reporter also works on the
- * raw test name when tags are unavailable.
+ * human-readable name prefix (`[maybe] ` or the `[fixme] ` display variant)
+ * so the reporter also works on the raw test name when tags are unavailable.
  */
 export function isMaybeEvent(event: IReporterEvent): boolean
 {
@@ -180,7 +187,8 @@ export function isMaybeEvent(event: IReporterEvent): boolean
 		return true;
 	}
 
-	if (typeof data.name === 'string' && data.name.startsWith(MAYBE_PREFIX))
+	if (typeof data.name === 'string'
+		&& (data.name.startsWith(MAYBE_PREFIX) || data.name.startsWith(FIXME_PREFIX)))
 	{
 		return true;
 	}
@@ -188,9 +196,25 @@ export function isMaybeEvent(event: IReporterEvent): boolean
 	return false;
 }
 
+/**
+ * Marker printed for a maybe result: `◌ MAYBE` for the default display,
+ * `◌ FIXME` for the `fixme` variant. Both share the same non-blocking
+ * semantics; only the label differs.
+ */
+function maybeMarker(display: IMaybeDisplay)
+{
+	return display === EnumMaybe.FIXME ? '◌ FIXME' as const : '◌ MAYBE' as const;
+}
+
 function displayName(name: string | undefined): string
 {
 	const n = name ?? '<anonymous>';
+
+	if (n.startsWith(FIXME_PREFIX))
+	{
+		return n.slice(FIXME_PREFIX.length);
+	}
+
 	return n.startsWith(MAYBE_PREFIX) ? n.slice(MAYBE_PREFIX.length) : n;
 }
 
@@ -308,7 +332,8 @@ export function formatSummary(
  *
  * The reporter:
  *
- * - prints `◌ MAYBE` for maybe tests (pass or fail),
+ * - prints `◌ MAYBE` for maybe tests (pass or fail) — `◌ FIXME` for the
+ *   `fixme` display variant, which shares the same semantics,
  * - prints `✔` for normal passes and `✖ FAIL` for normal failures,
  * - tracks per-test metadata by `testId` so parallel tests stay correct,
  * - prints one summary per test file (once), with a dedicated `Maybe` line.
@@ -402,7 +427,7 @@ export function createReporter(
 						{
 							maybePassed++;
 							this.push(
-								`  ◌ MAYBE ${name}${time ? ` (${time})` : ''}\n`,
+								`  ${maybeMarker(resolveMaybeDisplay(state.name))} ${name}${time ? ` (${time})` : ''}\n`,
 							);
 						}
 						else
@@ -436,7 +461,7 @@ export function createReporter(
 						{
 							maybeFailed++;
 							this.push(
-								`  ◌ MAYBE ${name}${time ? ` (${time})` : ''}\n`,
+								`  ${maybeMarker(resolveMaybeDisplay(state.name))} ${name}${time ? ` (${time})` : ''}\n`,
 							);
 						}
 						else

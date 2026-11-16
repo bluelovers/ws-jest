@@ -13,6 +13,7 @@ A non-blocking test helper built on Node.js's native test runner (`node:test`): 
   - `tags: ['maybe']` → 機器可讀（自訂 reporter / 標籤過濾器）
   - `todo: true` → Node 原生的「非阻斷失敗」語意
 - 保留使用者自帶的 `tags`，再追加 `maybe` 標籤
+- 支援 `fixme` 顯示變體：`maybe(name, { display: 'fixme' })` 或 `test.fixme(...)`，執行語意完全等同 maybe，只有顯示改為 `[fixme] ` 前綴與 `◌ FIXME` 標記
 - 提供 `runMaybe()` 程式化 API，回傳結構化的 maybe-aware 摘要
 
 ---
@@ -24,6 +25,7 @@ A non-blocking test helper built on Node.js's native test runner (`node:test`): 
   - `tags: ['maybe']` → machine-readable metadata for custom reporters / tag filters
   - `todo: true` → Node-native non-blocking failure semantics
 - Preserves the user's own `tags` and appends the `maybe` tag
+- Supports the `fixme` display variant: `maybe(name, { display: 'fixme' })` or `test.fixme(...)` — execution semantics are identical to maybe, only the display changes to the `[fixme] ` prefix and the `◌ FIXME` marker
 - Provides a programmatic `runMaybe()` API returning a structured, maybe-aware summary
 
 
@@ -83,6 +85,50 @@ maybe('network call', { tags: ['network'], timeout: 5000 }, () => { /* ... */ })
 
 // maybe(fn) —— 名稱從函式名稱推導 / name derived from the function
 maybe(function myCheck() { /* ... */ });
+```
+
+### `fixme` 顯示變體 (fixme display variant)
+
+`fixme` 是 maybe 的顯示變體：**執行上完全等同 maybe**（`todo: true`、失敗不影響 exit code、仍計入 `Maybe` 摘要），只有顯示改為 `[fixme] ` 名稱前綴與 reporter 的 `◌ FIXME` 標記。
+
+`fixme` is a display variant of maybe: execution is *identical* (`todo: true`, a failure never affects the exit code, results still count in the `Maybe` summary); only the display changes to the `[fixme] ` name prefix and the reporter's `◌ FIXME` marker.
+
+```typescript
+import test, { maybe, fixme } from 'node-test-maybe';
+
+// 選項寫法 / option form
+maybe('flaky endpoint', { display: 'fixme' }, () => {
+	// ...
+});
+
+// 別名寫法，直接掛在原生 test 上 / alias form, attached onto the native test
+test.fixme('flaky endpoint', () => {
+	// ...
+});
+
+// 等價的獨立寫法 / equivalent standalone form
+fixme('flaky endpoint', () => {
+	// ...
+});
+```
+
+顯示對照（其餘全部相同 / everything else stays the same）：
+
+| 層面 (Layer) | `maybe`（預設 / default） | `fixme` |
+|----------------|---------------------------|---------|
+| 名稱前綴 (name prefix) | `[maybe] ` | `[fixme] ` |
+| reporter 標記 (reporter marker) | `◌ MAYBE` | `◌ FIXME` |
+| `tags` | `['maybe']` | `['maybe']`（相同 / same） |
+| runner 語意 (runner semantics) | `todo: true` 非阻斷 | 相同 (identical) |
+| 摘要桶 (summary bucket) | `Maybe:` | 相同 (identical) |
+
+機器可讀的 `maybe` 標籤刻意不變（執行語意相同），reporter 以名稱前綴區分顯示；未知的 `display` 值會直接拋出 `TypeError`，避免打錯字悄悄退回預設顯示。
+
+The machine-readable `maybe` tag is intentionally unchanged (the semantics are the same); the reporter distinguishes the display by the name prefix. An unknown `display` value throws a `TypeError` so a typo never silently falls back to the default display.
+
+```text
+⚠ [fixme] flaky endpoint (0.3015ms) # TODO   ← 內建 reporter / built-in reporter
+  ◌ FIXME flaky endpoint (0.3015ms)           ← 本套件 reporter / this package's reporter
 ```
 
 ### 搭配 `t.assert.snapshot` 的非阻斷範例 (Non-blocking example with `t.assert.snapshot`)
@@ -182,7 +228,7 @@ reporter 可透過環境變數或選項微調：
 
 | Option | Default | Description |
 |--------------|---------------|-------------------|
-| `maybeOnly` | `false` | 只輸出 maybe 結果的 `◌ MAYBE` 標記，其餘訊息原樣透過 |
+| `maybeOnly` | `false` | 只輸出 maybe 結果的 `◌ MAYBE` / `◌ FIXME` 標記，其餘訊息原樣透過 |
 | `showZero` | `false` | 是否列出數值為 0 的摘要行（預設隱藏） |
 
 ### 用 collector 收集 JSON 摘要
@@ -215,19 +261,22 @@ pnpm run demo:run-collector:js   # node --test --test-reporter=./run-collector.j
 
 | Export | Description |
 |--------------|-------------------|
-| `maybe(name, fn)`<br>`maybe(name, options, fn)`<br>`maybe(fn)` | 註冊一個 maybe 測試：可通過也可失敗，失敗不影響 exit code |
+| `maybe(name, fn)`<br>`maybe(name, options, fn)`<br>`maybe(fn)` | 註冊一個 maybe 測試：可通過也可失敗，失敗不影響 exit code；`options.display: 'fixme'` 可切換顯示變體 |
+| `fixme(name, fn)`<br>`fixme(name, options, fn)`<br>`fixme(fn)` | maybe 的 `fixme` 顯示變體：執行完全相同，顯示為 `[fixme] ` / `◌ FIXME` |
 | `testMaybe` | `maybe` 的別名 |
-| `test` | Node 原生 `node:test`，並附加 `test.maybe` |
-| `buildMaybeName(name)` | 產生人眼看得到的名稱：`'[maybe] ' + name` |
-| `buildMaybeTags(tags?)` | 保留使用者 tags 並追加 `'maybe'` |
+| `testFixme` | `fixme` 的別名 |
+| `test` | Node 原生 `node:test`，並附加 `test.maybe` / `test.fixme` |
+| `buildMaybeName(name, display?)` | 產生人眼看得到的名稱：`'[maybe] ' + name`（`display: 'fixme'` 時為 `'[fixme] ' + name`） |
+| `buildMaybeTags(tags?)` | 保留使用者 tags 並追加 `'maybe'`（`fixme` 變體也相同） |
 | `runMaybe(runOptions?, options?)` | 程式化執行並回傳 `IMaybeRunSummary` |
 
 ### Constants
 
 | Constant | Value | Description |
 |----------------|-----------|-------------------|
-| `MAYBE_TAG` | `'maybe'` | machine-readable tag |
+| `MAYBE_TAG` | `'maybe'` | machine-readable tag（`fixme` 變體共用 / shared by the `fixme` variant） |
 | `MAYBE_PREFIX` | `'[maybe] '` | human-visible name prefix |
+| `FIXME_PREFIX` | `'[fixme] '` | `fixme` 變體的 human-visible name prefix |
 
 ### `runMaybe` 選項 (Options)
 
@@ -259,7 +308,7 @@ pnpm run demo:run-collector:js   # node --test --test-reporter=./run-collector.j
 | `rawTodo` | `number` | 扣除前的原始 TODO 數 |
 | `maybePassed` | `number` | maybe 通過數 |
 | `maybeFailed` | `number` | maybe 失敗數（非阻斷） |
-| `maybeTotal` | `number` | maybe 總數 |
+| `maybeTotal` | `number` | maybe 總數（含 `fixme` 變體 / includes the `fixme` variant） |
 | `files` | `string[]` | 參與的檔案 |
 | `ok` | `boolean` | 沒有硬失敗時為 `true` |
 
@@ -268,3 +317,7 @@ pnpm run demo:run-collector:js   # node --test --test-reporter=./run-collector.j
 maybe 測試是建構在 `todo: true` 之上，因此 Node 會把它算進自己的 `todo` 桶子裡。`runMaybe()` 會從 Node 的 `todo` 數量中扣掉 maybe 數量，讓回傳的 `todo` 反映真正的待辦項目。
 
 Because a maybe test is built on `todo: true`, Node counts it inside its own `todo` bucket. `runMaybe()` deducts the maybe count from Node's `todo` so the returned `todo` reflects real pending TODOs.
+
+`fixme` 變體共用同一個 `todo: true` 與 `maybe` 標籤，所以在摘要、扣減與 `ok` 判定上與 maybe 完全一致，只有名稱前綴與 reporter 標記不同。
+
+The `fixme` variant shares the same `todo: true` and `maybe` tag, so it behaves identically in the summary, the todo deduction and the `ok` decision — only the name prefix and the reporter marker differ.

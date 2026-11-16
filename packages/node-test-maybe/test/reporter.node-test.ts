@@ -125,6 +125,73 @@ test('reporter renders a maybe failure with ◌ MAYBE and the error', async () =
 	assert.doesNotMatch(out, /✖ FAIL/);
 });
 
+test('isMaybeEvent detects the [fixme] name prefix', () => {
+	assert.equal(
+		isMaybeEvent({ type: 'test:pass', data: { name: '[fixme] unstable service' } }),
+		true,
+	);
+});
+
+test('reporter renders a fixme pass with ◌ FIXME', async () => {
+	const out = await runReporter([
+		{
+			type: 'test:pass',
+			data: {
+				testId: 1,
+				name: '[fixme] flaky endpoint',
+				tags: ['maybe'],
+				details: { duration_ms: 12.5 },
+			},
+		},
+	]);
+
+	assert.match(out, /◌ FIXME flaky endpoint \(12\.5ms\)/);
+	// The display prefix is consumed, not echoed a second time.
+	assert.doesNotMatch(out, /\[fixme\]/);
+	assert.doesNotMatch(out, /MAYBE/);
+});
+
+test('reporter renders a fixme failure with ◌ FIXME and the error', async () => {
+	const out = await runReporter([
+		{
+			type: 'test:fail',
+			data: {
+				testId: 1,
+				name: '[fixme] unstable service',
+				tags: ['maybe'],
+				details: {
+					duration_ms: 0.7,
+					error: new Error('Connection refused'),
+				},
+			},
+		},
+	]);
+
+	assert.match(out, /◌ FIXME unstable service/);
+	assert.match(out, /Connection refused/);
+	assert.doesNotMatch(out, /✖ FAIL/);
+	assert.doesNotMatch(out, /MAYBE/);
+});
+
+test('fixme results stay in the Maybe summary bucket', async () => {
+	const out = await runReporter([
+		{ type: 'test:pass', data: { testId: 1, name: '[fixme] ok', tags: ['maybe'] } },
+		{
+			type: 'test:fail',
+			data: { testId: 2, name: '[fixme] flaky', tags: ['maybe'], details: { error: new Error('x') } },
+		},
+		{
+			type: 'test:summary',
+			data: { file: 'a.ts', counts: { total: 2, passed: 0, failed: 0, skipped: 0, cancelled: 0, todo: 2 } },
+		},
+	]);
+
+	// Only the display changed: counting, todo deduction and `ok` are the
+	// same as for maybe tests.
+	assert.match(out, /Maybe:\s+2 \(passed: 1, failed: 1\)/);
+	assert.doesNotMatch(out, /TODO:/);
+});
+
 test('reporter distinguishes maybe via testId metadata', async () => {
 	const out = await runReporter([
 		// Metadata recorded before the result event.
